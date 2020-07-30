@@ -2,13 +2,13 @@ library(tidyverse)
 library(readxl)
 library(lubridate)
 
-setwd("~/Documents/DSPG")
+setwd("~/DSPG")
 
 df <- read_excel("pge-water-chemistry-2015-2017.xlsx")
 
 # Using spread to make columns for different Parameters which are listed initially under Temperature column
-df2 <- spread(data = df, Parameter, Value)
-str(df2)
+# df2 <- spread(data = df, Parameter, Value)
+# str(df2)
 
 # Making a new column that is composed of the units and parameters from data
 df3 <- df %>% mutate(new = paste(Parameter, "in", Units))
@@ -17,18 +17,34 @@ df3 <- df %>% mutate(new = paste(Parameter, "in", Units))
 df3 <- subset(df3, select = -c(Units, Parameter))
 
 # Try later, not useful right now
-df4 <- df3 %>% gather()
+# df4 <- df3 %>% gather()
 
 # Subsetting out what appears to be additional measurements that are similar enough to be irrelevant
 df4 <- df3[-c(2525,2524,2253,2254,1982,1983,1711,1712,1441,1442),]
 
 # Spreading data by Value and then renaming the columns, deleting station ID
 df5 <- spread(df4, new, Value)
+df5$`Station ID` <- NULL
 colnames(df5)[7] <- c("Temperature")
 colnames(df5)[1] <- c("Location")
 colnames(df5)[2] <- c("Date_time")
-df5$`Station ID` <- NULL
 
+
+# Reading in the second sheet
+df6 <- read_excel("pge-water-chemistry-2015-2017.xlsx", sheet = 2)
+df7 <- df6 %>% mutate(new = paste(Parameter, "in", Units))
+df7 <- subset(df7, select = -c(Units, Parameter))
+
+# Making a new index for spread to use
+df7 <- df7 %>% 
+  group_by(new) %>% 
+  do(tibble::rowid_to_column(.))
+
+df8 <- spread(df7, new, Value) %>% select(-grouped_id)
+
+stupidf <- df8 %>% filter(Site == "Round Butte Forebay")
+ggplot(stupidf, aes(x = Date, y = `Temperature in C`, color = Site)) + geom_line()
+# This data is shit
 
 # Another dataframe specifically to be used for PGE data, not useful since data merge
 

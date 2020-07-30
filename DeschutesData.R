@@ -1,3 +1,5 @@
+library(plyr)
+library(ggpmisc)
 library(tidyverse)
 library(lubridate)
 library(RColorBrewer)
@@ -8,7 +10,7 @@ library(grid)
 library(lubridate)
 library(readxl)
 library(broom)
-setwd("~/Documents/DSPG")
+setwd("~/DSPG")
 
 
 # Biggs USGS Data
@@ -262,17 +264,17 @@ rivertempbigData <- rivertempbigData %>% mutate(Season = getSeason(Date_time))
 
 ### MERGED DATA GRAPHS, find out how to smooth with so many observations
 
-ggplot() + geom_line(data = BiggsData2, aes(x = Julian, y = Temperature, color = "Biggs")) +
-  geom_line(data = CulverData2, aes(x = Julian, y = Temperature, color = "Culver")) +
-  geom_line(data = MadrasData2, aes(x = Julian, y = Temperature, color = "Madras")) + 
-  facet_wrap( ~ Year) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
-  labs(title = "Temperature Data from Madras, Biggs, and Culver", x = "Day of Year", color = "Location")
+# ggplot() + geom_line(data = BiggsData2, aes(x = Julian, y = Temperature, color = "Biggs")) +
+#   geom_line(data = CulverData2, aes(x = Julian, y = Temperature, color = "Culver")) +
+#   geom_line(data = MadrasData2, aes(x = Julian, y = Temperature, color = "Madras")) + 
+#   facet_wrap( ~ Year) +
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
+#   labs(title = "Temperature Data from Madras, Biggs, and Culver", x = "Day of Year", color = "Location")
 
 # Graph of all temperature data from all years available, needs data smoothing and transparency
-ggplot() + geom_line(data = BiggsData2, aes(x = Julian, y = Temperature, group = Year, color = as.factor(Year))) +
-  geom_line(data = CulverData2, aes(x = Julian, y = Temperature, group = Year, color = as.factor(Year))) +
-  geom_line(data = MadrasData2, aes(x = Julian, y = Temperature, group = Year, color = as.factor(Year)))
+# ggplot() + geom_line(data = BiggsData2, aes(x = Julian, y = Temperature, group = Year, color = as.factor(Year))) +
+#   geom_line(data = CulverData2, aes(x = Julian, y = Temperature, group = Year, color = as.factor(Year))) +
+#   geom_line(data = MadrasData2, aes(x = Julian, y = Temperature, group = Year, color = as.factor(Year)))
 
 
 # Going just by the year 2012 which is extremely arbitrary
@@ -280,9 +282,9 @@ Biggs2012 <- BiggsData2 %>% filter(Year == 2012)
 Madras2012 <- MadrasData2 %>% filter(Year == 2012)
 Culver2012 <- CulverData2 %>% filter(Year == 2012)
 
-ggplot() + geom_line(data = Biggs2012, aes(x = Date_time, y = Temperature, color = "Biggs")) + 
-  geom_line(data = Culver2012, aes(x = Date_time, y = Temperature, color = "Culver")) + 
-  geom_line(data = Madras2012, aes(x = Date_time, y = Temperature, color = "Madras"))
+# ggplot() + geom_line(data = Biggs2012, aes(x = Date_time, y = Temperature, color = "Biggs")) + 
+#   geom_line(data = Culver2012, aes(x = Date_time, y = Temperature, color = "Culver")) + 
+#   geom_line(data = Madras2012, aes(x = Date_time, y = Temperature, color = "Madras"))
 
 
 #### TIME SERIES CORRELATIONS
@@ -290,12 +292,12 @@ ggplot() + geom_line(data = Biggs2012, aes(x = Date_time, y = Temperature, color
 
 
 
-# plotter <- rivertempbigData %>% group_by(Location)
+plotter <- rivertempbigData %>% group_by(Location)
 
 # PGE data has unclear location labels, this comparison makes it clear that River Mouth and Biggs data are the same locations
-riverMouth1 <- rivertempbigData %>% filter(Location == "River Mouth" | Location == "Biggs")
-ggplot(riverMouth1, aes(x = Date_time, y = Temperature, color = Location)) + 
-  geom_line() + scale_color_manual(values=c("darkorange", "gray1"))
+# riverMouth1 <- rivertempbigData %>% filter(Location == "River Mouth" | Location == "Biggs")
+# ggplot(riverMouth1, aes(x = Date_time, y = Temperature, color = Location)) + 
+#   geom_line() + scale_color_manual(values=c("darkorange", "gray1"))
 
 
 
@@ -311,9 +313,6 @@ airtempData$NAME <- as.character(airtempData$NAME)
 # Adding a column to airtempData first for average temperature then for celsius observations
 airtempData <- airtempData %>% mutate(TAVG = (TMAX+TMIN)/2)
 airtempData <- airtempData %>% mutate(cTAVG = (TAVG -32)/1.8)
-
-unique(airtempData$NAME)
-view(airtempData)
 
 airtempData2 <- airtempData %>% mutate(NAME = if_else(NAME == "PELTON DAM, OR US", "Madras", NAME))
 # airtempData2 <- airtempData2 %>% mutate(NAME = if_else(NAME == "POLLYWOG OREGON, OR US", "Maupin", NAME))
@@ -338,37 +337,46 @@ airtempData2 <- airtempData2 %>% mutate(NAME = if_else(NAME == "MADRAS, OR US", 
 airtempData2 <- airtempData2 %>% mutate(Year = year(DATE))
 
 #Testing plot
-ggplot(airtempData2, aes(x = DATE, y = cTAVG, color = NAME)) + geom_line(linetype = "dotted")
+#ggplot(airtempData2, aes(x = DATE, y = cTAVG, color = NAME)) + geom_line(linetype = "dotted")
 
 #START HERE FOR DATA MERGE, ORGANIZE CODE ABOVE, PUT GRAPHS BELOW
 airtempData2$STATION <- NULL
 colnames(airtempData2) <- c("Location", "Latitude", "Longitude", "Elevation", "mergeDate", "Tavg", "Tmax", "Tmin", "Tobs", "cTAVG", "Year")
 airtempData3 <- airtempData2 %>% filter(Location == "Maupin" | Location == "Madras" | Location == "Biggs" | Location == "Culver")
 airtempmerge <- airtempData3 %>% filter(Year > 2006) %>% select(cTAVG, Year, Location, mergeDate) %>% group_by(Location, mergeDate)
-fuckinhugedf <- rivertempbigData %>% left_join(airtempmerge, by = c("mergeDate","Year","Location")) #Note that this currently excludes ODEQ AND PGE Data, also that Maupin air temp data won't merge
-fuckinhugedf <- fuckinhugedf %>% relocate(cTAVG, .after = Temperature)
-fuckinhugedf <- fuckinhugedf %>% distinct(mergeDate, Location, .keep_all = T)
+airandwatertempdf <- rivertempbigData %>% left_join(airtempmerge, by = c("mergeDate","Year","Location")) #Note that this currently excludes ODEQ AND PGE Data, also that Maupin air temp data won't merge
+airandwatertempdf <- airandwatertempdf %>% relocate(cTAVG, .after = Temperature)
+# Subsets out additional observations
+airandwatertempdf <- airandwatertempdf %>% distinct(mergeDate, Location, .keep_all = T) %>% arrange(mergeDate)
 
-summary(lm(Temperature ~ cTAVG + as.factor(Year), data = fuckinhugedf))
+summary(lm(Temperature ~ cTAVG + as.factor(Year), data = airandwatertempdf))
 
-MadrasSeasonYearlyRegression <- fuckinhugedf %>% filter(Location == "Madras") %>% 
-  group_by(Season, as.factor(Year)) %>% do(tidy(lm(Temperature ~ cTAVG, data = fuckinhugedf))) %>% filter(term == "cTAVG")
-BiggsSeasonYearlyRegression <- fuckinhugedf %>% filter(Location == "Biggs") %>% 
-  group_by(Season, Year) %>% do(tidy(lm(Temperature ~ cTAVG, data = fuckinhugedf))) %>% filter(term == "cTAVG")
-CulverSeasonYearlyRegression <- fuckinhugedf %>% filter(Location == "Culver") %>% 
-  group_by(Season, Year) %>% do(tidy(lm(Temperature ~ cTAVG, data = fuckinhugedf))) %>% filter(term == "cTAVG")
+MadrasSeasonYearlyRegression <- airandwatertempdf %>% filter(Location == "Madras") %>% 
+  group_by(Season, Year) %>% do(model = lm(Temperature ~ cTAVG, data = .)) %>% tidy(model) %>% filter(term == "cTAVG") # try augmenting model
+BiggsSeasonYearlyRegression <- airandwatertempdf %>% filter(Location == "Biggs") %>% 
+  group_by(Season, Year) %>% do(tidy(lm(Temperature ~ cTAVG, data = .))) %>% filter(term == "cTAVG")
+CulverSeasonYearlyRegression <- airandwatertempdf %>% filter(Location == "Culver" & Year > 2007) %>% 
+  group_by(Season, Year) %>% do(tidy(lm(Temperature ~ cTAVG, data = .))) %>% filter(term == "cTAVG")
+
+#Table of regression coefficients
+allregressioncoefficients <- MadrasSeasonYearlyRegression %>% 
+  left_join(select(BiggsSeasonYearlyRegression, estimate), by = c("Year","Season")) %>%
+  left_join(select(CulverSeasonYearlyRegression, estimate), by = c("Year","Season"))
+allregressioncoefficients <- allregressioncoefficients[, -c(5,6,7)]
+colnames(allregressioncoefficients) <- c("Season", "Year", "Explanatory Variable", 
+                                         "MadrasEstimate", "BiggsEstimate", "CulverEstimate")
 
 # Just checking the correlation coefficients of each season, spring is by far the greatest corresponding increase, fall is close second interestingly, check stargazer for more info
-testplot <- fuckinhugedf %>% filter(Location == "Madras" & Season == "Spring")
-testplot2 <- fuckinhugedf %>% filter(Location == "Madras" & Season == "Summer")
-testplot3 <- fuckinhugedf %>% filter(Location == "Madras" & Season == "Fall")
-testplot4 <- fuckinhugedf %>% filter(Location == "Madras" & Season == "Winter")
+testplot <- airandwatertempdf %>% filter(Location == "Madras" & Season == "Spring")
+testplot2 <- airandwatertempdf %>% filter(Location == "Madras" & Season == "Summer")
+testplot3 <- airandwatertempdf %>% filter(Location == "Madras" & Season == "Fall")
+testplot4 <- airandwatertempdf %>% filter(Location == "Madras" & Season == "Winter")
 # ggplot() + geom_line(data = testplot, aes(x = Date_time, y = Temperature), color = "blue") + 
 #   geom_line(data = testplot, aes(x = Date_time, y = cTAVG), linetype = "dashed", color = "red") + facet_wrap( ~ Year)
 
 
 
-
+# Table of regression coefficients by season, all time
 ols1 <- lm(Temperature ~ cTAVG, data = testplot)
 ols2 <- lm(Temperature ~ cTAVG, data = testplot2)
 ols3 <- lm(Temperature ~ cTAVG, data = testplot3)
@@ -387,31 +395,125 @@ lowerWapFilter <- rivertempbigData %>% filter(Location == "Lower Wapinitia")
 
 # Creating air temperature average by max and min then converting to Celsius and plotting over PGE river temperature data, some data
 # conversion necessary
-airplot <- airtempData2 %>% filter(NAME == "Pelton Dam") %>% select(cTAVG, DATE, TMAX, TMIN)
+airplot <- airtempData2 %>% filter(Location == "Madras") %>% select(cTAVG, mergeDate, Tmax, Tmin)
 date1 <- as.Date("2015-01-01")
 date2 <- as.Date("2017-08-30")
-airplot <- airplot[airplot$DATE >= date1 & airplot$DATE <= date2,]
+airplot <- airplot[airplot$mergeDate >= date1 & airplot$mergeDate <= date2,]
 
-ggplot() + geom_line(data = test, aes(x = Date_time, y = Temperature, color = Location)) +
-  geom_line(data = airplot, aes(x = as.POSIXct(DATE), y = cTAVG, color = "Pelton Dam Air Temperature"), linetype = "dashed") +
-  scale_color_manual(values=c("red", "blue", "forestgreen", "purple", "bisque2"))
+linecolor <- c("red", "blue", "forestgreen", "purple", "bisque2")
+# ggplot() + geom_line(data = test, aes(x = Date_time, y = Temperature, color = Location)) +
+#   geom_line(data = airplot, aes(x = as.POSIXct(mergeDate), y = cTAVG, color = "Pelton Dam Air Temperature"), linetype = "dashed") +
+#   scale_color_manual(values = linecolor)
 
 # Same thing but for USGS data and plotted at specific locations
 # Here is for Biggs and the Dalles
-airplot2 <- airtempData2 %>% filter(NAME == "The Dalles") %>% select(cTAVG, DATE, TMAX, TMIN)
+airplot2 <- airtempData2 %>% filter(Location == "Biggs") %>% select(cTAVG, mergeDate, Tmax, Tmin)
 date3 <- as.Date("2010-01-01")
 date4 <- as.Date("2020-07-01")
-airplot2 <- airplot2[airplot2$DATE >= date3 & airplot2$DATE <= date4,]
+airplot2 <- airplot2[airplot2$mergeDate >= date3 & airplot2$mergeDate <= date4,]
 
-ggplot() + geom_line(data = BiggsData2, aes(x = Date_time, y = Temperature, color = Location)) +
-  geom_line(data = airplot2, aes(x = as.POSIXct(DATE), y = cTAVG, color = "Air Temperature in The Dalles"), linetype = "dashed") +
-  scale_color_brewer(palette = "Dark2")
+BiggsAirandWater <- airandwatertempdf %>% filter(Location == "Biggs")
+MadrasAirandWater <- airandwatertempdf %>% filter(Location == "Madras")
+CulverAirandWater <- airandwatertempdf %>% filter(Location == "Culver" & Year > 2007)
+# Graph of Biggs air vs water temp
+# ggplot() + geom_line(data = BiggsData2, aes(x = Date_time, y = Temperature, color = Location)) +
+#   geom_line(data = airplot2, aes(x = as.POSIXct(mergeDate), y = cTAVG, color = "Air Temperature in The Dalles"), linetype = "dashed") +
+#   scale_color_brewer(palette = "Paired")
+
+
+
+
+### FACET WRAPS OF BIGGS, MADRAS, AND CULVER FOR COMPARISON, add titles later
+lm_eqn <- function(BiggsAirandWater) {
+  m = lm(Temperature ~ cTAVG, BiggsAirandWater);
+  eq <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(R)^2~"="~r2, 
+                   list(a = format(as.numeric(coef(m)[1]), digits = 2), 
+                        b = format(as.numeric(coef(m)[2]), digits = 2), 
+                        r2 = format(summary(m)$r.squared, digits = 3)))
+  as.character(as.expression(eq));  
+}
+
+eq <- ddply(BiggsAirandWater,.(Year, Season),lm_eqn)
+
+# ggplot(data = BiggsAirandWater, aes(cTAVG, Temperature)) + 
+#   geom_point() + 
+#   geom_smooth(method = "lm", se = F) + geom_text(data = eq, aes(x = -1, y = 18, label = V1), parse = T, cex = 2, inherit.aes = F) +
+#   facet_wrap(Year ~ Season, ncol = 4)
+
+# Coef stuff for Biggs
+# fitmodels <- BiggsAirandWater %>% group_by(Year, Season) %>% do(model = cor.test( ~ Temperature + cTAVG, data = .))
+# 
+# for (i in 1:37) {
+#   pval[i] <- fitmodels$model[[i]]$p.value
+#   coef[i] <- fitmodels$model[[i]]$estimate
+#   year[i] <- fitmodels$Year[i]
+#   season[i] <- fitmodels$Season[i]
+# }
+# 
+# df19 <- data.frame(pval = c(pval), coef = c(coef), year = c(year), season = c(season))
+# df19$year <- as.Date(paste0(year, '-01-01'))
+# ggplot(df19, aes(x = year, y = coef, color = season)) + geom_point()
+# 
+# 
+# # Coef stuff for Madras
+# 
+# fitmodels1 <- MadrasAirandWater %>% group_by(Year, Season) %>% do(model = cor.test( ~ Temperature + cTAVG, data = .))
+# 
+# for (i in 1:52) {
+#   pval[i] <- fitmodels1$model[[i]]$p.value
+#   coef[i] <- fitmodels1$model[[i]]$estimate
+#   year[i] <- fitmodels1$Year[i]
+#   season[i] <- fitmodels1$Season[i]
+# }
+# 
+# df20 <- data.frame(pval = c(pval), coef = c(coef), year = c(year), season = c(season))
+# df20 <- df20 %>% mutate(Season = case_when(season == "1" ~ "Winter", season == "2" ~ "Spring", 
+#                                   season == "3" ~ "Summer", season == "4" ~ "Fall"))
+# 
+# df20$year <- as.Date(paste0(year, '-01-01'))
+# ggplot(df20, aes(x = Season, y = coef, color = pval)) + geom_point() + facet_wrap( ~ year)
+
+
+# MADRAS
+lm_eqn1 <- function(MadrasAirandWater) {
+  m1 = lm(Temperature ~ cTAVG, MadrasAirandWater);
+  eq1 <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(R)^2~"="~r2, 
+                   list(a = format(as.numeric(coef(m1)[1]), digits = 2), 
+                        b = format(as.numeric(coef(m1)[2]), digits = 2), 
+                        r2 = format(summary(m1)$r.squared, digits = 3)))
+  as.character(as.expression(eq1));  
+}
+
+eq1 <- ddply(MadrasAirandWater,.(Year, Season),lm_eqn1)
+
+# ggplot(data = MadrasAirandWater, aes(cTAVG, Temperature)) + 
+#   geom_point() + 
+#   geom_smooth(method = "lm", se = F) + geom_text(data = eq1, aes(x = -1, y = 18, label = V1), parse = T, cex = 2, inherit.aes = F) +
+#   facet_wrap(Year ~ Season, ncol = 4)
+
+# CULVER
+lm_eqn2 <- function(CulverAirandWater) {
+  m2 = lm(Temperature ~ cTAVG, CulverAirandWater);
+  eq2 <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(R)^2~"="~r2, 
+                   list(a = format(as.numeric(coef(m2)[1]), digits = 2), 
+                        b = format(as.numeric(coef(m2)[2]), digits = 2), 
+                        r2 = format(summary(m2)$r.squared, digits = 3)))
+  as.character(as.expression(eq2));  
+}
+
+eq2 <- ddply(CulverAirandWater,.(Year, Season),lm_eqn2)
+
+# ggplot(data = CulverAirandWater, aes(cTAVG, Temperature)) + 
+#   geom_point() + 
+#   geom_smooth(method = "lm", se = F) + geom_text(data = eq2, aes(x = -1, y = 18, label = V1), parse = T, cex = 2, inherit.aes = F) +
+#   facet_wrap(Year ~ Season, ncol = 4)
+
 
 # Here is for Madras (USGS) and Madras (NOAA)
-airplot3 <- airtempData2 %>% filter(NAME == "Madras") %>% select(cTAVG, DATE, TMAX, TMIN, Year)
+airplot3 <- airtempData2 %>% filter(Location == "Madras") %>% select(cTAVG, mergeDate, Tmax, Tmin, Year)
 date5 <- as.Date("2007-01-01")
 date6 <- as.Date("2020-07-01")
-airplot3 <- airplot3[airplot3$DATE >= date5 & airplot3$DATE <= date6,]
+airplot3 <- airplot3[airplot3$mergeDate >= date5 & airplot3$mergeDate <= date6,]
 
 idklol <- airplot3 %>% filter(Year == 2008)
 idklol2 <- airplot3 %>% filter(Year == 2012)
@@ -424,23 +526,24 @@ Madras2019 <- MadrasData2 %>% filter(Year == 2019)
 
 # Graphs of 2008 and 2012
 plot1 <- ggplot() + geom_line(data = Madras2008, aes(x = Date_time, y = Temperature, color = Location)) +
-  geom_line(data = idklol, aes(x = as.POSIXct(DATE), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
-  scale_color_brewer(palette = "Dark2") + theme(legend.position='none') + xlab("Date")
+  geom_line(data = idklol, aes(x = as.POSIXct(mergeDate), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
+  scale_color_brewer(palette = "Paired") + theme(legend.position='none') + xlab("Date")
 plot2 <- ggplot() + geom_line(data = Madras2012, aes(x = Date_time, y = Temperature, color = Location)) +
-  geom_line(data = idklol2, aes(x = as.POSIXct(DATE), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
-  scale_color_brewer(palette = "Dark2") + ylim(-15, 30) + theme(legend.position='none') + xlab("Date")
+  geom_line(data = idklol2, aes(x = as.POSIXct(mergeDate), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
+  scale_color_brewer(palette = "Paired") + ylim(-15, 30) + theme(legend.position='none') + xlab("Date")
 plot3 <- ggplot() + geom_line(data = Madras2019, aes(x = Date_time, y = Temperature, color = Location)) +
-  geom_line(data = idklol3, aes(x = as.POSIXct(DATE), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
-  scale_color_brewer(palette = "Dark2") + ylim(-15, 30) + theme(legend.position='none') + xlab("Date")
+  geom_line(data = idklol3, aes(x = as.POSIXct(mergeDate), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
+  scale_color_brewer(palette = "Paired") + ylim(-15, 30) + theme(legend.position='none') + xlab("Date")
 plot4 <- ggplot() + geom_line(data = Madras2018, aes(x = Date_time, y = Temperature, color = Location)) +
-  geom_line(data = idklol4, aes(x = as.POSIXct(DATE), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
-  scale_color_brewer(palette = "Dark2") + ylim(-15, 30) + theme(legend.position='none') + xlab("Date")
-grid.arrange(plot1, plot2, plot4, plot3, ncol = 2)
+  geom_line(data = idklol4, aes(x = as.POSIXct(mergeDate), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
+  scale_color_brewer(palette = "Paired") + ylim(-15, 30) + theme(legend.position='none') + xlab("Date")
+#This is a solid graph run it if you don't remember
+# grid.arrange(plot1, plot2, plot4, plot3, ncol = 2)
 
 # Facet wrapped graph
-ggplot() + geom_line(data = MadrasData2, aes(x = Date_time, y = Temperature, color = Location)) +
-  geom_line(data = airplot3, aes(x = as.POSIXct(DATE), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
-  scale_color_brewer(palette = "Dark2") + facet_wrap( ~ Year)
+# ggplot() + geom_line(data = MadrasData2, aes(x = Date_time, y = Temperature, color = Location)) +
+#   geom_line(data = airplot3, aes(x = as.POSIXct(DATE), y = cTAVG, color = "Madras Air Temperature"), linetype = "dashed") +
+#   scale_color_brewer(palette = "Dark2") + facet_wrap( ~ Year)
 
 
 # Compare river temperature, air temperature data ratio to determine impact above and below the dam
@@ -450,73 +553,87 @@ ggplot() + geom_line(data = MadrasData2, aes(x = Date_time, y = Temperature, col
 # Some pH graphing
 df10 <- rivertempbigData %>% 
   filter(!is.na(`pH in NA`)) %>% arrange(Location, desc(Date_time))
-view(df10)
 min <- as.Date("2015-01-01")
 max <- as.Date("2017-01-01")
-ggplot(df10, aes(as.Date(Date_time), y = `pH in NA`, color = Location, group = Location)) + geom_line() + scale_x_date(limits = c(min, max)) + 
-  geom_hline(yintercept = 8.5, linetype = "dashed") + 
-  geom_dl(aes(label = Location), method = list(dl.combine("last.points")), cex = 0.8) + theme(legend.position = "none") + 
-  labs(x = "Date", y = "pH") + annotate("text", x = as.Date("2015-02-15"), y = 8.6, label = "ODEQ Standard (8.5)")
-
-df11 <- df10 %>% filter(Location == "Whitehorse" | Location == "Shitike Creek" | Location == "River Mouth" | Location == "Reregulating Dam")
-ggplot(df11, aes(Date_time, `pH in NA`, color = Location)) + geom_line()
-
-
-
-# Overlaid plot of just Madras, Biggs, Culver
-usgsdata1 <- rivertempbigData %>% filter(Location == "Biggs" | Location == "Culver" | Location == "Madras") %>% filter(Year == 2008)
-plt2008ylims <- layer_scales(plot2015)$y$range$range
-plot2008 <- ggplot(usgsdata1, aes(x = Date_time, y = Temperature, color = Location)) + geom_line() +
-  scale_color_manual(values = c("red", "blue")) +
-  geom_hline(yintercept = 16, linetype = "dashed") + ylim(plt2008ylims) + theme(axis.title.x = element_blank(),
-                                                                                axis.title.y = element_blank())
-usgsdata2 <- rivertempbigData %>% filter(Location == "Biggs" | Location == "Culver" | Location == "Madras") %>% filter(Year == 2015)
-plot2015 <- ggplot(usgsdata2, aes(x = Date_time, y = Temperature, color = Location)) + geom_line() +
-  scale_color_manual(values = c("forestgreen", "red", "blue")) +
-  geom_hline(yintercept = 16, linetype = "dashed") + theme(axis.title.x = element_blank(),
-                                                           axis.title.y = element_blank())
-legend1 <- gtable_filter(ggplotGrob(plot2015), "guide-box")
+# ggplot(df10, aes(as.Date(Date_time), y = `pH in NA`, color = Location, group = Location)) + geom_line() + scale_x_date(limits = c(min, max)) +
+#   geom_hline(yintercept = 8.5, linetype = "dashed") +
+#   geom_dl(aes(label = Location), method = list(dl.combine("last.points")), cex = 0.8) + theme(legend.position = "none") +
+#   labs(x = "Date", y = "pH") + annotate("text", x = as.Date("2015-02-15"), y = 8.6, label = "ODEQ Standard (8.5)")
+# 
+# df11 <- df10 %>% filter(Location == "Whitehorse" | Location == "Shitike Creek" | Location == "River Mouth" | Location == "Reregulating Dam")
+# ggplot(df11, aes(Date_time, `pH in NA`, color = Location)) + geom_line()
 
 
-# Plot years 2008, 2012, 2019
 
-grid.arrange(arrangeGrob(plot2008 + theme(legend.position = "none"), 
-                         plot2015 + theme(legend.position = "none"),
-                         nrow = 1,
-                         top = textGrob("Water Temperature before and After SWW Activation", vjust = 1, 
-                                        gp = gpar(fontface = "bold", cex = 1.5, col = "goldenrod4")),
-                         left = textGrob("Temperature (°C)", rot = 90, vjust = 1)),
-                         bottom = textGrob("Date", hjust = 1),
-                         legend1,
-                         widths = unit.c(unit(1, "npc") - legend1$width, legend1$width), ncol = 2)
-
+# Overlaid plot of just Madras, Biggs, Culver, plots used in midterm presentation
+# usgsdata1 <- rivertempbigData %>% filter(Location == "Biggs" | Location == "Culver" | Location == "Madras") %>% filter(Year == 2008)
+# plt2008ylims <- layer_scales(plot2015)$y$range$range
+# plot2008 <- ggplot(usgsdata1, aes(x = Date_time, y = Temperature, color = Location)) + geom_line() +
+#   scale_color_manual(values = c("red", "blue")) +
+#   geom_hline(yintercept = 16, linetype = "dashed") + ylim(plt2008ylims) + theme(axis.title.x = element_blank(),
+#                                                                                 axis.title.y = element_blank())
+# usgsdata2 <- rivertempbigData %>% filter(Location == "Biggs" | Location == "Culver" | Location == "Madras") %>% filter(Year == 2015)
+# plot2015 <- ggplot(usgsdata2, aes(x = Date_time, y = Temperature, color = Location)) + geom_line() +
+#   scale_color_manual(values = c("forestgreen", "red", "blue")) +
+#   geom_hline(yintercept = 16, linetype = "dashed") + theme(axis.title.x = element_blank(),
+#                                                            axis.title.y = element_blank())
+# legend1 <- gtable_filter(ggplotGrob(plot2015), "guide-box")
+# 
+# 
+# # Plot years 2008, 2012, 2019
+# 
+# grid.arrange(arrangeGrob(plot2008 + theme(legend.position = "none"), 
+#                          plot2015 + theme(legend.position = "none"),
+#                          nrow = 1,
+#                          top = textGrob("Water Temperature before and After SWW Activation", vjust = 1, 
+#                                         gp = gpar(fontface = "bold", cex = 1.5, col = "goldenrod4")),
+#                          left = textGrob("Temperature (°C)", rot = 90, vjust = 1)),
+#                          bottom = textGrob("Date", hjust = 1),
+#                          legend1,
+#                          widths = unit.c(unit(1, "npc") - legend1$width, legend1$width), ncol = 2)
+# 
 pgeLocations <- unique(df5$Location)
-pgedata2015 <- rivertempbigData %>% filter(Location %in% pgeLocations) %>% filter(Year == 2015)
-odeqdata2015 <- rivertempbigData %>% filter(Location == "Mirror Pond" | 
-                                              Location == "Lower Bridge" | Location == "Warm Springs" | 
-                                              Location == "Deschutes River Park") %>% filter(Year == 2015)
+# pgedata2015 <- rivertempbigData %>% filter(Location %in% pgeLocations) %>% filter(Year == 2015)
+# odeqdata2015 <- rivertempbigData %>% filter(Location == "Mirror Pond" | 
+#                                               Location == "Lower Bridge" | Location == "Warm Springs" | 
+#                                               Location == "Deschutes River Park") %>% filter(Year == 2015)
+# 
+# pgeandodeq <- rivertempbigData %>% filter(Location != "Biggs" & Location != "Culver" & Location != "Madras")
+# fakeplot <- ggplot(pgeandodeq, aes(x = Date_time, y = Temperature, color = Location)) + geom_line()
+# legend2 <- gtable_filter(ggplotGrob(fakeplot), "guide-box")
+# 
+# pgeplot2015 <- ggplot(pgedata2015, aes(Date_time, Temperature, color = Location)) + geom_line() + 
+#   theme(axis.title.x = element_blank(), axis.title.y = element_blank()) + geom_hline(yintercept = 16, linetype = "dashed")
+# odeqplot2015 <- ggplot(odeqdata2015, aes(Date_time, Temperature, color = Location)) + geom_line() + 
+#   theme(axis.title.x = element_blank(), axis.title.y = element_blank()) + geom_hline(yintercept = 16, linetype = "dashed")
+# #Update legend
+# grid.arrange(arrangeGrob(pgeplot2015 + theme(legend.position = "none"),
+#              odeqplot2015 + theme(legend.position = "none"),
+#              nrow = 2,
+#              top = textGrob("PGE and ODEQ Water Temperature Data", vjust = 1,
+#                             gp = gpar(fontface = "bold", cex = 1.5, col = "goldenrod4")),
+#              left = textGrob("Temperature (°C)", rot = 90, vjust = 1)),
+#              bottom = textGrob("Date", hjust = 1),
+#              legend2,
+#              widths = unit.c(unit(1, "npc") - legend2$width, legend2$width), ncol = 2)
 
-pgeandodeq <- rivertempbigData %>% filter(Location != "Biggs" & Location != "Culver" & Location != "Madras")
-fakeplot <- ggplot(pgeandodeq, aes(x = Date_time, y = Temperature, color = Location)) + geom_line()
-legend2 <- gtable_filter(ggplotGrob(fakeplot), "guide-box")
 
-pgeplot2015 <- ggplot(pgedata2015, aes(Date_time, Temperature, color = Location)) + geom_line() + 
-  theme(axis.title.x = element_blank(), axis.title.y = element_blank()) + geom_hline(yintercept = 16, linetype = "dashed")
-odeqplot2015 <- ggplot(odeqdata2015, aes(Date_time, Temperature, color = Location)) + geom_line() + 
-  theme(axis.title.x = element_blank(), axis.title.y = element_blank()) + geom_hline(yintercept = 16, linetype = "dashed")
-#Update legend
-grid.arrange(arrangeGrob(pgeplot2015 + theme(legend.position = "none"),
-             odeqplot2015 + theme(legend.position = "none"),
-             nrow = 2,
-             top = textGrob("PGE and ODEQ Water Temperature Data", vjust = 1,
-                            gp = gpar(fontface = "bold", cex = 1.5, col = "goldenrod4")),
-             left = textGrob("Temperature (°C)", rot = 90, vjust = 1)),
-             bottom = textGrob("Date", hjust = 1),
-             legend2,
-             widths = unit.c(unit(1, "npc") - legend2$width, legend2$width), ncol = 2)
+# Make sure to have upstream and downstream of dam graph somewhere in here
 
 
-### MERGING AIR AND WATER DATA
+# Trying to replicate the PGE graph of figure 6-4 here
+rivertempbigData %>% filter(Location == "Reregulating Dam") %>% 
+  ggplot(aes(x = as.Date(Julian, origin = as.Date("2015-01-01")), y = Temperature)) + geom_line() + facet_wrap( ~ Year) +
+  scale_x_date(date_labels = "%b")
+
+# Attempting to replicate 24 degrees celsius observation of river mouth - max is 23.3 from what I see
+rivertempbigData %>% filter(Location == "Biggs") %>% ggplot(aes(Date_time, Temperature, color = Location)) + geom_line() + 
+  stat_peaks(aes(label = stat(y.label)), geom = "label", color = "red", hjust = -0.1)
+
+# Replicating figure 6-5
+
+rivertempbigData %>% filter(Date_time >= "2015-01-01" & Date_time <= "2017-01-01") %>% 
+  filter(Location == "Madras" | Location == "Biggs") %>% ggplot(aes(Date_time, Temperature, color = Location)) + geom_line()
 
 
 
