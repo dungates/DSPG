@@ -10,6 +10,7 @@ library(grid)
 library(lubridate)
 library(readxl)
 library(broom)
+library(hydrostats)
 setwd("~/DSPG")
 
 
@@ -158,7 +159,7 @@ MadrasData2 <- MadrasData2 %>% mutate(Julian = yday(Date_time))
 # Graphing before and after SWW Tower for Madras, gridded
 # Madras2009 <- MadrasData2 %>% filter(Year == 2009)
 # Madras2019 <- MadrasData2 %>% filter(Year == 2019)
-# Madras2019 <- Madras2019 %>% mutate(fakedate = month(Julian))
+# Madras2019 <- Madras2019 %>% mutate(Year = month(Julian))
 # 
 # ggplot() + geom_line(data = Madras2009, aes(x = Julian, y = Temperature, color = "2009")) +
 #   geom_line(data = Madras2019, aes(x = Julian, y = Temperature, color = "2019")) +
@@ -622,18 +623,66 @@ pgeLocations <- unique(df5$Location)
 
 
 # Trying to replicate the PGE graph of figure 6-4 here
-rivertempbigData %>% filter(Location == "Reregulating Dam") %>% 
-  ggplot(aes(x = as.Date(Julian, origin = as.Date("2015-01-01")), y = Temperature)) + geom_line() + facet_wrap( ~ Year) +
-  scale_x_date(date_labels = "%b")
+# rivertempbigData %>% filter(Location == "Reregulating Dam") %>% 
+#   ggplot(aes(x = as.Date(Julian, origin = as.Date("2015-01-01")), y = Temperature)) + geom_line() + facet_wrap( ~ Year) +
+#   scale_x_date(date_labels = "%b")
 
 # Attempting to replicate 24 degrees celsius observation of river mouth - max is 23.3 from what I see
-rivertempbigData %>% filter(Location == "Biggs") %>% ggplot(aes(Date_time, Temperature, color = Location)) + geom_line() + 
-  stat_peaks(aes(label = stat(y.label)), geom = "label", color = "red", hjust = -0.1)
+# rivertempbigData %>% filter(Location == "Biggs") %>% ggplot(aes(Date_time, Temperature, color = Location)) + geom_line() + 
+#   stat_peaks(aes(label = stat(y.label)), geom = "label", color = "red", hjust = -0.1)
 
 # Replicating figure 6-5
 
-rivertempbigData %>% filter(Date_time >= "2015-01-01" & Date_time <= "2017-01-01") %>% 
-  filter(Location == "Madras" | Location == "Biggs") %>% ggplot(aes(Date_time, Temperature, color = Location)) + geom_line()
+# rivertempbigData %>% filter(Date_time >= "2015-01-01" & Date_time <= "2017-01-01") %>% 
+#   filter(Location == "Madras" | Location == "Biggs") %>% ggplot(aes(Date_time, Temperature, color = Location)) + geom_line()
+
+
+### NEW USGS DATA READIN
+MadrasGageData <- read.table("MadrasTemperatureData.txt", header = T, fill = T, sep = "\t")
+MoodyGageData <- read.table("MoodyTemperatureData.txt", header = T, fill = T, sep = "\t")
+
+MadrasGageData <- MadrasGageData %>% mutate(Location = "Madras")
+MadrasGageData$X113433_00010_00001_cd <- NULL
+MadrasGageData$X113434_00010_00002_cd <- NULL
+MadrasGageData$X113435_00010_00003_cd <- NULL # Subsetting out approval columns since data is already quality controlled
+MadrasGageData$X113436_00060_00003_cd <- NULL
+colnames(MadrasGageData) <- c("Agency", "Site", "Date_time", "Max Temperature", "Min Temperature", "Mean Temperature", 
+                             "Discharge (cfs)", "Location")
+MadrasGageData <- MadrasGageData %>% mutate(`Mean Temperature` = case_when(is.na(`Mean Temperature`) ~ 
+                                                                         (`Max Temperature` + `Min Temperature`) / 2,
+                                                                         !is.na(`Mean Temperature`) ~ `Mean Temperature`))
+
+MoodyGageData <- MoodyGageData %>% mutate(Location = "Moody")
+MoodyGageData$X113455_00010_00001_cd <- NULL
+MoodyGageData$X113456_00010_00002_cd <- NULL
+MoodyGageData$X113457_00010_00003_cd <- NULL
+MoodyGageData$X113458_00060_00003_cd <- NULL
+MoodyGageData$X265533_00010_00011_cd <- NULL
+colnames(MoodyGageData) <- c("Agency", "Site", "Date_time", "Max Temperature", "Min Temperature", "Mean Temperature", 
+                             "Discharge (cfs)", "Instantaneous Temperature", "Location")
+MoodyGageData <- MoodyGageData %>% mutate(`Mean Temperature` = coalesce(`Instantaneous Temperature`, `Mean Temperature`))
+MoodyGageData$`Instantaneous Temperature` <- NULL
+MoodyGageData <- MoodyGageData %>% mutate(`Mean Temperature` = case_when(is.na(`Mean Temperature`) ~ 
+                                                                             (`Max Temperature` + `Min Temperature`) / 2,
+                                                                           !is.na(`Mean Temperature`) ~ `Mean Temperature`))
+
+allusgsdata2 <- rbind(MadrasGageData, MoodyGageData)
+allusgsdata2$Year <- four.digit.year(as.POSIXct(allusgsdata2$Date_time, format = "%m/%d/%y"), year = 1951) #lubridate is set in 1970 gotta transform data
+allusgsdata2$Date_time <- mdy(allusgsdata2$Date_time)
+allusgsdata2 <- allusgsdata2 %>% 
+  mutate(Date_time = case_when(year(Date_time) > 2021 ~ 'year<-'(Date_time, Year), TRUE ~ Date_time))
+allusgsdata2 <- allusgsdata2 %>% mutate(Season = getSeason(Date_time)) %>% mutate(Julian = yday(Date_time))
+allusgsdata2 <- allusgsdata2 %>% mutate(lat = case_when(Location == "Madras" ~ c(45.62222222), Location == "Moody" ~ c(44.72611111))) %>%
+  mutate(long = case_when(Location == "Madras" ~ c(-120.90444444), Location == "Moody" ~ c(-121.24583333)))
+
+# allusgsdata2 <- allusgsdata2 %>% mutate(Yearagain = paste(Date_time[1:4], "/", Year, sep = "")) this doesn't work
+allusgsdata2 %>% filter(Year == 1952 | Year == 1953 | Year == 1954 | Year == 2006 | 
+                          Year == 2007 | Year == 2009 | Year == 2016 | Year == 2017 | Year == 2019) %>% 
+  ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = `Mean Temperature`, color = Location)) + geom_line() + facet_wrap( ~ Year) +
+  scale_x_date(date_labels = "%b")
+
+
+
 
 
 
