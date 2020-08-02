@@ -676,13 +676,83 @@ allusgsdata2 <- allusgsdata2 %>% mutate(lat = case_when(Location == "Madras" ~ c
   mutate(long = case_when(Location == "Madras" ~ c(-120.90444444), Location == "Moody" ~ c(-121.24583333)))
 
 # allusgsdata2 <- allusgsdata2 %>% mutate(Yearagain = paste(Date_time[1:4], "/", Year, sep = "")) this doesn't work
-allusgsdata2 %>% filter(Year == 1952 | Year == 1953 | Year == 1954 | Year == 2006 | 
-                          Year == 2007 | Year == 2009 | Year == 2016 | Year == 2017 | Year == 2019) %>% 
-  ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = `Mean Temperature`, color = Location)) + geom_line() + facet_wrap( ~ Year) +
-  scale_x_date(date_labels = "%b")
+# allusgsdata2 %>% filter(Year == 1952 | Year == 1953 | Year == 1954 | Year == 2006 | 
+#                           Year == 2007 | Year == 2009 | Year == 2016 | Year == 2017 | Year == 2019) %>% 
+#   ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = `Mean Temperature`, color = Location)) + geom_line() + facet_wrap( ~ Year) +
+#   scale_x_date(date_labels = "%b")
+
+# ggplot(allusgsdata2, aes(Date_time, `Mean Temperature`, color = Location)) + geom_line()
 
 
 
 
+
+
+
+
+
+
+
+
+### FISH DATA
+fishCounts <- read.csv("adult counts deschutes PGE 2014-2020.csv")
+fishCounts2 <- read.csv("RM43-steelhead-counts.csv")
+fishCountsSteelhead <- fishCounts2 %>% select("BeginDate","EndDate","CountValue") %>% arrange(EndDate)
+fishCounts3 <- #
+
+
+
+fishCounts$Date <- mdy(fishCounts$Date)
+fishCounts$Year <- year(fishCounts$Date)
+fishCounts$Season <- getSeason(fishCounts$Date)
+
+fishCounts %>% gather(Variable, Value, -Date, -Year, -Season) %>% filter(Variable != "Total") %>% 
+  ggplot(aes(Date, Value, color = Variable)) + geom_point() + geom_line() + facet_grid(Year ~ Variable)
+
+
+#ANOVA TEST
+prob <- fishCounts %>% gather(Variable, Count, - Date, -Year, -Season) %>% aov(Count ~ Variable, .)
+summary(prob)
+
+fishandtempdfMadras <- allusgsdata2 %>% filter(Location == "Madras") %>%
+  inner_join(fishCounts, by = c("Date_time" = "Date", "Season", "Year"))
+fishandtempdfMoody <- allusgsdata2 %>% filter(Location == "Moody") %>% 
+  inner_join(fishCounts, by = c("Date_time" = "Date", "Season", "Year"))
+fishandtempdfMadras <- fishandtempdfMadras %>% 
+  select(-c("Agency", "Site", "Discharge (cfs)", "lat", "long", "Max Temperature", "Min Temperature", "Julian", "Location"))
+fishandtempdfMoody <- fishandtempdfMoody %>% 
+  select(-c("Agency", "Site", "Discharge (cfs)", "lat", "long", "Max Temperature", "Min Temperature", "Julian", "Location"))
+
+fishandtempdfMadras %>% mutate(lFishCount = log(Total)) %>% gather(Variable, Value, -Date_time, -Year, -Season) %>%
+  filter(Variable == "lFishCount" | Variable == "Mean Temperature") %>%
+  ggplot(aes(Date_time, Value, color = Variable)) + geom_line() + facet_wrap( ~ Year, scales = "free") + 
+  scale_color_manual(values = c("red","blue")) + labs(x = "Date", y = "Temperature")
+coeff <- max(fishandtempdfMadras$Total, na.rm = T)/max(fishandtempdfMadras$`Mean Temperature`)
+temperatureColor <- "#C92A2A"
+fishColor <- rgb(0.2, 0.6, 0.9, 1)
+ggplot(data = fishandtempdfMadras, aes(x = Date_time)) + geom_line(aes(y = `Mean Temperature`), color = temperatureColor) +
+  geom_line(aes(y = Total / coeff), color = fishColor) + scale_y_continuous(name = "Temperature (Celsius °)", 
+                                                         sec.axis = sec_axis(~.*coeff, name = "Total Fish Count")) + theme_bw() +
+  ggtitle("Temperature vs. Fish Count") + theme(axis.title.y = element_text(color = temperatureColor, size = 13),
+                                               axis.title.y.right = element_text(color = fishColor, size = 13),
+                                               plot.title = element_text(hjust = 0.5)) + xlab("Date")
+
+
+# Graph with bar and line different axes and then different fish species
+fishandtempdfMadras %>% gather(Variable, Value, -Date_time, -Year, -Season, -`Mean Temperature`) %>% 
+  ggplot(aes(x = Date_time)) + geom_bar(aes(Variable, color = Variable)) + facet_wrap( ~ Variable, scales = "free")
+
+
+# Linear models for Madras and Moody
+fishtempmodelMadras <- lm(log(Total) ~ `Mean Temperature`*as.factor(Year), data = fishandtempdfMadras)
+fishtempmodelMoody <- lm(Total ~ `Mean Temperature`, data = fishandtempdfMoody)
+summary(fishtempmodelMadras) # For every 2.53 degree celsius decrease in temperature there is a corresponding increase of 1 total fish count
+summary(fishtempmodelMoody) # For every 1.9 degree celsius decrease in temperature there is a corresponding increase of 1 total fish count
+
+
+
+
+fuckingdf <- fishandtempdfMadras %>% group_by(Year) %>% select(-Date_time, -Season) %>% replace(is.na(.), 0) %>% summarise_all(funs(sum))
+# Only significant numbers of fish rainbow trout, hatchery steelhead, hatchery spring chinook, fall chinook
 
 
