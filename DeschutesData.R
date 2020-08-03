@@ -698,9 +698,13 @@ allusgsdata2 <- allusgsdata2 %>% mutate(lat = case_when(Location == "Madras" ~ c
 fishCounts <- read.csv("adult counts deschutes PGE 2014-2020.csv")
 fishCounts2 <- read.csv("RM43-steelhead-counts.csv")
 fishCountsSteelhead <- fishCounts2 %>% select("BeginDate","EndDate","CountValue") %>% arrange(EndDate)
-fishCounts3 <- #
+fishCounts3 <- read.csv("FallChinookODFW.csv")[1:43,1:7]
+fishCounts4 <- read.csv("HatcherySteelhead.csv")[1:43,1:7]
+fishCounts5 <- read.csv("WildSteelhead.csv")[1:43,1:7]
 
 
+
+write.csv(fishandtempdfMadras, "MadrasTempandFish.csv")
 
 fishCounts$Date <- mdy(fishCounts$Date)
 fishCounts$Year <- year(fishCounts$Date)
@@ -720,6 +724,10 @@ fishandtempdfMoody <- allusgsdata2 %>% filter(Location == "Moody") %>%
   inner_join(fishCounts, by = c("Date_time" = "Date", "Season", "Year"))
 fishandtempdfMadras <- fishandtempdfMadras %>% 
   select(-c("Agency", "Site", "Discharge (cfs)", "lat", "long", "Max Temperature", "Min Temperature", "Julian", "Location"))
+colnames(fishandtempdfMadras) <- c("Date_time","Mean Temperature","Year","Season","Hatchery Summer Steelhead","Wild Summer Steelhead",
+                                   "Summer Steelhead RM", "Summer Steelhead LM", "Hatchery Spring Chinook", "Wild Spring Chinook",
+                                   "Spring Chinook RM", "Spring Chinook LM","No Mark Sockeye", "Sockeye RM", "Sockeye LM", "Fall Chinook",
+                                   "Bull Trout", "Rainbow Trout", "Total")
 fishandtempdfMoody <- fishandtempdfMoody %>% 
   select(-c("Agency", "Site", "Discharge (cfs)", "lat", "long", "Max Temperature", "Min Temperature", "Julian", "Location"))
 
@@ -739,8 +747,16 @@ ggplot(data = fishandtempdfMadras, aes(x = Date_time)) + geom_line(aes(y = `Mean
 
 
 # Graph with bar and line different axes and then different fish species
+coeff2 <- fishandtempdfMadras %>% gather(Variable, Value, -Date_time, -Year, -Season, -`Mean Temperature`) %>% group_by(Variable) %>%
+  summarise(coeff = max(as.numeric(Value), na.rm = T)/15.4)
 fishandtempdfMadras %>% gather(Variable, Value, -Date_time, -Year, -Season, -`Mean Temperature`) %>% 
-  ggplot(aes(x = Date_time)) + geom_bar(aes(Variable, color = Variable)) + facet_wrap( ~ Variable, scales = "free")
+  ggplot(aes(x = Date_time)) + geom_col(aes(y = Value, fill = Variable), show.legend = F) + facet_wrap( ~ Variable) +
+  geom_line(aes(y = `Mean Temperature`), color = temperatureColor) + scale_y_continuous(name = "Temperature (Celsius °)",
+                                                                                        sec.axis = sec_axis(~.*1, name = "Fish Count")) + 
+  theme_bw() + labs(x = "Date") + ggtitle("Temperature and Fish Count by Species (PGE Data 2014-2020)") + 
+  theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
+        axis.title.y.right = element_text(color = fishColor, size = 13), 
+        plot.title = element_text(hjust = 0.5))
 
 
 # Linear models for Madras and Moody
@@ -752,7 +768,9 @@ summary(fishtempmodelMoody) # For every 1.9 degree celsius decrease in temperatu
 
 
 
-fuckingdf <- fishandtempdfMadras %>% group_by(Year) %>% select(-Date_time, -Season) %>% replace(is.na(.), 0) %>% summarise_all(funs(sum))
+totalsumoffish <- fishandtempdfMadras %>% group_by(Year) %>% select(-Date_time, -Season) %>% replace(is.na(.), 0) %>% summarise_all(funs(sum))
+sumsoftotalfishsums <- totalsumoffish %>% summarise_all(funs(sum))
+totalsumoffish <- rbind(totalsumoffish, sumsoftotalfishsums)
 # Only significant numbers of fish rainbow trout, hatchery steelhead, hatchery spring chinook, fall chinook
 
 
