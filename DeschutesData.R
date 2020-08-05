@@ -676,10 +676,27 @@ allusgsdata2 <- allusgsdata2 %>% mutate(lat = case_when(Location == "Madras" ~ c
   mutate(long = case_when(Location == "Madras" ~ c(-120.90444444), Location == "Moody" ~ c(-121.24583333)))
 
 # allusgsdata2 <- allusgsdata2 %>% mutate(Yearagain = paste(Date_time[1:4], "/", Year, sep = "")) this doesn't work
-# allusgsdata2 %>% filter(Year == 1952 | Year == 1953 | Year == 1954 | Year == 2006 | 
-#                           Year == 2007 | Year == 2009 | Year == 2016 | Year == 2017 | Year == 2019) %>% 
-#   ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = `Mean Temperature`, color = Location)) + geom_line() + facet_wrap( ~ Year) +
-#   scale_x_date(date_labels = "%b")
+MadrasDataMedians <- allusgsdata2 %>% filter(Location == "Madras") %>% group_by(Year) %>% 
+  summarize(median = median(`Mean Temperature`, na.rm = T)) %>% 
+  filter(Year == 1953 | Year == 1956 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019)
+MadrasDataMedians$intercepts = c("1953-06-15",
+                                 "1956-06-15",
+                                 "2008-06-15",
+                                 "2009-06-15",
+                                 "2016-06-15",
+                                 "2019-06-15")
+
+
+allusgsdata2 %>% filter(Location == "Madras" & Year == 2008 | Year == 2009 & Location == "Madras"| Year == 1953 & Location == "Madras" |
+                          Year == 1956 & Location == "Madras" | Year == 2016 & Location == "Madras" | Year == 2019 & Location == "Madras") %>%
+  ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = `Mean Temperature`, color = as.factor(Year))) + geom_line(show.legend = F) + 
+  facet_wrap( ~ Year, ncol = 2) +
+  scale_x_date(date_labels = "%b") + ggtitle("Temperature Before and After Dam Installation") + labs(x = "Date") + 
+  theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
+        axis.title.x = element_text(color = fishColor, size = 13), 
+        plot.title = element_text(hjust = 0.5))
+
+
 
 # ggplot(allusgsdata2, aes(Date_time, `Mean Temperature`, color = Location)) + geom_line()
 
@@ -695,20 +712,75 @@ allusgsdata2 <- allusgsdata2 %>% mutate(lat = case_when(Location == "Madras" ~ c
 
 
 ### FISH DATA
+fishCountsSteelheadEstimated <- read.csv("EstimatedSteelheadODFW.csv")
 fishCounts <- read.csv("adult counts deschutes PGE 2014-2020.csv")
 fishCounts2 <- read.csv("RM43-steelhead-counts.csv")
-fishCountsSteelhead <- fishCounts2 %>% select("BeginDate","EndDate","CountValue") %>% arrange(EndDate)
+fishCountsSteelhead <- fishCounts2 %>% select("BeginDate","EndDate","CountValue","TrendCom") %>% arrange(EndDate) # Actual captured rate
+
+
+
 fishCounts3 <- read.csv("FallChinookODFW.csv")[1:43,1:7]
+fishCounts3 <- gather(fishCounts3, Month, Count, June, July, August, September, October, -Total)
+fishCounts3 <- mutate(fishCounts3, monthNum = case_when(grepl("June", Month) ~ "-06", grepl("July", Month) ~ "-07", 
+                                                        grepl("August", Month) ~ "-08", 
+                                                        grepl("September", Month) ~ "-09",  grepl("October", Month) ~ "-10"))
+fishCounts3 <- fishCounts3 %>% mutate(Date_time = paste0(Year, monthNum))
+fishCounts3$Date_time <- parse_date_time(fishCounts3$Date_time, orders = c("Y-m"))
+fishCounts3$Date_time <- ymd(fishCounts3$Date_time)
+fishCounts3$Total <- NULL
+fishCounts3$monthNum <- NULL
+colnames(fishCounts3)[3] <- "Fall Chinook"
+fishCounts3$`Fall Chinook` <- as.numeric(fishCounts3$`Fall Chinook`)
+
 fishCounts4 <- read.csv("HatcherySteelhead.csv")[1:43,1:7]
+odfwmergedata <- fishCounts4 %>% select("Year", "Total")
+fishCounts4 <- gather(fishCounts4, Month, Count, June, July, August, September, October, -Total)
+fishCounts4 <- mutate(fishCounts4, monthNum = case_when(grepl("June", Month) ~ "-06", grepl("July", Month) ~ "-07", 
+                                                        grepl("August", Month) ~ "-08", 
+                                                        grepl("September", Month) ~ "-09",  grepl("October", Month) ~ "-10"))
+fishCounts4 <- fishCounts4 %>% mutate(Date_time = paste0(Year, monthNum))
+fishCounts4$Date_time <- parse_date_time(fishCounts4$Date_time, orders = c("Y-m"))
+fishCounts4$Date_time <- ymd(fishCounts4$Date_time)
+fishCounts4$Total <- NULL
+fishCounts4$monthNum <- NULL
+colnames(fishCounts4)[3] <- "Hatchery Summer Steelhead"
+fishCounts4$`Hatchery Summer Steelhead` <- as.numeric(fishCounts4$`Hatchery Summer Steelhead`)
+
 fishCounts5 <- read.csv("WildSteelhead.csv")[1:43,1:7]
+odfwmergedata <- odfwmergedata %>% left_join(select(fishCounts5, Total, Year), by = "Year")
+colnames(odfwmergedata) <- c("Year","Total Number of Captured Hatchery Summer Steelhead", "Number of Captured Wild Summer Steelhead")
+odfwmergedata <- odfwmergedata %>% mutate_all(funs(as.numeric(gsub(",", "", .))))
+fishCounts5 <- gather(fishCounts5, Month, Count, June, July, August, September, October, -Total)
+fishCounts5 <- mutate(fishCounts5, monthNum = case_when(grepl("June", Month) ~ "-06", grepl("July", Month) ~ "-07", 
+                                                        grepl("August", Month) ~ "-08", 
+                                                        grepl("September", Month) ~ "-09",  grepl("October", Month) ~ "-10"))
+fishCounts5 <- fishCounts5 %>% mutate(Date_time = paste0(Year, monthNum))
+fishCounts5$Date_time <- parse_date_time(fishCounts5$Date_time, orders = c("Y-m"))
+fishCounts5$Date_time <- ymd(fishCounts5$Date_time)
+fishCounts5$Total <- NULL
+fishCounts5$monthNum <- NULL
+colnames(fishCounts5)[3] <- "Wild Summer Steelhead"
+fishCounts5$`Wild Summer Steelhead` <- as.numeric(fishCounts5$`Wild Summer Steelhead`)
+
+ODFWData <- fishCounts3 %>% left_join(fishCounts4) %>% left_join(fishCounts5) %>% arrange(Date_time)
+ODFWData <- ODFWData %>% mutate(Season = getSeason(Date_time))
+ODFWData <- ODFWData[,c(4,1,2,7,3,5,6)] #Reordering data, note that overwhelming majority of fish occurrence is in summer, about a third as much in fall - basically none in spring
 
 
 
-write.csv(fishandtempdfMadras, "MadrasTempandFish.csv")
+#Plot by season and species of ODFW Data before merge
+ODFWData %>% gather(Variable, Value, -c("Date_time", "Year","Season","Month")) %>%
+  ggplot(aes(Date_time, Value, color = Variable)) + geom_line() + facet_wrap(Variable ~ Season) + theme_bw() +
+  ggtitle("Monthly ODFW Data at Sherar Falls") + labs(x = "Date", y = "Fish Count", color = "Species") + 
+  theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
+        axis.title.y.right = element_text(color = fishColor, size = 13), 
+        plot.title = element_text(hjust = 0.5))
+
 
 fishCounts$Date <- mdy(fishCounts$Date)
 fishCounts$Year <- year(fishCounts$Date)
 fishCounts$Season <- getSeason(fishCounts$Date)
+fishCounts <- fishCounts %>% mutate(Month = month(Date, label = T, abbr = F))
 
 fishCounts %>% gather(Variable, Value, -Date, -Year, -Season) %>% filter(Variable != "Total") %>% 
   ggplot(aes(Date, Value, color = Variable)) + geom_point() + geom_line() + facet_grid(Year ~ Variable)
@@ -728,6 +800,36 @@ colnames(fishandtempdfMadras) <- c("Date_time","Mean Temperature","Year","Season
                                    "Summer Steelhead RM", "Summer Steelhead LM", "Hatchery Spring Chinook", "Wild Spring Chinook",
                                    "Spring Chinook RM", "Spring Chinook LM","No Mark Sockeye", "Sockeye RM", "Sockeye LM", "Fall Chinook",
                                    "Bull Trout", "Rainbow Trout", "Total")
+fishandtempdfMadras <- fishandtempdfMadras %>% mutate(Month = month(Date_time, label = T, abbr = F))
+
+ODFWData1 <- ODFWData %>% filter(Year < 2014)
+fullfishandtemp <- fishCounts %>% 
+  full_join(ODFWData1, by = c("Date" = "Date_time","Season","Year","Month",
+                              "SUMMER.STEELHEAD_Hatchery" = "Hatchery Summer Steelhead", "SUMMER.STEELHEAD_Wild" = "Wild Summer Steelhead",
+                              "Fall.Chinook" = "Fall Chinook")) %>% arrange(Date)
+colnames(fullfishandtemp) <- c("Date_time","Hatchery Summer Steelhead","Wild Summer Steelhead",
+                                   "Summer Steelhead RM", "Summer Steelhead LM", "Hatchery Spring Chinook", "Wild Spring Chinook",
+                                   "Spring Chinook RM", "Spring Chinook LM","No Mark Sockeye", "Sockeye RM", "Sockeye LM", "Fall Chinook",
+                                   "Bull Trout", "Rainbow Trout", "Total", "Year", "Season", "Month")
+
+allusgsdata3 <- allusgsdata2 %>% filter(Location == "Madras") %>% select("Date_time","Mean Temperature") 
+fullfishandtemp1 <- fullfishandtemp %>% left_join(allusgsdata3, by = "Date_time") %>% arrange(Date_time)
+test1 <- fullfishandtemp1 %>% group_by(Date_time) %>% filter(n() > 1) %>% summarize(n = n())
+
+fullfishandtemp1 %>% gather(Variable, Value, -c("Date_time", "Year","Season","Month")) %>% filter(Variable == "Fall Chinook" | 
+                                                                                                    Variable == "Hatchery Summer Steelhead" |
+                                                                                                    Variable == "Wild Summer Steelhead") %>%
+  ggplot(aes(Date_time, Value, color = Variable)) + geom_line() + geom_smooth(se = F, method = "lm",
+                                                                              formula = y ~ x + I(x^2) + I(x^3)) + facet_wrap( ~ Variable) + theme_bw() +
+  ggtitle("Fish Count data by Species") + labs(x = "Date", y = "Fish Count", color = "Species") + 
+  theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
+        axis.title.y.right = element_text(color = fishColor, size = 13), 
+        plot.title = element_text(hjust = 0.5))
+
+summary(lm(`Hatchery Summer Steelhead` ~ poly(Year,2), data = fullfishandtemp1))
+summary(lm(`Hatchery Summer Steelhead` ~ poly(Year,3), data = fullfishandtemp1))
+
+
 fishandtempdfMoody <- fishandtempdfMoody %>% 
   select(-c("Agency", "Site", "Discharge (cfs)", "lat", "long", "Max Temperature", "Min Temperature", "Julian", "Location"))
 
@@ -772,5 +874,29 @@ totalsumoffish <- fishandtempdfMadras %>% group_by(Year) %>% select(-Date_time, 
 sumsoftotalfishsums <- totalsumoffish %>% summarise_all(funs(sum))
 totalsumoffish <- rbind(totalsumoffish, sumsoftotalfishsums)
 # Only significant numbers of fish rainbow trout, hatchery steelhead, hatchery spring chinook, fall chinook
+
+fishCountsSteelhead <- fishCountsSteelhead %>% mutate(Year = year(BeginDate)) %>% select("Year","TrendCom","CountValue")
+fishCountsSteelhead <- spread(fishCountsSteelhead, TrendCom, CountValue)
+fishCountsSteelheadEstimated <- fishCountsSteelheadEstimated %>% mutate(Year = substr(Year, start = 1, stop = 4))
+fishCountsSteelheadEstimated$Year <- as.numeric(fishCountsSteelheadEstimated$Year)
+SteelheadODFWDF <- fishCountsSteelhead %>% right_join(fishCountsSteelheadEstimated, by = c("Year"))
+SteelheadODFWDF <- SteelheadODFWDF %>% mutate_all(funs(as.numeric(gsub(",", "", .))))
+colnames(SteelheadODFWDF) <- c("Year", "Number of Captured Wild Summer Steelhead",
+                               "Number of Captured Round Butte Hatchery Summer Steelhead",
+                               "Number of Captured Stray Hatchery Summer Steelhead",
+                               "Total Number of Captured Hatchery Summer Steelhead",
+                               "Estimated Wild Summer Steelhead", "Estimated Round Butte Hatchery Summer Steelhead",
+                               "Estimated Stray Hatchery Summer Steelhead", "Estimated Total Hatchery Summer Steelhead")
+testdf <- SteelheadODFWDF %>% left_join(odfwmergedata, by = c("Year"))
+#INITIAL STEELHEAD DATA PLOT
+SteelheadODFWDF %>% gather(Variable, Value, -Year) %>% ggplot(aes(x = Year, y = Value, color = Variable)) + geom_line() + geom_point()
+  ggtitle("Sherar Falls Trap Data")
+  
+SteelheadODFWDF <- SteelheadODFWDF %>% mutate(`Proportion of Estimated to Captured Round Butte` = `Number of Captured Round Butte Hatchery Summer Steelhead` / `Estimated Round Butte Hatchery Summer Steelhead`,
+                           `Proportion of Estimated to Captured Total Hatchery` = `Total Number of Captured Hatchery Summer Steelhead` / `Estimated Total Hatchery Summer Steelhead`,
+                           `Proportion of Estimated to Captured Stray Hatchery` = `Number of Captured Stray Hatchery Summer Steelhead` / `Estimated Stray Hatchery Summer Steelhead`,
+                           `Proportion of Estimated to Captured Wild` = `Number of Captured Wild Summer Steelhead` / `Estimated Wild Summer Steelhead`)
+
+
 
 
