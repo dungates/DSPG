@@ -261,7 +261,7 @@ rivertempbigData <- rivertempbigData %>% mutate(Year = year(Date_time))
 rivertempbigData <- rivertempbigData %>% mutate(mergeDate = ymd(as.Date(Date_time)))
 rivertempbigData <- rivertempbigData %>% mutate(Season = getSeason(Date_time))
 
-## RUN UP TO HERE FOR DATAFRAME
+## RUN UP TO HERE FOR  FIRST DATAFRAME
 
 ### MERGED DATA GRAPHS, find out how to smooth with so many observations
 
@@ -966,27 +966,49 @@ steelheadFinaldf %>% gather(Variable, Value, -steelheadListProp) %>% ggplot(aes(
 #                             "Biochemical Oxygen Demand", "Total Coliform", "Total Solids", "Ammonia", "Nitrate + Nitrite", 
 #                             "Escherichiac in cfu/100ml", "Escherichia in MPN/100ml")
 # allodeqData1$Date_time <- mdy(allodeqData1$Date_time)
+allodeqData1 <- allodeqData1 %>% mutate(Year = year(Date_time))
 # 
-# allodeqData1 %>%
+# allodeqData1 %>% filter(Location == "Deschutes River at Deschutes River Park" | Location == "John Day River at Hwy 206" | 
+#                           Location == "Deschutes River at Maupin") %>%
 #   ggplot(aes(x = Date_time, y = Temperature, color = Location)) + geom_point(show.legend = F) +
 #   geom_line(show.legend = F) + facet_wrap( ~ Location, ncol = 1)
 
 
+### Reading in new PGE data
+path <- "Rereg Sonde Data 2004-2006_ 2010-2017.xlsx"
+mad <- path %>% excel_sheets() %>% set_names() %>% map_df(read_excel, path = path)
+mad$Time <- as.character(mad$Time)
+mad <- mad %>% mutate(Time = sub(".* ", "", Time))
 
 
+# test <- mad[is.na(mad$Time), ] 2010-07-31,2011-05-08,2015-05-01,2015-11-02 don't have times
+newpgeData <- mad %>% mutate(Date_time = paste(Date, Time))
+newpgeData$Date_time <- ymd_hms(newpgeData$Date_time)
+newpgeData <- subset(newpgeData, select = -c(Date, Time))
+colnames(newpgeData) <- c("Temperature", "Dissolved Oxygen mg/l", "Dissolved Oxygen % Saturation", "pH", "Date_time")
+ggplot(newpgeData, aes(x = Date_time, y = Temperature)) + geom_line(color = "blue") + stat_peaks(color = "red", ignore_threshold = 0.6) + 
+  annotate(geom = "point", x = as.POSIXct("2008-04-01"), y = 9, size = 50, shape = 21, fill = "transparent") +
+  annotate(geom = "text", x = as.POSIXct("2008-04-01"), y = 13, label = "No Data Collected") + 
+  stat_peaks(geom = "text", color = "red", vjust = -1, span = 25, ignore_threshold = 0.58, angle = 20, hjust = 1) + theme_bw() + 
+  labs(y = "Temperature (Celsius °)", x = "Date") +
+  ggtitle("PGE Data at Pelton Round Butte Dam on Temperature") + theme(plot.title = element_text(hjust = 0.5)) # Dates highlighted
+ggplot(newpgeData, aes(x = Date_time, y = Temperature)) + geom_line(color = "blue") + stat_peaks(color = "red", ignore_threshold = 0.6) + 
+  annotate(geom = "point", x = as.POSIXct("2008-04-01"), y = 9, size = 50, shape = 21, fill = "transparent") +
+  annotate(geom = "text", x = as.POSIXct("2008-04-01"), y = 13, label = "No Data Collected") +
+  stat_peaks(geom = "text", color = "red", vjust = -0.5, span = 25, ignore_threshold = 0.58, y.label.fm = "%f°", angle = 20, hjust = 1,
+             aes(label = paste(..y.label..))) + 
+  theme_bw() + 
+  labs(y = "Temperature (Celsius °)", x = "Date") +
+  ggtitle("PGE Data at Pelton Round Butte Dam on Temperature") + theme(plot.title = element_text(hjust = 0.5)) # Temperatures highlighted, measured by 
+# difference, ignore_threshold at 0.6 meaning if a peak is within 60% of the data on either side it will be ignored
 
+# df6 <- df5 %>% filter(Location == "Reregulating Dam")
+testforsimilarity <- allusgsdata2 %>% filter(Location == "Madras", Year > 2003) 
+ggplot() + geom_line(data = newpgeData, aes(x = Date_time, y = Temperature), color = "forestgreen") +
+  geom_line(data = df6, aes(x = Date_time, y = Temperature), color = "red") + 
+  geom_line(data = testforsimilarity, aes(x = as.POSIXct(Date_time), y = `Mean Temperature`), color = "blue")
+# Showing that PGE data is essentially the same from 2015-2017 and new data and USGS data
 
-
-# takes two dfs, if they have any columns in common, zips them together
-# using non-NA entries from either, leaves NA where both are NA, 
-# sets NA when both are not NA but different
-merge_cols <- function(df_1, df_2, by = c()) {
-  
-}
-
-merge_vecs <- function(vec_a, vec_b) {
-  
-}
 
 
 
