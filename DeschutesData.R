@@ -905,20 +905,77 @@ testdf$`Number of Captured Wild Summer Steelhead.x`[is.na(testdf$`Number of Capt
   testdf$`Number of Captured Wild Summer Steelhead.y`[!is.na(testdf$`Number of Captured Wild Summer Steelhead.y`)]
 testdf$`Total Number of Captured Hatchery Summer Steelhead.x`[is.na(testdf$`Total Number of Captured Hatchery Summer Steelhead.x`)] <-
   testdf$`Total Number of Captured Hatchery Summer Steelhead.y`[!is.na(testdf$`Total Number of Captured Hatchery Summer Steelhead.y`)]
+testdf$`Number of Captured Wild Summer Steelhead.y` <- NULL
+testdf$`Total Number of Captured Hatchery Summer Steelhead.y` <- NULL
+steelheadFinaldf <- testdf
+colnames(steelheadFinaldf) <- c("Year", "Number of Captured Wild Summer Steelhead",
+                               "Number of Captured Round Butte Hatchery Summer Steelhead",
+                               "Number of Captured Stray Hatchery Summer Steelhead",
+                               "Total Number of Captured Hatchery Summer Steelhead",
+                               "Estimated Wild Summer Steelhead", "Estimated Round Butte Hatchery Summer Steelhead",
+                               "Estimated Stray Hatchery Summer Steelhead", "Estimated Total Hatchery Summer Steelhead")
+write.csv(steelheadFinaldf, "AllSteelheadData.csv")
+
 
 # Working here
 
 #INITIAL STEELHEAD DATA PLOT
-SteelheadODFWDF %>% gather(Variable, Value, -Year) %>% ggplot(aes(x = Year, y = Value, color = Variable)) + geom_line() + geom_point()
-  ggtitle("Sherar Falls Trap Data")
+steelheadListInitial <- c("Year", "Proportion of Estimated to Captured Total Hatchery", "Proportion of Estimated to Captured Stray Hatchery",
+                    "Proportion of Estimated to Captured Round Butte", "Proportion of Estimated to Captured Wild")
+steelheadListProp <- c("Year",
+                       "Number of Captured Wild Summer Steelhead",
+                       "Number of Captured Round Butte Hatchery Summer Steelhead",
+                       "Number of Captured Stray Hatchery Summer Steelhead",
+                       "Total Number of Captured Hatchery Summer Steelhead",
+                       "Estimated Wild Summer Steelhead",
+                       "Estimated Round Butte Hatchery Summer Steelhead",
+                       "Estimated Stray Hatchery Summer Steelhead",
+                       "Estimated Total Hatchery Summer Steelhead")
+
+
+steelheadFinaldf %>% gather(Variable, Value, -steelheadListInitial) %>% 
+  mutate(Estimates = case_when(grepl("Wild", Variable) ~ "Wild", grepl("Round Butte", Variable) ~ "Round Butte Hatchery",
+         grepl("Total", Variable) ~ "Total Hatchery", grepl("Stray", Variable) ~ "Stray Hatchery")) %>% 
+  ggplot(aes(x = Year, y = Value, color = Variable)) + facet_wrap( ~ Estimates) +
+  geom_line() + geom_point() +
+  ggtitle("Sherar Falls Trap Data") + theme_bw() + labs(y = "Fish Count") +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "none")
   
-SteelheadODFWDF <- SteelheadODFWDF %>% mutate(`Proportion of Estimated to Captured Round Butte` = `Number of Captured Round Butte Hatchery Summer Steelhead` / `Estimated Round Butte Hatchery Summer Steelhead`,
+steelheadFinaldf <- steelheadFinaldf %>% mutate(`Proportion of Estimated to Captured Round Butte Hatchery` = `Number of Captured Round Butte Hatchery Summer Steelhead` / `Estimated Round Butte Hatchery Summer Steelhead`,
                            `Proportion of Estimated to Captured Total Hatchery` = `Total Number of Captured Hatchery Summer Steelhead` / `Estimated Total Hatchery Summer Steelhead`,
                            `Proportion of Estimated to Captured Stray Hatchery` = `Number of Captured Stray Hatchery Summer Steelhead` / `Estimated Stray Hatchery Summer Steelhead`,
                            `Proportion of Estimated to Captured Wild` = `Number of Captured Wild Summer Steelhead` / `Estimated Wild Summer Steelhead`)
 
+steelheadFinaldf %>% gather(Variable, Value, -steelheadListProp) %>% ggplot(aes(x = Year, y = Value, color = Variable)) + 
+  geom_line(show.legend = F) + 
+  geom_point(show.legend = F) + facet_wrap( ~ Variable) +
+  ggtitle("Sherar Falls Trap Data by Proportions")
+
 ### READING IN ODEQ Data
-read.csv("")
+allodeqData <- read.csv("Standard Export 11365.csv")
+
+allodeqData <- allodeqData %>% select("Result.Value", "Result.Unit", "Characteristic.Name","Monitoring.Location.Name",
+                                      "Monitoring.Location.Latitude",	"Monitoring.Location.Longitude","Activity.Start.Date")
+allodeqData <- allodeqData %>% mutate(new = paste(Characteristic.Name, "in", Result.Unit))
+allodeqData <- subset(allodeqData, select = -c(Characteristic.Name, Result.Unit))
+allodeqData <- as.data.frame(sapply(allodeqData, gsub, pattern = "<|>", replacement = ""))
+allodeqData$Result.Value <- as.numeric(as.character(allodeqData$Result.Value))
+allodeqData1 <- pivot_wider(allodeqData, names_from = new, values_from = Result.Value, values_fn = max)
+colnames(allodeqData1) <- c("Location","Lat","Long","Date_time","pH","Dissolved Oxygen % Saturation","Temperature","Dissolved Oxygen mg/l",
+                            "Biochemical Oxygen Demand", "Total Coliform", "Total Solids", "Ammonia", "Nitrate + Nitrite", 
+                            "Escherichiac in cfu/100ml", "Escherichia in MPN/100ml")
+allodeqData1$Date_time <- mdy(allodeqData1$Date_time)
+
+allodeqData1 %>% filter(Location == "Deschutes River at Deschutes River Park" | Location == "Deschutes River at Maupin" | Location == 
+                          "John Day River at Hwy 206") %>%
+  ggplot(aes(x = Date_time, y = Temperature, color = Location)) + geom_point(show.legend = F) +
+  geom_line(show.legend = F) + facet_wrap( ~ Location, ncol = 1)
+
+
+
+
+
 
 
 # takes two dfs, if they have any columns in common, zips them together
