@@ -677,26 +677,34 @@ allusgsdata2 <- allusgsdata2 %>% mutate(lat = case_when(Location == "Madras" ~ c
 
 # allusgsdata2 <- allusgsdata2 %>% mutate(Yearagain = paste(Date_time[1:4], "/", Year, sep = "")) this doesn't work
 MadrasDataMedians <- allusgsdata2 %>% filter(Location == "Madras") %>% group_by(Year) %>% 
-  summarize(median = median(`Mean Temperature`, na.rm = T)) %>% 
-  filter(Year == 1953 | Year == 1956 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019)
-MadrasDataMedians$intercepts = c("1953-06-15",
+  summarize(median = median(`Mean Temperature`, na.rm = T), medianDate = ) %>% 
+  filter(Year == 1953 | Year == 1956 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019) %>% 
+  mutate(lab = paste("Median = ", median))
+MadrasDataMedians$x = as.Date(c("1953-06-15",
                                  "1956-06-15",
                                  "2008-06-15",
                                  "2009-06-15",
                                  "2016-06-15",
-                                 "2019-06-15")
+                                 "2019-06-15"))
+MadrasDataMedians$Julian <- c("183", "183","183", "183","183", "183")
 
 
-allusgsdata2 %>% filter(Location == "Madras" & Year == 2008 | Year == 2009 & Location == "Madras"| Year == 1953 & Location == "Madras" |
+longtermtempplot <- allusgsdata2 %>% filter(Location == "Madras" & Year == 2008 | Year == 2009 & Location == "Madras"| Year == 1953 & Location == "Madras" |
                           Year == 1956 & Location == "Madras" | Year == 2016 & Location == "Madras" | Year == 2019 & Location == "Madras") %>%
   ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = `Mean Temperature`, color = as.factor(Year))) + geom_line(show.legend = F) + 
-  facet_wrap( ~ Year, ncol = 2) +
+  facet_wrap( ~ Year, ncol = 2) + theme_bw() +
   scale_x_date(date_labels = "%b") + ggtitle("Temperature Before and After Dam Installation") + labs(x = "Date") + 
   theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
         axis.title.x = element_text(color = fishColor, size = 13), 
         plot.title = element_text(hjust = 0.5))
 
+longtermtempplot + geom_text(
+  data = MadrasDataMedians,
+  mapping = aes(x = yday(x), y = 10, label = lab),
+  show.legend = F
+)
 
+# Working here
 
 # ggplot(allusgsdata2, aes(Date_time, `Mean Temperature`, color = Location)) + geom_line()
 
@@ -887,7 +895,19 @@ colnames(SteelheadODFWDF) <- c("Year", "Number of Captured Wild Summer Steelhead
                                "Total Number of Captured Hatchery Summer Steelhead",
                                "Estimated Wild Summer Steelhead", "Estimated Round Butte Hatchery Summer Steelhead",
                                "Estimated Stray Hatchery Summer Steelhead", "Estimated Total Hatchery Summer Steelhead")
-testdf <- SteelheadODFWDF %>% left_join(odfwmergedata, by = c("Year"))
+odfwmergedata <- odfwmergedata %>% filter(Year > 2006)
+# SteelheadODFWDF <- SteelheadODFWDF %>% replace(is.na(.), 0)
+# SteelheadODFWDF <- SteelheadODFWDF %>% mutate_all(na_if, 0) go back and forth between na and 0
+
+testdf <- full_join(SteelheadODFWDF, odfwmergedata, 
+                    by = c("Year"))
+testdf$`Number of Captured Wild Summer Steelhead.x`[is.na(testdf$`Number of Captured Wild Summer Steelhead.x`)] <- 
+  testdf$`Number of Captured Wild Summer Steelhead.y`[!is.na(testdf$`Number of Captured Wild Summer Steelhead.y`)]
+testdf$`Total Number of Captured Hatchery Summer Steelhead.x`[is.na(testdf$`Total Number of Captured Hatchery Summer Steelhead.x`)] <-
+  testdf$`Total Number of Captured Hatchery Summer Steelhead.y`[!is.na(testdf$`Total Number of Captured Hatchery Summer Steelhead.y`)]
+
+# Working here
+
 #INITIAL STEELHEAD DATA PLOT
 SteelheadODFWDF %>% gather(Variable, Value, -Year) %>% ggplot(aes(x = Year, y = Value, color = Variable)) + geom_line() + geom_point()
   ggtitle("Sherar Falls Trap Data")
@@ -896,6 +916,25 @@ SteelheadODFWDF <- SteelheadODFWDF %>% mutate(`Proportion of Estimated to Captur
                            `Proportion of Estimated to Captured Total Hatchery` = `Total Number of Captured Hatchery Summer Steelhead` / `Estimated Total Hatchery Summer Steelhead`,
                            `Proportion of Estimated to Captured Stray Hatchery` = `Number of Captured Stray Hatchery Summer Steelhead` / `Estimated Stray Hatchery Summer Steelhead`,
                            `Proportion of Estimated to Captured Wild` = `Number of Captured Wild Summer Steelhead` / `Estimated Wild Summer Steelhead`)
+
+### READING IN ODEQ Data
+read.csv("")
+
+
+# takes two dfs, if they have any columns in common, zips them together
+# using non-NA entries from either, leaves NA where both are NA, 
+# sets NA when both are not NA but different
+merge_cols <- function(df_1, df_2, by = c()) {
+  
+}
+
+merge_vecs <- function(vec_a, vec_b) {
+  
+}
+
+
+
+
 
 
 
