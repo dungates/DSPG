@@ -691,12 +691,14 @@ MadrasDataMedians$Julian <- c("183", "183","183", "183","183", "183")
 
 longtermtempplot <- allusgsdata2 %>% filter(Location == "Madras" & Year == 2008 | Year == 2009 & Location == "Madras"| Year == 1953 & Location == "Madras" |
                           Year == 1956 & Location == "Madras" | Year == 2016 & Location == "Madras" | Year == 2019 & Location == "Madras") %>%
-  ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = `Mean Temperature`, color = as.factor(Year))) + geom_line(show.legend = F) + 
-  facet_wrap( ~ Year, ncol = 2) + theme_bw() +
+  ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = `Mean Temperature`, color = Year)) + geom_line(show.legend = F) + 
+  facet_wrap( ~ as.factor(Year), ncol = 2) + theme_bw() +
   scale_x_date(date_labels = "%b") + ggtitle("Temperature Before and After Dam Installation") + labs(x = "Date") + 
   theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
         axis.title.x = element_text(color = fishColor, size = 13), 
         plot.title = element_text(hjust = 0.5))
+colorset = c('1953' = "red", '1956' = "red", '2008' = "goldenrod", '2009' = "goldenrod", '2016' = "forestgreen", '2019' = "forestgreen")
+longtermtempplot + scale_fill_manual(values = colorset)
 
 longtermtempplot + geom_text(
   data = MadrasDataMedians,
@@ -841,7 +843,7 @@ summary(lm(`Hatchery Summer Steelhead` ~ poly(Year,3), data = fullfishandtemp1))
 fishandtempdfMoody <- fishandtempdfMoody %>% 
   select(-c("Agency", "Site", "Discharge (cfs)", "lat", "long", "Max Temperature", "Min Temperature", "Julian", "Location"))
 
-fishandtempdfMadras %>% mutate(lFishCount = log(Total)) %>% gather(Variable, Value, -Date_time, -Year, -Season) %>%
+fishandtempdfMadras %>% mutate(lFishCount = log(Total)) %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>%
   filter(Variable == "lFishCount" | Variable == "Mean Temperature") %>%
   ggplot(aes(Date_time, Value, color = Variable)) + geom_line() + facet_wrap( ~ Year, scales = "free") + 
   scale_color_manual(values = c("red","blue")) + labs(x = "Date", y = "Temperature")
@@ -857,17 +859,21 @@ ggplot(data = fishandtempdfMadras, aes(x = Date_time)) + geom_line(aes(y = `Mean
 
 
 # Graph with bar and line different axes and then different fish species
-coeff2 <- fishandtempdfMadras %>% gather(Variable, Value, -Date_time, -Year, -Season, -`Mean Temperature`) %>% group_by(Variable) %>%
+coeff2 <- fishandtempdfMadras %>% gather(Variable, Value, -Date_time, -Year, -Season, -`Mean Temperature`, -Month) %>% 
+  group_by(Variable) %>%
   summarise(coeff = max(as.numeric(Value), na.rm = T)/15.4)
-fishandtempdfMadras %>% gather(Variable, Value, -Date_time, -Year, -Season, -`Mean Temperature`) %>% 
+fishandtempdfMadras %>% gather(Variable, Value, -Date_time, -Year, -Season, -`Mean Temperature`, -Month) %>% 
   ggplot(aes(x = Date_time)) + geom_col(aes(y = Value, fill = Variable), show.legend = F) + facet_wrap( ~ Variable) +
-  geom_line(aes(y = `Mean Temperature`), color = temperatureColor) + scale_y_continuous(name = "Temperature (Celsius °)",
-                                                                                        sec.axis = sec_axis(~.*1, name = "Fish Count")) + 
-  theme_bw() + labs(x = "Date") + ggtitle("Temperature and Fish Count by Species (PGE Data 2014-2020)") + 
-  theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
-        axis.title.y.right = element_text(color = fishColor, size = 13), 
+  geom_line(aes(y = `Mean Temperature`), color = temperatureColor) +
+  scale_y_continuous(name = "Temperature (Celsius °)", sec.axis = sec_axis(~.*10, name = "Fish Count")) +
+  theme_bw() + labs(x = "Date") + ggtitle("Temperature and Fish Count by Species (PGE Data 2014-2020)") +
+  theme(axis.title.y = element_text(color = temperatureColor, size = 13),
+        axis.title.y.right = element_text(color = fishColor, size = 13),
         plot.title = element_text(hjust = 0.5))
-
+# justforplotting <- fishandtempdfMadras %>% gather(Variable, Value, -Date_time, -Year, -Season, -`Mean Temperature`, -Month)
+# justforplotting$Variable <- factor(justforplotting$Variable)
+# ggplot(data = justforplotting, aes(x = Date_time, y = Value)) + geom_bar(stat = "identity") + 
+#   facet_wrap( ~ Variable, scales = "free") + theme_bw()
 
 # Linear models for Madras and Moody
 fishtempmodelMadras <- lm(log(Total) ~ `Mean Temperature`*as.factor(Year), data = fishandtempdfMadras)
@@ -963,10 +969,10 @@ steelheadFinaldf %>% gather(Variable, Value, -steelheadListProp) %>% ggplot(aes(
 # allodeqData$Result.Value <- as.numeric(as.character(allodeqData$Result.Value))
 # allodeqData1 <- pivot_wider(allodeqData, names_from = new, values_from = Result.Value, values_fn = max)
 # colnames(allodeqData1) <- c("Location","Lat","Long","Date_time","pH","Dissolved Oxygen % Saturation","Temperature","Dissolved Oxygen mg/l",
-#                             "Biochemical Oxygen Demand", "Total Coliform", "Total Solids", "Ammonia", "Nitrate + Nitrite", 
+#                             "Biochemical Oxygen Demand", "Total Coliform", "Total Solids", "Ammonia", "Nitrate + Nitrite",
 #                             "Escherichiac in cfu/100ml", "Escherichia in MPN/100ml")
 # allodeqData1$Date_time <- mdy(allodeqData1$Date_time)
-allodeqData1 <- allodeqData1 %>% mutate(Year = year(Date_time))
+# allodeqData1 <- allodeqData1 %>% mutate(Year = year(Date_time))
 # 
 # allodeqData1 %>% filter(Location == "Deschutes River at Deschutes River Park" | Location == "John Day River at Hwy 206" | 
 #                           Location == "Deschutes River at Maupin") %>%
@@ -1003,10 +1009,10 @@ ggplot(newpgeData, aes(x = Date_time, y = Temperature)) + geom_line(color = "blu
 # difference, ignore_threshold at 0.6 meaning if a peak is within 60% of the data on either side it will be ignored
 
 # df6 <- df5 %>% filter(Location == "Reregulating Dam")
-testforsimilarity <- allusgsdata2 %>% filter(Location == "Madras", Year > 2003) 
-ggplot() + geom_line(data = newpgeData, aes(x = Date_time, y = Temperature), color = "forestgreen") +
-  geom_line(data = df6, aes(x = Date_time, y = Temperature), color = "red") + 
-  geom_line(data = testforsimilarity, aes(x = as.POSIXct(Date_time), y = `Mean Temperature`), color = "blue")
+# testforsimilarity <- allusgsdata2 %>% filter(Location == "Madras", Year > 2003) 
+# ggplot() + geom_line(data = newpgeData, aes(x = Date_time, y = Temperature), color = "forestgreen") +
+#   geom_line(data = df6, aes(x = Date_time, y = Temperature), color = "red") + 
+#   geom_line(data = testforsimilarity, aes(x = as.POSIXct(Date_time), y = `Mean Temperature`), color = "blue")
 # Showing that PGE data is essentially the same from 2015-2017 and new data and USGS data
 
 
