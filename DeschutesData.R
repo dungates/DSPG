@@ -952,25 +952,24 @@ steelheadFinaldf %>% gather(Variable, Value, -steelheadListProp) %>% ggplot(aes(
   geom_point(show.legend = F) + facet_wrap( ~ Variable) +
   ggtitle("Sherar Falls Trap Data by Proportions")
 
-### READING IN ODEQ Data
-allodeqData <- read.csv("Standard Export 11365.csv")
-
-allodeqData <- allodeqData %>% select("Result.Value", "Result.Unit", "Characteristic.Name","Monitoring.Location.Name",
-                                      "Monitoring.Location.Latitude",	"Monitoring.Location.Longitude","Activity.Start.Date")
-allodeqData <- allodeqData %>% mutate(new = paste(Characteristic.Name, "in", Result.Unit))
-allodeqData <- subset(allodeqData, select = -c(Characteristic.Name, Result.Unit))
-allodeqData <- as.data.frame(sapply(allodeqData, gsub, pattern = "<|>", replacement = ""))
-allodeqData$Result.Value <- as.numeric(as.character(allodeqData$Result.Value))
-allodeqData1 <- pivot_wider(allodeqData, names_from = new, values_from = Result.Value, values_fn = max)
-colnames(allodeqData1) <- c("Location","Lat","Long","Date_time","pH","Dissolved Oxygen % Saturation","Temperature","Dissolved Oxygen mg/l",
-                            "Biochemical Oxygen Demand", "Total Coliform", "Total Solids", "Ammonia", "Nitrate + Nitrite", 
-                            "Escherichiac in cfu/100ml", "Escherichia in MPN/100ml")
-allodeqData1$Date_time <- mdy(allodeqData1$Date_time)
-
-allodeqData1 %>% filter(Location == "Deschutes River at Deschutes River Park" | Location == "Deschutes River at Maupin" | Location == 
-                          "John Day River at Hwy 206") %>%
-  ggplot(aes(x = Date_time, y = Temperature, color = Location)) + geom_point(show.legend = F) +
-  geom_line(show.legend = F) + facet_wrap( ~ Location, ncol = 1)
+### READING IN ODEQ Data - mostly useless
+# allodeqData <- read.csv("Standard Export 11365.csv")
+# 
+# allodeqData <- allodeqData %>% select("Result.Value", "Result.Unit", "Characteristic.Name","Monitoring.Location.Name",
+#                                       "Monitoring.Location.Latitude",	"Monitoring.Location.Longitude","Activity.Start.Date")
+# allodeqData <- allodeqData %>% mutate(new = paste(Characteristic.Name, "in", Result.Unit))
+# allodeqData <- subset(allodeqData, select = -c(Characteristic.Name, Result.Unit))
+# allodeqData <- as.data.frame(sapply(allodeqData, gsub, pattern = "<|>", replacement = ""))
+# allodeqData$Result.Value <- as.numeric(as.character(allodeqData$Result.Value))
+# allodeqData1 <- pivot_wider(allodeqData, names_from = new, values_from = Result.Value, values_fn = max)
+# colnames(allodeqData1) <- c("Location","Lat","Long","Date_time","pH","Dissolved Oxygen % Saturation","Temperature","Dissolved Oxygen mg/l",
+#                             "Biochemical Oxygen Demand", "Total Coliform", "Total Solids", "Ammonia", "Nitrate + Nitrite", 
+#                             "Escherichiac in cfu/100ml", "Escherichia in MPN/100ml")
+# allodeqData1$Date_time <- mdy(allodeqData1$Date_time)
+# 
+# allodeqData1 %>%
+#   ggplot(aes(x = Date_time, y = Temperature, color = Location)) + geom_point(show.legend = F) +
+#   geom_line(show.legend = F) + facet_wrap( ~ Location, ncol = 1)
 
 
 
