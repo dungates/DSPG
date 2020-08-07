@@ -85,6 +85,7 @@ oldpgeData$Date_time <- ymd(oldpgeData$Date_time)
 USGSData <- read_csv("USGSData.csv", col_types = cols(Season = col_factor()))
 # Just Madras temperature data which is largely what we use
 MadrasMergeData <- USGSData %>% filter(Location == "Madras") %>% select(-`Discharge (cfs)`)
+MoodyMergeData <- USGSData %>% filter(Location == "Moody") %>% select(-`Discharge (cfs)`)
 
 ## ODEQ Data
 # allodeqData <- read.csv("Standard Export 11365.csv")
@@ -121,19 +122,72 @@ MergedFishData <- read.csv("AllFishData.csv")
 MergedFishData$X <- NULL
 MergedFishData$Total <- rowSums(MergedFishData[,2:16], na.rm = T)
 
+# Run a regression that compares fish data pre-sww to post-sww from ODFWData
+# MadrasOLS <- MadrasMergeData %>% group_by(Year, Season) %>% summarize(`Temperature` = median(Temperature))
+# MoodyOLS <- MoodyMergeData %>% group_by(Year, Season) %>% summarize(`Median Seasonal Temperature` = median(Temperature))
+# ols2data <- ODFWData %>% group_by(Year, Season) %>% summarize(`Fall Chinook` = sum(`Fall Chinook`), 
+#                                                               `Hatchery Summer Steelhead` = sum(`Hatchery Summer Steelhead`),
+#                                                               `Wild Summer Steelhead` = sum(`Wild Summer Steelhead`))
+# lmdata <- MadrasOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976 & Season != "Winter")
+# lmdata2 <- MoodyOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976)
+# lmdata$Total <- rowSums(lmdata[,4:6], na.rm = T)
+# lmdata2$Total <- rowSums(lmdata[,4:6], na.rm = T)
+# formula <- y ~ x
 
 
-PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>% filter(Variable != "Total") %>% 
-  ggplot(aes(Month, Value, color = Variable, fill = Variable)) + geom_col() + geom_line() + facet_grid(Variable ~ Year) + 
-  theme_bw() + ggtitle("PGE Fish Count Data") + labs(y = "Number of Fish Captured") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
 
+basiclm <- lm(Total ~ `Temperature`*as.factor(Season), data = lmdata)
+summary(basiclm)
+
+fixed <- plm(Total ~ Temperature, 
+             data = lmdata, index = c("Season", "Year"), model = "within")
+fixed.time <- plm(Total ~ Temperature + I(Temperature^2) + factor(Year) - 1, 
+                  data = lmdata, index = c("Season", "Year"), model = "within")
+summary(fixed.time)
+pFtest(fixed.time, fixed)
+plmtest(fixed, c("time"), type = "bp")
+
+
+
+
+
+
+
+#Plots rainbow trout, hatchery steelhead, hatchery spring chinook, fall chinook for PGE Data by Season and Year
+# PGEFishDataGathered <- PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month)
+# PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>%
+#   filter(Variable == c("Hatchery Summer Steelhead","Hatchery Spring Chinook", "Fall Chinook", "Rainbow Trout")) %>%
+#   ggplot(aes(Season, as.numeric(Value), color = Variable, fill = Variable)) + geom_col() + facet_grid(Variable ~ Year) +
+#   theme_bw() + ggtitle("PGE Fish Count Data") + labs(y = "Number of Fish Captured") +
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5),
+#         plot.title = element_text(hjust = 0.5),
+#         legend.title = element_blank())
+
+#Overplot of all variables by Season and Year from PGE data
+# PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>%
+#   ggplot(aes(Season, as.numeric(Value), color = Variable, fill = Variable)) + geom_col() + facet_grid(Variable ~ Year) +
+#   theme_bw() + ggtitle("PGE Fish Count Data") + labs(y = "Number of Fish Captured") +
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5),
+#         plot.title = element_text(hjust = 0.5),
+#         legend.title = element_blank())
+
+
+# Plot of Fall and Summer ODFW Fish Data by Column
 # formula <- y ~ x + I(x^2)
 # MergedFishData %>% filter(Year < 2014 & Season != "Spring") %>% group_by(Year) %>% ggplot(aes(x = Year, y = Total, fill = Season, color = Season)) +
-#   geom_col(show.legend = F, position = "dodge") + geom_smooth(method = "lm", formula = formula, show.legend = F, color = "black") + 
+#   geom_col(show.legend = F, position = "dodge") + geom_smooth(method = "lm", formula = formula, show.legend = F, color = "black") +
 #   geom_vline(aes(xintercept = 2014), linetype = "dashed") +
 #   facet_wrap( ~ Season) +
 #   stat_poly_eq(aes(label = ..eq.label..), method = "lm", parse = T, formula = formula)
+
+# Season interaction term plot
+# ggplot(data = lmdata, aes(x = Year, y = Total, color = Season)) + geom_point(aes(x = Year, y = Total)) + 
+#   geom_line(aes(x = Year, y = `Temperature`), color = "red", size = 10) +
+#   geom_smooth(method = "lm", se = F, formula = formula) + facet_wrap( ~ Season) +
+#   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T, angle = -30) 
+
+
+
 
 # allusgsdata3 <- allusgsdata2 %>% filter(Location == "Madras") %>% select("Date_time","Mean Temperature") 
 # MergedFishData <- MergedFishData %>% left_join(allusgsdata3, by = "Date_time") %>% arrange(Date_time) Run if you want temperature data as well, left_join recommended
