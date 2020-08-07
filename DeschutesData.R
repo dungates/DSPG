@@ -676,10 +676,12 @@ allusgsdata2 <- allusgsdata2 %>% mutate(lat = case_when(Location == "Madras" ~ c
   mutate(long = case_when(Location == "Madras" ~ c(-120.90444444), Location == "Moody" ~ c(-121.24583333)))
 
 # allusgsdata2 <- allusgsdata2 %>% mutate(Yearagain = paste(Date_time[1:4], "/", Year, sep = "")) this doesn't work
-MadrasDataMedians <- allusgsdata2 %>% filter(Location == "Madras") %>% group_by(Year) %>% 
-  summarize(median = median(`Mean Temperature`, na.rm = T), medianDate = ) %>% 
-  filter(Year == 1953 | Year == 1956 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019) %>% 
-  mutate(lab = paste("Median = ", median))
+MadrasDataMedians <- allusgsdata2 %>% filter(Location == "Madras") %>% group_by(Year, Season) %>% 
+  summarize(median = median(`Temperature`, na.rm = T), mean = mean(`Temperature`, na.rm = T)) %>% 
+  filter(Year == 1953 | Year == 1956 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019)
+MadrasDataMedians %>% ggplot(aes(Season, mean)) + geom_bar(aes(fill = as.factor(Year)), position = "dodge", stat = "identity") + 
+  labs(y = "Mean", fill = "Year") + scale_fill_brewer(palette = "Dark2") + theme_bw()
+
 MadrasDataMedians$x = as.Date(c("1953-06-15",
                                  "1956-06-15",
                                  "2008-06-15",
@@ -777,11 +779,13 @@ ODFWData <- ODFWData %>% mutate(Season = getSeason(Date_time))
 ODFWData <- ODFWData[,c(4,1,2,7,3,5,6)] #Reordering data, note that overwhelming majority of fish occurrence is in summer, about a third as much in fall - basically none in spring
 
 
+ODFWData2 <- ODFWData %>% gather(Variable, Value, -c("Date_time", "Year","Season","Month"))
 
 #Plot by season and species of ODFW Data before merge
-ODFWData %>% gather(Variable, Value, -c("Date_time", "Year","Season","Month")) %>%
-  ggplot(aes(Date_time, Value, color = Variable)) + geom_line() + facet_wrap(Variable ~ Season) + theme_bw() +
-  ggtitle("Monthly ODFW Data at Sherar Falls") + labs(x = "Date", y = "Fish Count", color = "Species") + 
+ODFWData %>% gather(Variable, Value, -c("Date_time", "Year","Season","Month")) %>% filter(Season != "Spring") %>%
+  ggplot(aes(Date_time, Value, color = Variable)) + geom_line(show.legend = F) + facet_grid(Variable ~ Season) + theme_bw() +
+  ggtitle("Seasonal ODFW Data at Sherars Falls") + labs(x = "Date", y = "Fish Count", color = "Species") + 
+  geom_vline(aes(xintercept = as.Date("2010-01-01")), linetype = "dashed") +
   theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
         axis.title.y.right = element_text(color = fishColor, size = 13), 
         plot.title = element_text(hjust = 0.5))
@@ -792,8 +796,8 @@ fishCounts$Year <- year(fishCounts$Date)
 fishCounts$Season <- getSeason(fishCounts$Date)
 fishCounts <- fishCounts %>% mutate(Month = month(Date, label = T, abbr = F))
 
-fishCounts %>% gather(Variable, Value, -Date, -Year, -Season) %>% filter(Variable != "Total") %>% 
-  ggplot(aes(Date, Value, color = Variable)) + geom_point() + geom_line() + facet_grid(Year ~ Variable)
+fishCounts %>% gather(Variable, Value, -Date, -Year, -Season, -Month) %>% filter(Variable != "Total") %>% 
+  ggplot(aes(Month, Value, color = Variable, fill = Variable)) + geom_col() + geom_line() + facet_grid(Variable ~ Year) #Decent visualizationn
 
 
 #ANOVA TEST
@@ -948,7 +952,7 @@ steelheadFinaldf %>% gather(Variable, Value, -steelheadListInitial) %>%
          grepl("Total", Variable) ~ "Total Hatchery", grepl("Stray", Variable) ~ "Stray Hatchery")) %>% 
   ggplot(aes(x = Year, y = Value, color = Variable)) + facet_wrap( ~ Estimates) +
   geom_line() + geom_point() +
-  ggtitle("Sherar Falls Trap Data") + theme_bw() + labs(y = "Fish Count") +
+  ggtitle("sherarsFalls Trap Data") + theme_bw() + labs(y = "Fish Count") +
   theme(plot.title = element_text(hjust = 0.5),
         legend.position = "none")
   
@@ -960,7 +964,7 @@ steelheadFinaldf <- steelheadFinaldf %>% mutate(`Proportion of Estimated to Capt
 steelheadFinaldf %>% gather(Variable, Value, -steelheadListProp) %>% ggplot(aes(x = Year, y = Value, color = Variable)) + 
   geom_line(show.legend = F) + 
   geom_point(show.legend = F) + facet_wrap( ~ Variable) +
-  ggtitle("Sherar Falls Trap Data by Proportions")
+  ggtitle("sherarsFalls Trap Data by Proportions")
 
 ### READING IN ODEQ Data - mostly useless
 # allodeqData <- read.csv("Standard Export 11365.csv")

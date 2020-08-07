@@ -12,99 +12,128 @@
 # Data from that one website at Sherar Falls that is also ODFW data, collected by Jason and Rod
 
 ## PGE Data from Erica
-path <- "Rereg Sonde Data 2004-2006_ 2010-2017.xlsx"
-mad <- path %>% excel_sheets() %>% set_names() %>% map_df(read_excel, path = path)
-mad$Time <- as.character(mad$Time)
-mad <- mad %>% mutate(Time = sub(".* ", "", Time))
-# test <- mad[is.na(mad$Time), ] 2010-07-31,2011-05-08,2015-05-01,2015-11-02 don't have times
-newpgeData <- mad %>% mutate(Date_time = paste(Date, Time))
-newpgeData$Date_time <- ymd_hms(newpgeData$Date_time)
-newpgeData <- subset(newpgeData, select = -c(Date, Time))
-colnames(newpgeData) <- c("Temperature", "Dissolved Oxygen mg/l", "Dissolved Oxygen % Saturation", "pH", "Date_time")
-newpgeData <- newpgeData %>% mutate(Season = getSeason(Date_time)) %>% mutate(Julian = yday(Date_time)) %>% mutate(Year = year(Date_time))
+# path <- "Rereg Sonde Data 2004-2006_ 2010-2017.xlsx"
+# mad <- path %>% excel_sheets() %>% set_names() %>% map_df(read_excel, path = path)
+# mad$Time <- as.character(mad$Time)
+# mad <- mad %>% mutate(Time = sub(".* ", "", Time))
+# # test <- mad[is.na(mad$Time), ] 2010-07-31,2011-05-08,2015-05-01,2015-11-02 don't have times
+# newpgeData <- mad %>% mutate(Date_time = paste(Date, Time))
+# newpgeData$Date_time <- ymd_hms(newpgeData$Date_time)
+# newpgeData <- subset(newpgeData, select = -c(Date, Time))
+# colnames(newpgeData) <- c("Temperature", "Dissolved Oxygen mg/l", "Dissolved Oxygen % Saturation", "pH", "Date_time")
+# newpgeData <- newpgeData %>% mutate(Season = getSeason(Date_time)) %>% mutate(Julian = yday(Date_time)) %>% mutate(Year = year(Date_time))
+
+newpgeData <- read_csv("newpgeData.csv", col_types = cols(Season = col_factor()))
+
 
 ## PGE Data from website
-df <- read_excel("pge-water-chemistry-2015-2017.xlsx")
-df2 <- df %>% mutate(new = paste(Parameter, "in", Units))
-# Deleting columns that were just pasted
-df3 <- subset(df2, select = -c(Units, Parameter))
-# Subsetting out what appears to be additional measurements that are similar enough to be irrelevant
-df4 <- df3[-c(2525,2524,2253,2254,1982,1983,1711,1712,1441,1442),]
+# df <- read_excel("pge-water-chemistry-2015-2017.xlsx")
+# df2 <- df %>% mutate(new = paste(Parameter, "in", Units))
+# # Deleting columns that were just pasted
+# df3 <- subset(df2, select = -c(Units, Parameter))
+# # Subsetting out what appears to be additional measurements that are similar enough to be irrelevant
+# df4 <- df3[-c(2525,2524,2253,2254,1982,1983,1711,1712,1441,1442),]
 
 # Spreading data by Value and then renaming the columns, deleting station ID
-oldpgeData <- spread(df4, new, Value)
-oldpgeData$`Station ID` <- NULL
-colnames(oldpgeData)[7] <- c("Temperature")
-colnames(oldpgeData)[1] <- c("Location")
-colnames(oldpgeData)[2] <- c("Date_time")
+# oldpgeData <- spread(df4, new, Value)
+# oldpgeData$`Station ID` <- NULL
+# colnames(oldpgeData)[7] <- c("Temperature")
+# colnames(oldpgeData)[1] <- c("Location")
+# colnames(oldpgeData)[2] <- c("Date_time")
 
+oldpgeData <- read_csv("oldpgeData.csv")
+oldpgeData$Date_time <- ymd(oldpgeData$Date_time)
 
 ## USGS Data
-MadrasGageData <- read.table("MadrasTemperatureData.txt", header = T, fill = T, sep = "\t")
-MoodyGageData <- read.table("MoodyTemperatureData.txt", header = T, fill = T, sep = "\t")
+# MadrasGageData <- read.table("MadrasTemperatureData.txt", header = T, fill = T, sep = "\t")
+# MoodyGageData <- read.table("MoodyTemperatureData.txt", header = T, fill = T, sep = "\t")
+# 
+# MadrasGageData <- MadrasGageData %>% mutate(Location = "Madras")
+# MadrasGageData$X113433_00010_00001_cd <- NULL
+# MadrasGageData$X113434_00010_00002_cd <- NULL
+# MadrasGageData$X113435_00010_00003_cd <- NULL # Subsetting out approval columns since data is already quality controlled
+# MadrasGageData$X113436_00060_00003_cd <- NULL
+# colnames(MadrasGageData) <- c("Agency", "Site", "Date_time", "Max Temperature", "Min Temperature", "Mean Temperature", 
+#                               "Discharge (cfs)", "Location")
+# MadrasGageData <- MadrasGageData %>% mutate(`Mean Temperature` = case_when(is.na(`Mean Temperature`) ~ 
+#                                                                              (`Max Temperature` + `Min Temperature`) / 2,
+#                                                                            !is.na(`Mean Temperature`) ~ `Mean Temperature`))
+# 
+# MoodyGageData <- MoodyGageData %>% mutate(Location = "Moody")
+# MoodyGageData$X113455_00010_00001_cd <- NULL
+# MoodyGageData$X113456_00010_00002_cd <- NULL
+# MoodyGageData$X113457_00010_00003_cd <- NULL
+# MoodyGageData$X113458_00060_00003_cd <- NULL
+# MoodyGageData$X265533_00010_00011_cd <- NULL
+# colnames(MoodyGageData) <- c("Agency", "Site", "Date_time", "Max Temperature", "Min Temperature", "Mean Temperature", 
+#                              "Discharge (cfs)", "Instantaneous Temperature", "Location")
+# MoodyGageData <- MoodyGageData %>% mutate(`Mean Temperature` = coalesce(`Instantaneous Temperature`, `Mean Temperature`))
+# MoodyGageData$`Instantaneous Temperature` <- NULL
+# MoodyGageData <- MoodyGageData %>% mutate(`Mean Temperature` = case_when(is.na(`Mean Temperature`) ~ 
+#                                                                            (`Max Temperature` + `Min Temperature`) / 2,
+#                                                                          !is.na(`Mean Temperature`) ~ `Mean Temperature`))
+# 
+# allusgsdata2 <- rbind(MadrasGageData, MoodyGageData)
+# allusgsdata2$Year <- four.digit.year(as.POSIXct(allusgsdata2$Date_time, format = "%m/%d/%y"), year = 1951) #lubridate is set in 1970 gotta transform data
+# allusgsdata2$Date_time <- mdy(allusgsdata2$Date_time)
+# allusgsdata2 <- allusgsdata2 %>% 
+#   mutate(Date_time = case_when(year(Date_time) > 2021 ~ 'year<-'(Date_time, Year), TRUE ~ Date_time))
+# allusgsdata2 <- allusgsdata2 %>% mutate(Season = getSeason(Date_time)) %>% mutate(Julian = yday(Date_time))
+# allusgsdata2 <- subset(allusgsdata2, select = -c(Agency, Site, `Min Temperature`, `Max Temperature`)) # Run if you don't want min or max temp
+# colnames(allusgsdata2)[2] = "Temperature"
 
-MadrasGageData <- MadrasGageData %>% mutate(Location = "Madras")
-MadrasGageData$X113433_00010_00001_cd <- NULL
-MadrasGageData$X113434_00010_00002_cd <- NULL
-MadrasGageData$X113435_00010_00003_cd <- NULL # Subsetting out approval columns since data is already quality controlled
-MadrasGageData$X113436_00060_00003_cd <- NULL
-colnames(MadrasGageData) <- c("Agency", "Site", "Date_time", "Max Temperature", "Min Temperature", "Mean Temperature", 
-                              "Discharge (cfs)", "Location")
-MadrasGageData <- MadrasGageData %>% mutate(`Mean Temperature` = case_when(is.na(`Mean Temperature`) ~ 
-                                                                             (`Max Temperature` + `Min Temperature`) / 2,
-                                                                           !is.na(`Mean Temperature`) ~ `Mean Temperature`))
-
-MoodyGageData <- MoodyGageData %>% mutate(Location = "Moody")
-MoodyGageData$X113455_00010_00001_cd <- NULL
-MoodyGageData$X113456_00010_00002_cd <- NULL
-MoodyGageData$X113457_00010_00003_cd <- NULL
-MoodyGageData$X113458_00060_00003_cd <- NULL
-MoodyGageData$X265533_00010_00011_cd <- NULL
-colnames(MoodyGageData) <- c("Agency", "Site", "Date_time", "Max Temperature", "Min Temperature", "Mean Temperature", 
-                             "Discharge (cfs)", "Instantaneous Temperature", "Location")
-MoodyGageData <- MoodyGageData %>% mutate(`Mean Temperature` = coalesce(`Instantaneous Temperature`, `Mean Temperature`))
-MoodyGageData$`Instantaneous Temperature` <- NULL
-MoodyGageData <- MoodyGageData %>% mutate(`Mean Temperature` = case_when(is.na(`Mean Temperature`) ~ 
-                                                                           (`Max Temperature` + `Min Temperature`) / 2,
-                                                                         !is.na(`Mean Temperature`) ~ `Mean Temperature`))
-
-allusgsdata2 <- rbind(MadrasGageData, MoodyGageData)
-allusgsdata2$Year <- four.digit.year(as.POSIXct(allusgsdata2$Date_time, format = "%m/%d/%y"), year = 1951) #lubridate is set in 1970 gotta transform data
-allusgsdata2$Date_time <- mdy(allusgsdata2$Date_time)
-allusgsdata2 <- allusgsdata2 %>% 
-  mutate(Date_time = case_when(year(Date_time) > 2021 ~ 'year<-'(Date_time, Year), TRUE ~ Date_time))
-allusgsdata2 <- allusgsdata2 %>% mutate(Season = getSeason(Date_time)) %>% mutate(Julian = yday(Date_time))
-allusgsdata2 <- subset(allusgsdata2, select = -c(Agency, Site, `Min Temperature`, `Max Temperature`)) # Run if you don't want min or max temp
-colnames(allusgsdata2)[2] = "Temperature"
-MadrasMergeData <- allusgsdata2 %>% filter(Location == "Madras") %>% select(-`Discharge (cfs)`)
-
-
+USGSData <- read_csv("USGSData.csv", col_types = cols(Season = col_factor()))
+# Just Madras temperature data which is largely what we use
+MadrasMergeData <- USGSData %>% filter(Location == "Madras") %>% select(-`Discharge (cfs)`)
 
 ## ODEQ Data
-allodeqData <- read.csv("Standard Export 11365.csv")
-
-allodeqData <- allodeqData %>% select("Result.Value", "Result.Unit", "Characteristic.Name","Monitoring.Location.Name",
-                                      "Monitoring.Location.Latitude",	"Monitoring.Location.Longitude","Activity.Start.Date")
-allodeqData <- allodeqData %>% mutate(new = paste(Characteristic.Name, "in", Result.Unit))
-allodeqData <- subset(allodeqData, select = -c(Characteristic.Name, Result.Unit))
-allodeqData <- as.data.frame(sapply(allodeqData, gsub, pattern = "<|>", replacement = ""))
-allodeqData$Result.Value <- as.numeric(as.character(allodeqData$Result.Value))
-allodeqData1 <- pivot_wider(allodeqData, names_from = new, values_from = Result.Value, values_fn = max)
-colnames(allodeqData1) <- c("Location","Lat","Long","Date_time","pH","Dissolved Oxygen % Saturation","Temperature","Dissolved Oxygen mg/l",
-                            "Biochemical Oxygen Demand", "Total Coliform", "Total Solids", "Ammonia", "Nitrate + Nitrite",
-                            "Escherichiac in cfu/100ml", "Escherichia in MPN/100ml")
-allodeqData1$Date_time <- mdy(allodeqData1$Date_time)
-allodeqData1 <- allodeqData1 %>% mutate(Year = year(Date_time))
-allodeqDataFinal <- allodeqData1 %>% select(-c(Lat, Long)) %>% mutate(Season = getSeason(Date_time), Julian = yday(Date_time))
+# allodeqData <- read.csv("Standard Export 11365.csv")
+# 
+# allodeqData <- allodeqData %>% select("Result.Value", "Result.Unit", "Characteristic.Name","Monitoring.Location.Name",
+#                                       "Monitoring.Location.Latitude",	"Monitoring.Location.Longitude","Activity.Start.Date")
+# allodeqData <- allodeqData %>% mutate(new = paste(Characteristic.Name, "in", Result.Unit))
+# allodeqData <- subset(allodeqData, select = -c(Characteristic.Name, Result.Unit))
+# allodeqData <- as.data.frame(sapply(allodeqData, gsub, pattern = "<|>", replacement = ""))
+# allodeqData$Result.Value <- as.numeric(as.character(allodeqData$Result.Value))
+# allodeqData1 <- pivot_wider(allodeqData, names_from = new, values_from = Result.Value, values_fn = max)
+# colnames(allodeqData1) <- c("Location","Lat","Long","Date_time","pH","Dissolved Oxygen % Saturation","Temperature","Dissolved Oxygen mg/l",
+#                             "Biochemical Oxygen Demand", "Total Coliform", "Total Solids", "Ammonia", "Nitrate + Nitrite",
+#                             "Escherichiac in cfu/100ml", "Escherichia in MPN/100ml")
+# allodeqData1$Date_time <- mdy(allodeqData1$Date_time)
+# allodeqData1 <- allodeqData1 %>% mutate(Year = year(Date_time))
+# allodeqDataFinal <- allodeqData1 %>% select(-c(Lat, Long)) %>% mutate(Season = getSeason(Date_time), Julian = yday(Date_time))
+ODEQData <- read_csv("ODEQData.csv", col_types = cols(Season = col_factor()))
 
 ## ODFW Data
-ODFWData <- read.csv("ODFWData.csv")
+ODFWData <- read_csv("ODFWData.csv", col_types = cols(Season = col_factor()))
 
 ## PGE Fish Data
-fishCounts <- read.csv("adult counts deschutes PGE 2014-2020.csv")
+PGEFishData <- read_csv("PGEFishData.csv", 
+                 col_names = c("Date_time", "Hatchery Summer Steelhead", "Summer Steelhead","Summer Steelhead RM", 
+                               "Summer Steelhead LM", "Hatchery Spring Chinook", "Wild Spring Chinook","Spring Chinook RM", 
+                               "Spring Chinook LM", "No Mark Sockeye", "Sockeye RM", "Sockeye LM", "Fall Chinook","Bull Trout", 
+                               "Rainbow Trout", "Total", "Year", "Season", "Month"), 
+                 col_types = cols(Season = col_factor(), Date_time = col_datetime()))[2:959,]
+PGEFishData$Date_time <- ymd(PGEFishData$Date_time)
 
 ## Merged fish data with temperature
 MergedFishData <- read.csv("AllFishData.csv")
+MergedFishData$X <- NULL
+MergedFishData$Total <- rowSums(MergedFishData[,2:16], na.rm = T)
+
+
+
+PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>% filter(Variable != "Total") %>% 
+  ggplot(aes(Month, Value, color = Variable, fill = Variable)) + geom_col() + geom_line() + facet_grid(Variable ~ Year) + 
+  theme_bw() + ggtitle("PGE Fish Count Data") + labs(y = "Number of Fish Captured") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+
+# formula <- y ~ x + I(x^2)
+# MergedFishData %>% filter(Year < 2014 & Season != "Spring") %>% group_by(Year) %>% ggplot(aes(x = Year, y = Total, fill = Season, color = Season)) +
+#   geom_col(show.legend = F, position = "dodge") + geom_smooth(method = "lm", formula = formula, show.legend = F, color = "black") + 
+#   geom_vline(aes(xintercept = 2014), linetype = "dashed") +
+#   facet_wrap( ~ Season) +
+#   stat_poly_eq(aes(label = ..eq.label..), method = "lm", parse = T, formula = formula)
 
 # allusgsdata3 <- allusgsdata2 %>% filter(Location == "Madras") %>% select("Date_time","Mean Temperature") 
 # MergedFishData <- MergedFishData %>% left_join(allusgsdata3, by = "Date_time") %>% arrange(Date_time) Run if you want temperature data as well, left_join recommended
