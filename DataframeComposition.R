@@ -98,5 +98,13 @@ allodeqData1 <- allodeqData1 %>% mutate(Year = year(Date_time))
 allodeqDataFinal <- allodeqData1 %>% select(-c(Lat, Long)) %>% mutate(Season = getSeason(Date_time), Julian = yday(Date_time))
 
 ## ODFW Data
+ODFWData <- read.csv("ODFWData.csv")
 
+## PGE Fish Data
+fishCounts <- read.csv("adult counts deschutes PGE 2014-2020.csv")
 
+## Merged fish data with temperature
+MergedFishData <- read.csv("AllFishData.csv")
+
+# allusgsdata3 <- allusgsdata2 %>% filter(Location == "Madras") %>% select("Date_time","Mean Temperature") 
+# MergedFishData <- MergedFishData %>% left_join(allusgsdata3, by = "Date_time") %>% arrange(Date_time) Run if you want temperature data as well, left_join recommended

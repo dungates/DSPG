@@ -812,15 +812,16 @@ colnames(fishandtempdfMadras) <- c("Date_time","Mean Temperature","Year","Season
                                    "Bull Trout", "Rainbow Trout", "Total")
 fishandtempdfMadras <- fishandtempdfMadras %>% mutate(Month = month(Date_time, label = T, abbr = F))
 
-ODFWData1 <- ODFWData %>% filter(Year < 2014)
+ODFWData1 <- ODFWData %>% filter(Year < 2014) %>% mutate(Source = "ODFW")
+fishCounts <- fishCounts %>% mutate(Source = "PGE")
 fullfishandtemp <- fishCounts %>% 
-  full_join(ODFWData1, by = c("Date" = "Date_time","Season","Year","Month",
+  full_join(ODFWData1, by = c("Date" = "Date_time","Season","Year","Month","Source",
                               "SUMMER.STEELHEAD_Hatchery" = "Hatchery Summer Steelhead", "SUMMER.STEELHEAD_Wild" = "Wild Summer Steelhead",
                               "Fall.Chinook" = "Fall Chinook")) %>% arrange(Date)
 colnames(fullfishandtemp) <- c("Date_time","Hatchery Summer Steelhead","Wild Summer Steelhead",
                                    "Summer Steelhead RM", "Summer Steelhead LM", "Hatchery Spring Chinook", "Wild Spring Chinook",
                                    "Spring Chinook RM", "Spring Chinook LM","No Mark Sockeye", "Sockeye RM", "Sockeye LM", "Fall Chinook",
-                                   "Bull Trout", "Rainbow Trout", "Total", "Year", "Season", "Month")
+                                   "Bull Trout", "Rainbow Trout", "Total", "Year", "Season", "Month", "Source")
 
 allusgsdata3 <- allusgsdata2 %>% filter(Location == "Madras") %>% select("Date_time","Mean Temperature") 
 fullfishandtemp1 <- fullfishandtemp %>% left_join(allusgsdata3, by = "Date_time") %>% arrange(Date_time)
@@ -834,7 +835,7 @@ fullfishandtemp1 %>% gather(Variable, Value, -c("Date_time", "Year","Season","Mo
   ggtitle("Fish Count data by Species") + labs(x = "Date", y = "Fish Count", color = "Species") + 
   theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
         axis.title.y.right = element_text(color = fishColor, size = 13), 
-        plot.title = element_text(hjust = 0.5))
+        plot.title = element_text(hjust = 0.5)) + stat_poly_eq(formula = y ~ x + I(x^2) + I(x^3),aes(label = ..adj.rr.label..), parse = T)
 
 summary(lm(`Hatchery Summer Steelhead` ~ poly(Year,2), data = fullfishandtemp1))
 summary(lm(`Hatchery Summer Steelhead` ~ poly(Year,3), data = fullfishandtemp1))
@@ -876,12 +877,14 @@ fishandtempdfMadras %>% gather(Variable, Value, -Date_time, -Year, -Season, -`Me
 #   facet_wrap( ~ Variable, scales = "free") + theme_bw()
 
 # Linear models for Madras and Moody
-fishtempmodelMadras <- lm(log(Total) ~ `Mean Temperature`*as.factor(Year), data = fishandtempdfMadras)
+fishtempmodelMadras <- lm(log(Total) ~ `Mean Temperature`, data = fishandtempdfMadras)
 fishtempmodelMoody <- lm(Total ~ `Mean Temperature`, data = fishandtempdfMoody)
 summary(fishtempmodelMadras) # For every 2.53 degree celsius decrease in temperature there is a corresponding increase of 1 total fish count
 summary(fishtempmodelMoody) # For every 1.9 degree celsius decrease in temperature there is a corresponding increase of 1 total fish count
 
-
+formula <- log(y) ~ poly(x, raw = T)
+ggplot(data = fishandtempdfMadras, aes(x = `Mean Temperature`, y = Total)) + geom_point() + geom_smooth(method = "lm", formula = formula) +
+  stat_poly_eq(aes(label = ..adj.rr.label..), formula = formula, parse = T)
 
 
 totalsumoffish <- fishandtempdfMadras %>% group_by(Year) %>% select(-Date_time, -Season) %>% replace(is.na(.), 0) %>% summarise_all(funs(sum))
@@ -920,14 +923,15 @@ colnames(steelheadFinaldf) <- c("Year", "Number of Captured Wild Summer Steelhea
                                "Total Number of Captured Hatchery Summer Steelhead",
                                "Estimated Wild Summer Steelhead", "Estimated Round Butte Hatchery Summer Steelhead",
                                "Estimated Stray Hatchery Summer Steelhead", "Estimated Total Hatchery Summer Steelhead")
-write.csv(steelheadFinaldf, "AllSteelheadData.csv")
+
+
 
 
 # Working here
 
 #INITIAL STEELHEAD DATA PLOT
 steelheadListInitial <- c("Year", "Proportion of Estimated to Captured Total Hatchery", "Proportion of Estimated to Captured Stray Hatchery",
-                    "Proportion of Estimated to Captured Round Butte", "Proportion of Estimated to Captured Wild")
+                    "Proportion of Estimated to Captured Round Butte Hatchery", "Proportion of Estimated to Captured Wild")
 steelheadListProp <- c("Year",
                        "Number of Captured Wild Summer Steelhead",
                        "Number of Captured Round Butte Hatchery Summer Steelhead",
