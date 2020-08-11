@@ -86,7 +86,11 @@ USGSData <- read_csv("USGSData.csv", col_types = cols(Season = col_factor()))
 # Just Madras temperature data which is largely what we use
 MadrasMergeData <- USGSData %>% filter(Location == "Madras") %>% select(-`Discharge (cfs)`)
 MoodyMergeData <- USGSData %>% filter(Location == "Moody") %>% select(-`Discharge (cfs)`)
-
+MoodyMergeData <- MoodyMergeData %>% filter(!is.na(Temperature))
+MadrasMergeData <- MadrasMergeData %>% filter(!is.na(Temperature))
+#Could add PGE year 2004 here for slightly larger dataframe, below illustrates years of temperature data availability at Madras and Moody respectively
+# ggplot(data = MadrasMergeData, aes(x = Date_time, y = Temperature)) + geom_line()
+# ggplot(data = MoodyMergeData, aes(x = Date_time, y = Temperature)) + geom_line() 
 ## ODEQ Data
 # allodeqData <- read.csv("Standard Export 11365.csv")
 # 
@@ -105,6 +109,7 @@ MoodyMergeData <- USGSData %>% filter(Location == "Moody") %>% select(-`Discharg
 # allodeqDataFinal <- allodeqData1 %>% select(-c(Lat, Long)) %>% mutate(Season = getSeason(Date_time), Julian = yday(Date_time))
 ODEQData <- read_csv("ODEQData.csv", col_types = cols(Season = col_factor()))
 
+
 ## ODFW Data
 ODFWData <- read_csv("ODFWData.csv", col_types = cols(Season = col_factor()))
 
@@ -117,18 +122,27 @@ PGEFishData <- read_csv("PGEFishData.csv",
                  col_types = cols(Season = col_factor(), Date_time = col_datetime()))[2:959,]
 PGEFishData$Date_time <- ymd(PGEFishData$Date_time)
 
+### ODFW John Day
+JohnDayData <- read_csv("JohnDayReddCounts.csv")[1:13,1:17]
+# For data merge purposes
+JohnDayData <- JohnDayData %>% gather(Year, Value, -`Stream Name`, -`Site ID`)
+#Yearly total
+JohnDayData <- JohnDayData %>% group_by(Year) %>% mutate(Total = sum(Value, na.rm = T))
+
+
 ## Merged fish data with temperature
 MergedFishData <- read.csv("AllFishData.csv")
 MergedFishData$X <- NULL
 MergedFishData$Total <- rowSums(MergedFishData[,2:16], na.rm = T)
 
 # Run a regression that compares fish data pre-sww to post-sww from ODFWData
-# MadrasOLS <- MadrasMergeData %>% group_by(Year, Season) %>% summarize(`Temperature` = median(Temperature))
+# MadrasOLS <- MadrasMergeData %>% group_by(Year, Season) %>% summarize(`Temperature` = median(Temperature, na.rm = T))
 # MoodyOLS <- MoodyMergeData %>% group_by(Year, Season) %>% summarize(`Median Seasonal Temperature` = median(Temperature))
-# ols2data <- ODFWData %>% group_by(Year, Season) %>% summarize(`Fall Chinook` = sum(`Fall Chinook`), 
+# ols2data <- ODFWData %>% group_by(Year, Season) %>% summarize(`Fall Chinook` = sum(`Fall Chinook`),
 #                                                               `Hatchery Summer Steelhead` = sum(`Hatchery Summer Steelhead`),
 #                                                               `Wild Summer Steelhead` = sum(`Wild Summer Steelhead`))
-# lmdata <- MadrasOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976 & Season != "Winter")
+# lmdata <- MadrasOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976 & Season != "Winter" & Year != 2017 &
+#                                                                                   Year != 2020)
 # lmdata2 <- MoodyOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976)
 # lmdata$Total <- rowSums(lmdata[,4:6], na.rm = T)
 # lmdata2$Total <- rowSums(lmdata[,4:6], na.rm = T)
@@ -136,19 +150,24 @@ MergedFishData$Total <- rowSums(MergedFishData[,2:16], na.rm = T)
 
 
 
-basiclm <- lm(Total ~ `Temperature`*as.factor(Season), data = lmdata)
-summary(basiclm)
+# basiclm <- lm(Total ~ `Temperature`*as.factor(Season), data = lmdata)
+# summary(basiclm)
+# # 
+# fixed <- plm(Total ~ Temperature,
+#              data = lmdata, index = c("Season", "Year"), model = "within")
+# fixed.time <- plm(Total ~ Temperature + I(Temperature^2) + factor(Year) - 1,
+#                   data = lmdata, index = c("Season", "Year"), model = "within")
+# summary(fixed.time)
+# pFtest(fixed.time, fixed)
+# plmtest(fixed, c("time"), type = "bp")
 
-fixed <- plm(Total ~ Temperature, 
-             data = lmdata, index = c("Season", "Year"), model = "within")
-fixed.time <- plm(Total ~ Temperature + I(Temperature^2) + factor(Year) - 1, 
-                  data = lmdata, index = c("Season", "Year"), model = "within")
-summary(fixed.time)
-pFtest(fixed.time, fixed)
-plmtest(fixed, c("time"), type = "bp")
 
 
 
+# Curious about relationship between water temperature and other variables like pH and Dissolved Oxygen
+# summary(lm(Temperature ~ pH + `Dissolved Oxygen % Saturation`, data = ODEQData))
+# ggplot(data = ODEQData, aes(x = pH, y = Temperature)) + geom_point() + geom_smooth(method = "lm", formula = formula) + 
+#   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T)
 
 
 
@@ -180,14 +199,18 @@ plmtest(fixed, c("time"), type = "bp")
 #   facet_wrap( ~ Season) +
 #   stat_poly_eq(aes(label = ..eq.label..), method = "lm", parse = T, formula = formula)
 
-# Season interaction term plot
-# ggplot(data = lmdata, aes(x = Year, y = Total, color = Season)) + geom_point(aes(x = Year, y = Total)) + 
-#   geom_line(aes(x = Year, y = `Temperature`), color = "red", size = 10) +
-#   geom_smooth(method = "lm", se = F, formula = formula) + facet_wrap( ~ Season) +
-#   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T, angle = -30) 
+# Season interaction term plot shows the lack of data we are struggling with
+# ggplot(data = lmdata, aes(x = Year, y = Total, color = Season)) + geom_point(aes(x = Year, y = Total)) +
+#   geom_point(aes(x = Year, y = `Temperature`), color = "red", size = 3) +
+#   geom_smooth(method = "lm", se = F, formula = formula) + facet_wrap( ~ Season) + geom_vline(aes(xintercept = 2010)) +
+#   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T, angle = -30)
 
 
-
+# Structural break in a time series, test for break in progression that lines up with installation of SWW, allow for different intercept
+# term after installation, dummy variable equal to 1 if after 2010, and 0 if before
+# Put dummy variable in regression and see if statistically significanct and/or coefficient is bigger
+# Says there is a different level in outcome of before and after controlling for quadratic trend
+# Interact dummy variable with months, tells if difference in trend after installation
 
 # allusgsdata3 <- allusgsdata2 %>% filter(Location == "Madras") %>% select("Date_time","Mean Temperature") 
 # MergedFishData <- MergedFishData %>% left_join(allusgsdata3, by = "Date_time") %>% arrange(Date_time) Run if you want temperature data as well, left_join recommended

@@ -982,10 +982,10 @@ steelheadFinaldf %>% gather(Variable, Value, -steelheadListProp) %>% ggplot(aes(
 # allodeqData1$Date_time <- mdy(allodeqData1$Date_time)
 # allodeqData1 <- allodeqData1 %>% mutate(Year = year(Date_time))
 # 
-# allodeqData1 %>% filter(Location == "Deschutes River at Deschutes River Park" | Location == "John Day River at Hwy 206" | 
-#                           Location == "Deschutes River at Maupin") %>%
-#   ggplot(aes(x = Date_time, y = Temperature, color = Location)) + geom_point(show.legend = F) +
-#   geom_line(show.legend = F) + facet_wrap( ~ Location, ncol = 1)
+allodeqData1 %>% filter(Location == "Deschutes River at Deschutes River Park" | Location == "John Day River at Hwy 206" |
+                          Location == "Deschutes River at Maupin") %>%
+  ggplot(aes(x = Date_time, y = Temperature, color = Location)) + geom_point(show.legend = F) +
+  geom_line(show.legend = F) + facet_wrap( ~ Location, ncol = 1)
 
 
 ### Reading in new PGE data
@@ -1022,7 +1022,6 @@ ggplot(newpgeData, aes(x = Date_time, y = Temperature)) + geom_line(color = "blu
 #   geom_line(data = df6, aes(x = Date_time, y = Temperature), color = "red") + 
 #   geom_line(data = testforsimilarity, aes(x = as.POSIXct(Date_time), y = `Mean Temperature`), color = "blue")
 # Showing that PGE data is essentially the same from 2015-2017 and new data and USGS data
-
 
 
 
