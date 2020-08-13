@@ -147,21 +147,6 @@ JohnDayData3 %>% filter(Measure != "#H", Measure != "Num_H") %>%
             size = 3,
             nudge_x = 0.5) + guides(color = "none") + coord_cartesian(xlim = c(2003, 2022))
 
-### Recreating Proportion slide 21 from presentation, regress with deschutes population
-Year <- c(1997:2012)
-Proportion <- c(275,364,353,341,414,254,277,406,383,239,115,120,145,90,156,31)
-80/405
-RealDF <- data.frame(Year, Proportion)
-RealDF <- RealDF %>% mutate(Proportion = (Proportion * 0.1975309) + 16.642)
-
-lm1 <- lm(pHOSObserved ~ log(Num_H) + `PercentHBarged`, data = JohnDayData2)
-lm2 <- lm(pHOSObserved ~ log(Num_H) + `PercentWBarged`, data = JohnDayData2)
-lm3 <- lm(pHOSObserved ~ propTransported + log(num_H), data = JohnDayData2) # We still need data for proportion transported here
-stargazer(lm1, lm2, type = "text") # Check slide 20 for source on regression
-# Next going to use ODFWData and Summer Hatchery Steelhead correlated with proportion transported from McCann et al. 
-# 
-
-
 
 
 
@@ -249,3 +234,27 @@ MergedFishData$Total <- rowSums(MergedFishData[,2:16], na.rm = T)
 
 # allusgsdata3 <- allusgsdata2 %>% filter(Location == "Madras") %>% select("Date_time","Mean Temperature") 
 # MergedFishData <- MergedFishData %>% left_join(allusgsdata3, by = "Date_time") %>% arrange(Date_time) Run if you want temperature data as well, left_join recommended
+
+
+
+
+
+### Recreating Proportion slide 21 from presentation, regress with deschutes population
+Year <- c(1997:2012)
+Proportion <- c(275,364,353,341,414,254,277,406,383,239,115,120,145,90,156,31)
+80/405
+RealDF <- data.frame(Year, Proportion)
+RealDF <- RealDF %>% mutate(Proportion = (Proportion * 0.1975309) + 16.642)
+testdf <- RealDF %>% left_join(ODFWData, by = c("Year"))
+testdf2 <- testdf %>% distinct(HSS, .keep_all = T)
+summary(lm(HSS ~ I(Proportion^2), data = testdf2))
+formula = y ~ I(x^2)
+ggplot(testdf2, aes(Proportion, HSS)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
+  stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T)
+w
+lm1 <- lm(pHOSObserved ~ log(Num_H) + `PercentHBarged`, data = JohnDayData2)
+lm2 <- lm(pHOSObserved ~ log(Num_H) + `PercentWBarged`, data = JohnDayData2)
+lm3 <- lm(pHOSObserved ~ propTransported + log(num_H), data = JohnDayData2) # We still need data for proportion transported here
+stargazer(lm1, lm2, type = "text") # Check slide 20 for source on regression
+# Next going to use ODFWData and Summer Hatchery Steelhead correlated with proportion transported from McCann et al. 
+# 
