@@ -247,11 +247,11 @@ RealDF <- data.frame(Year, Proportion)
 RealDF <- RealDF %>% mutate(Proportion = (Proportion * 0.1975309) + 16.642)
 testdf <- RealDF %>% left_join(ODFWData, by = c("Year"))
 testdf2 <- testdf %>% distinct(HSS, .keep_all = T)
-summary(lm(HSS ~ I(Proportion^2), data = testdf2))
+summary(lm(HSS ~ Proportion + I(Proportion^2) + I(Proportion^3), data = testdf2))
 formula = y ~ I(x^2)
 ggplot(testdf2, aes(Proportion, HSS)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T)
-w
+
 lm1 <- lm(pHOSObserved ~ log(Num_H) + `PercentHBarged`, data = JohnDayData2)
 lm2 <- lm(pHOSObserved ~ log(Num_H) + `PercentWBarged`, data = JohnDayData2)
 lm3 <- lm(pHOSObserved ~ propTransported + log(num_H), data = JohnDayData2) # We still need data for proportion transported here
