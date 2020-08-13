@@ -146,8 +146,29 @@ JohnDayData3 %>% filter(Measure != "#H", Measure != "Num_H") %>%
             hjust = 0,
             size = 3,
             nudge_x = 0.5) + guides(color = "none") + coord_cartesian(xlim = c(2003, 2022))
+### Bonneville Dam Data from Ian Tattam
+BonnevilleData <- read_csv("BonnevilleDamData.csv")
+ODFWDataYearly <- read_csv("ODFWDataYearly.csv")
 
 
+BonnevilleDatavsODFW <- BonnevilleData %>% left_join(ODFWDataYearly, by = c("Year"))
+ggplot(data = BonnevilleDatavsODFW) + geom_line(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
+  geom_line(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") # ActualHSS is ODFW Count Hatchery is Bonneville Barged Numbers
+
+formula = y ~ x + I(x^2)
+ggplot(data = BonnevilleDatavsODFW, aes(Hatchery, ActualHSS)) + geom_point() + geom_smooth(method = "lm", se = F, formula = formula) +
+  stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T) #This is good shit
+
+ggplot(data = BonnevilleDatavsODFW, aes(Hatchery, ActualFC)) + geom_point() + geom_smooth(method = "lm", se = F, formula = y ~ x) +
+  stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = y ~ x, parse = T)
+
+summary(lm(ActualHSS ~ Hatchery + I(Hatchery^2), data = BonnevilleDatavsODFW))
+
+MadrasDataYearly <- MadrasMergeData %>% group_by(Year, Season) %>% summarise(Temperature = mean(Temperature)) %>% 
+  mutate(Group = case_when(Year <= 1968 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+ggplot(data = MadrasDataYearly, aes(x = Year, y = Temperature, color = Group)) + geom_line() + facet_wrap( ~ Season)
+
+summary(lm(Temperature ~ Season*as.factor(Group), data = MadrasDataYearly))
 
 
 ## Merged fish data with temperature
@@ -247,7 +268,9 @@ RealDF <- data.frame(Year, Proportion)
 RealDF <- RealDF %>% mutate(Proportion = (Proportion * 0.1975309) + 16.642)
 testdf <- RealDF %>% left_join(ODFWData, by = c("Year"))
 testdf2 <- testdf %>% distinct(HSS, .keep_all = T)
-summary(lm(HSS ~ Proportion + I(Proportion^2) + I(Proportion^3), data = testdf2))
+summary(lm(log(HSS) ~ Proportion + I(Proportion^2), data = testdf2))
+testdf3 <- MadrasMergeData %>% group_by(Year) %>% summarize(Temperature = median(Temperature))
+
 formula = y ~ I(x^2)
 ggplot(testdf2, aes(Proportion, HSS)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T)
