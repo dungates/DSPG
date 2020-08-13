@@ -128,6 +128,41 @@ JohnDayData <- read_csv("JohnDayReddCounts.csv")[1:13,1:17]
 JohnDayData <- JohnDayData %>% gather(Year, Value, -`Stream Name`, -`Site ID`)
 #Yearly total
 JohnDayData <- JohnDayData %>% group_by(Year) %>% mutate(Total = sum(Value, na.rm = T))
+ggplot(data = JohnDayData, aes(x = as.Date(paste0(Year, "-10-01")), y = Total, color = `Stream Name`)) + geom_line() + geom_point()
+
+
+### Ian Tatam John Day ODFW Data
+JohnDayData2 <- read_csv("JohnDayBargeRates.csv", skip = 1)[,1:14]
+colnames(JohnDayData2) <- c("Year","W_Observed","H_Observed","pHOSObserved","W_Captured","H_Captured","%H_Captured","NOSA",
+                            "W_JDD","H_JDD","%H_JDD","PercentWBarged","PercentHBarged","Num_H","")
+JohnDayData2 <- JohnDayData2 %>% mutate(Line = Num_H / 10)
+JohnDayData3 <- JohnDayData2 %>% gather(Measure, Value, -Year)
+JohnDayData3 %>% filter(Measure != "#H", Measure != "Num_H") %>%
+  ggplot(aes(x = as.numeric(Year), y = Value, color = Measure)) + geom_line() + geom_point() + 
+  scale_y_continuous(labels = scales::comma) + 
+  geom_text(aes(label = Measure),
+            data = JohnDayData3 %>% filter(as.numeric(Year) == 2018 & Measure != "Num_H"),
+            color = "black",
+            hjust = 0,
+            size = 3,
+            nudge_x = 0.5) + guides(color = "none") + coord_cartesian(xlim = c(2003, 2022))
+
+### Recreating Proportion slide 21 from presentation, regress with deschutes population
+Year <- c(1997:2012)
+Proportion <- c(275,364,353,341,414,254,277,406,383,239,115,120,145,90,156,31)
+80/405
+RealDF <- data.frame(Year, Proportion)
+RealDF <- RealDF %>% mutate(Proportion = (Proportion * 0.1975309) + 16.642)
+
+lm1 <- lm(pHOSObserved ~ log(Num_H) + `PercentHBarged`, data = JohnDayData2)
+lm2 <- lm(pHOSObserved ~ log(Num_H) + `PercentWBarged`, data = JohnDayData2)
+lm3 <- lm(pHOSObserved ~ propTransported + log(num_H), data = JohnDayData2) # We still need data for proportion transported here
+stargazer(lm1, lm2, type = "text") # Check slide 20 for source on regression
+# Next going to use ODFWData and Summer Hatchery Steelhead correlated with proportion transported from McCann et al. 
+# 
+
+
+
 
 
 ## Merged fish data with temperature

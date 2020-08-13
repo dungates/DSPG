@@ -797,8 +797,8 @@ fishCounts$Season <- getSeason(fishCounts$Date)
 fishCounts <- fishCounts %>% mutate(Month = month(Date, label = T, abbr = F))
 
 fishCounts %>% gather(Variable, Value, -Date, -Year, -Season, -Month) %>% filter(Variable != "Total") %>% 
-  ggplot(aes(Month, Value, color = Variable, fill = Variable)) + geom_col() + geom_line() + facet_grid(Variable ~ Year) #Decent visualizationn
-
+  ggplot(aes(Month, Value, color = Variable, fill = Variable)) + geom_col() + geom_line() + facet_grid(Variable ~ Year) + #Decent visualizationn
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
 
 #ANOVA TEST
 prob <- fishCounts %>% gather(Variable, Count, - Date, -Year, -Season) %>% aov(Count ~ Variable, .)
@@ -964,7 +964,7 @@ steelheadFinaldf <- steelheadFinaldf %>% mutate(`Proportion of Estimated to Capt
 steelheadFinaldf %>% gather(Variable, Value, -steelheadListProp) %>% ggplot(aes(x = Year, y = Value, color = Variable)) + 
   geom_line(show.legend = F) + 
   geom_point(show.legend = F) + facet_wrap( ~ Variable) +
-  ggtitle("sherarsFalls Trap Data by Proportions")
+  ggtitle("Sherars Falls Trap Data by Proportions")
 
 ### READING IN ODEQ Data - mostly useless
 # allodeqData <- read.csv("Standard Export 11365.csv")
