@@ -153,6 +153,8 @@ ODFWDataYearly <- read_csv("ODFWDataYearly.csv")
 
 BonnevilleDatavsODFW <- BonnevilleData %>% left_join(ODFWDataYearly, by = c("Year"))
 ggplot(data = BonnevilleDatavsODFW) + geom_line(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
+  geom_point(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
+  geom_point(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") + 
   geom_line(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") # ActualHSS is ODFW Count Hatchery is Bonneville Barged Numbers
 
 formula = y ~ x + I(x^2)
@@ -166,10 +168,25 @@ summary(lm(ActualHSS ~ Hatchery + I(Hatchery^2), data = BonnevilleDatavsODFW))
 
 MadrasDataYearly <- MadrasMergeData %>% group_by(Year, Season) %>% summarise(Temperature = mean(Temperature)) %>% 
   mutate(Group = case_when(Year <= 1968 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
-ggplot(data = MadrasDataYearly, aes(x = Year, y = Temperature, color = Group)) + geom_line() + facet_wrap( ~ Season)
+MadrasDataYearly$Group <- as.factor(MadrasDataYearly$Group)
+MadrasDataYearly$Group <- factor(MadrasDataYearly$Group, levels = c("PreDam", "PreSWW", "PostSWW"))
 
-summary(lm(Temperature ~ Season*as.factor(Group), data = MadrasDataYearly))
+ggplot(data = MadrasDataYearly, aes(x = Year, y = Temperature)) + geom_smooth(method = "lm", formula = formula, se = F) +
+  geom_line(aes(color = Season)) + facet_grid(Season ~ Group, scales = "free") + 
+  stat_poly_eq(aes(label = paste(..rr.label..)), formula = formula, parse = T) #Redo with rolling 7 day average maximum
+# You are here
 
+MadrasDataYearlyFall <- MadrasDataYearly %>% filter(Season == "Fall")
+MadrasDataYearlyWinter <- MadrasDataYearly %>% filter(Season == "Winter")
+MadrasDataYearlySpring <- MadrasDataYearly %>% filter(Season == "Spring")
+MadrasDataYearlySummer <- MadrasDataYearly %>% filter(Season == "Summer")
+
+Falllm <- summary(lm(Temperature ~ (Group), data = MadrasDataYearlyFall))
+Winterlm <- summary(lm(Temperature ~ (Group), data = MadrasDataYearlyWinter))
+Springlm <- summary(lm(Temperature ~ (Group), data = MadrasDataYearlySpring))
+Summerlm <- summary(lm(Temperature ~ (Group), data = MadrasDataYearlySummer))
+
+stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "text")
 
 ## Merged fish data with temperature
 MergedFishData <- read.csv("AllFishData.csv")
@@ -271,12 +288,17 @@ testdf2 <- testdf %>% distinct(HSS, .keep_all = T)
 summary(lm(log(HSS) ~ Proportion + I(Proportion^2), data = testdf2))
 testdf3 <- MadrasMergeData %>% group_by(Year) %>% summarize(Temperature = median(Temperature))
 
-formula = y ~ I(x^2)
+formula = y ~ log(x)
+JohnDayData2 <- JohnDayData2 %>% mutate(pHOSObserved = pHOSObserved * 100)
+JohnDayData2 <- JohnDayData2 %>% rename(pHOSObserved = PHOSOBSERVED) #Not run yet
 ggplot(testdf2, aes(Proportion, HSS)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T)
 
-lm1 <- lm(pHOSObserved ~ log(Num_H) + `PercentHBarged`, data = JohnDayData2)
-lm2 <- lm(pHOSObserved ~ log(Num_H) + `PercentWBarged`, data = JohnDayData2)
+ggplot(JohnDayData2, aes(log(Num_H), pHOSObserved)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
+  stat_poly_eq(aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~~")), formula = formula, parse = T)
+
+lm1 <- lm(pHOSObserved ~ log(Num_H) + NOSA, data = JohnDayData2)
+lm2 <- lm(pHOSObserved ~ `PercentHBarged` + NOSA, data = JohnDayData2) #Current model
 lm3 <- lm(pHOSObserved ~ propTransported + log(num_H), data = JohnDayData2) # We still need data for proportion transported here
 stargazer(lm1, lm2, type = "text") # Check slide 20 for source on regression
 # Next going to use ODFWData and Summer Hatchery Steelhead correlated with proportion transported from McCann et al. 
