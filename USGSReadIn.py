@@ -1,0 +1,54 @@
+import matplotlib
+import matplotlib.pyplot as plt
+from climata.usgs import DailyValueIO
+import pandas as pd
+from pandas.plotting import register_matplotlib_converters
+import numpy as np
+
+register_matplotlib_converters()
+plt.style.use('ggplot')
+plt.rcParams['figure.figsize'] = (20.0, 10.0)
+
+
+# set parameters
+nyears = 10
+ndays = 365 * nyears
+station_id = "06730200"
+param_id = "00060"
+
+datelist = pd.date_range(end=pd.datetime.today(), periods=ndays).tolist()
+data = DailyValueIO(
+    start_date=datelist[0],
+    end_date=datelist[-1],
+    station=station_id,
+    parameter=param_id,
+)
+
+
+
+# create lists of date-flow values
+for series in data:
+    flow = [r[1] for r in series.data]
+    dates = [r[0] for r in series.data]
+plt.plot(dates, flow)
+plt.xlabel('Date')
+plt.ylabel('Streamflow')
+plt.title(series.site_name)
+plt.xticks(rotation='vertical')
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

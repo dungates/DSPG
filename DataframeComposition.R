@@ -286,7 +286,7 @@ RealDF <- RealDF %>% mutate(Proportion = (Proportion * 0.1975309) + 16.642)
 testdf <- RealDF %>% left_join(ODFWData, by = c("Year"))
 testdf2 <- testdf %>% distinct(HSS, .keep_all = T)
 summary(lm(log(HSS) ~ Proportion + I(Proportion^2), data = testdf2))
-testdf3 <- MadrasMergeData %>% group_by(Year) %>% summarize(Temperature = median(Temperature))
+testdf3 <- MadrasData %>% group_by(Year) %>% summarize(Temperature = median(Temperature))
 
 formula = y ~ log(x)
 JohnDayData2 <- JohnDayData2 %>% mutate(pHOSObserved = pHOSObserved * 100)
