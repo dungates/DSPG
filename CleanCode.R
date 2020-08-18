@@ -1,4 +1,6 @@
 library(plyr)
+library(tidyr)
+library(naniar)
 library(ggpmisc)
 library(tidyverse)
 library(lubridate)
@@ -8,7 +10,7 @@ library(gridExtra)
 library(gtable)
 library(grid)
 library(lubridate)
-library(readxl)
+library(readr)
 library(broom)
 library(hydrostats)
 setwd("~/DSPG")
@@ -17,9 +19,10 @@ setwd("~/DSPG")
 HourlyPGEData <- read_csv("newpgeData.csv", col_types = cols(Season = col_factor()))
 
 # Daily USGS data
-USGSData <- read_csv("USGSData.csv", col_types = cols(Season = col_factor()))
+USGSData <- read_csv("AllUSGSData.csv", col_types = cols(Season = col_factor()))
 MadrasData <- USGSData %>% filter(Location == "Madras") %>% select(-`Discharge (cfs)`)
 MoodyData <- USGSData %>% filter(Location == "Moody") %>% select(-`Discharge (cfs)`)
+CulverData <- USGSData %>% filter(Location == "Culver") %>% select(-`Discharge (cfs)`)
 
 # ODFW Fish Count data (Monthly and Yearly)
 ODFWDataMonthly <- read_csv("ODFWData.csv", col_types = cols(Season = col_factor()))
@@ -34,7 +37,7 @@ PGEFishData <- read_csv("PGEFishData.csv",
                         col_types = cols(Season = col_factor(), Date_time = col_datetime()))[2:959,]
 PGEFishData$Date_time <- ymd(PGEFishData$Date_time)
 
-# ODEQ Water Quality paramaters data
+# ODEQ Water Quality parameters data
 ODEQData <- read_csv("ODEQData.csv", col_types = cols(Season = col_factor()))
 
 
@@ -69,6 +72,30 @@ BonnevilleData <- read_csv("BonnevilleDamData.csv")
 
 
 ### ANALYSIS
+
+
+## Seasonal and Yearly analysis 
+
+MadrasOLS <- MadrasData %>% group_by(Year, Season) %>% summarize(`Temperature` = median(Temperature, na.rm = T))
+MoodyOLS <- MoodyData %>% group_by(Year, Season) %>% summarize(`Median Seasonal Temperature` = median(Temperature))
+ols2data <- ODFWData %>% group_by(Year, Season) %>% summarize(`Fall Chinook` = sum(`Fall Chinook`),
+                                                              `Hatchery Summer Steelhead` = sum(`Hatchery Summer Steelhead`),
+                                                              `Wild Summer Steelhead` = sum(`Wild Summer Steelhead`))
+lmdata <- MadrasOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976 & Season != "Winter" & Year != 2017 &
+                                                                                  Year != 2020)
+lmdata2 <- MoodyOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976)
+lmdata$Total <- rowSums(lmdata[,4:6], na.rm = T)
+lmdata2$Total <- rowSums(lmdata2[,4:6], na.rm = T)
+
+fixed <- plm(Total ~ Temperature,
+             data = lmdata, index = c("Season", "Year"), model = "within")
+fixed.time <- plm(Total ~ Temperature + I(Temperature^2) + factor(Year) - 1,
+                  data = lmdata, index = c("Season", "Year"), model = "within")
+summary(fixed.time)
+pFtest(fixed.time, fixed)
+plmtest(fixed, c("time"), type = "bp")
+
+
 
 # John Day Data analysis
 lm1 <- lm(pHOSObserved ~ log(Num_H) + NOSA, data = JohnDayBargeData)
@@ -125,7 +152,7 @@ PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>%
         plot.title = element_text(hjust = 0.5),
         legend.title = element_blank())
 
-#Overplot of all variables by Season and Year from PGE data
+# Overplot of all variables by Season and Year from PGE data
 PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>%
   ggplot(aes(Season, as.numeric(Value), color = Variable, fill = Variable)) + geom_col() + facet_grid(Variable ~ Year) +
   theme_bw() + ggtitle("PGE Fish Count Data") + labs(y = "Number of Fish Captured") +
@@ -172,6 +199,42 @@ ggplot(data = BonnevilleDatavsODFW, aes(Hatchery, ActualHSS)) + geom_point() + g
 # Plot of Hatchery vs Fall Chinook, negatively associated as expected
 ggplot(data = BonnevilleDatavsODFW, aes(Hatchery, ActualFC)) + geom_point() + geom_smooth(method = "lm", se = F, formula = y ~ x) +
   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = y ~ x, parse = T)
+
+
+
+
+# Plot of missing USGS data 
+MissingDataPlot <- pivot_wider(USGSData, names_from = Location, values_from = Temperature, values_fn = max)
+MissingDataPlot2 <- MissingDataPlot %>% group_by(Date_time) %>% summarise(Culver = mean(Culver, na.rm = T), 
+                                                                          Moody = mean(Moody, na.rm = T),
+                                                                         Madras = mean(Madras, na.rm = T))
+MissingDataPlot2 <- MissingDataPlot2 %>% mutate(Year = year(Date_time), Season = getSeason(Date_time), Julian = yday(Date_time))
+MissingDataPlot2 %>% select(Moody, Madras, Culver, Year) %>% gg_miss_fct(Year) + 
+  labs(title = "Percent of Yearly Temperature Data Available", x = "Date", y = "Location", fill = "% Missing") + 
+  scale_fill_gradient(low = "#132B43",
+                      high = "#56B1F7") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Plot of missing PGE Fish Count Data
+PGEFishDataGathered <- PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month)
+`%notin%` <- Negate(`%in%`)
+notfishList <- c("Season", "Year", "Total", "Month", "Date_time")
+# Number of missing observations
+PGEFishData %>% select(-notfishList) %>% gg_miss_var()
+
+# Times where data is missing 
+PGEFishData %>% select(-Total, -Season, -Month, -Date_time) %>% gg_miss_fct(Year)
+
+# Plot of missing ODFW Data
+ODFWDataMonthly %>% select(-Season, -Month, -Date_time) %>% gg_miss_fct(Year) + 
+  labs(title = "ODFW Fish Count Data Availability") + 
+  scale_fill_gradient(low = "#132B43",
+                      high = "#56B1F7") + theme(plot.title = element_text(hjust = 0.5),
+                                                legend.position = "none",
+                                                axis.title.y = element_blank())
+
+
+
 
 
 

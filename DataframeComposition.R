@@ -55,7 +55,7 @@ oldpgeData$Date_time <- ymd(oldpgeData$Date_time)
 # MadrasGageData$X113436_00060_00003_cd <- NULL
 # colnames(MadrasGageData) <- c("Agency", "Site", "Date_time", "Max Temperature", "Min Temperature", "Mean Temperature", 
 #                               "Discharge (cfs)", "Location")
-# MadrasGageData <- MadrasGageData %>% mutate(`Mean Temperature` = case_when(is.na(`Mean Temperature`) ~ 
+# MadrasGageData <- MadrasGageData %>% mutate(`Mean Temperature` = case_when(is.na(`Mean Temperature`) ~
 #                                                                              (`Max Temperature` + `Min Temperature`) / 2,
 #                                                                            !is.na(`Mean Temperature`) ~ `Mean Temperature`))
 # 
@@ -194,37 +194,36 @@ MergedFishData$X <- NULL
 MergedFishData$Total <- rowSums(MergedFishData[,2:16], na.rm = T)
 
 # Run a regression that compares fish data pre-sww to post-sww from ODFWData
-# MadrasOLS <- MadrasMergeData %>% group_by(Year, Season) %>% summarize(`Temperature` = median(Temperature, na.rm = T))
-# MoodyOLS <- MoodyMergeData %>% group_by(Year, Season) %>% summarize(`Median Seasonal Temperature` = median(Temperature))
-# ols2data <- ODFWData %>% group_by(Year, Season) %>% summarize(`Fall Chinook` = sum(`Fall Chinook`),
-#                                                               `Hatchery Summer Steelhead` = sum(`Hatchery Summer Steelhead`),
-#                                                               `Wild Summer Steelhead` = sum(`Wild Summer Steelhead`))
-# lmdata <- MadrasOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976 & Season != "Winter" & Year != 2017 &
-#                                                                                   Year != 2020)
-# lmdata2 <- MoodyOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976)
-# lmdata$Total <- rowSums(lmdata[,4:6], na.rm = T)
-# lmdata2$Total <- rowSums(lmdata[,4:6], na.rm = T)
-# formula <- y ~ x
+MadrasOLS <- MadrasData %>% group_by(Year, Season) %>% summarize(`Temperature` = median(Temperature, na.rm = T))
+MoodyOLS <- MoodyData %>% group_by(Year, Season) %>% summarize(`Median Seasonal Temperature` = median(Temperature))
+ols2data <- ODFWData %>% group_by(Year, Season) %>% summarize(`Fall Chinook` = sum(`Fall Chinook`),
+                                                              `Hatchery Summer Steelhead` = sum(`Hatchery Summer Steelhead`),
+                                                              `Wild Summer Steelhead` = sum(`Wild Summer Steelhead`))
+lmdata <- MadrasOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976 & Season != "Winter" & Year != 2017 &
+                                                                                  Year != 2020)
+lmdata2 <- MoodyOLS %>% left_join(ols2data, by = c("Year","Season")) %>% filter(Year > 1976)
+lmdata$Total <- rowSums(lmdata[,4:6], na.rm = T)
+lmdata2$Total <- rowSums(lmdata2[,4:6], na.rm = T)
+formula <- y ~ x
 
 
-
-# basiclm <- lm(Total ~ `Temperature`*as.factor(Season), data = lmdata)
-# summary(basiclm)
-# # 
-# fixed <- plm(Total ~ Temperature,
-#              data = lmdata, index = c("Season", "Year"), model = "within")
-# fixed.time <- plm(Total ~ Temperature + I(Temperature^2) + factor(Year) - 1,
-#                   data = lmdata, index = c("Season", "Year"), model = "within")
-# summary(fixed.time)
-# pFtest(fixed.time, fixed)
-# plmtest(fixed, c("time"), type = "bp")
+basiclm <- lm(Total ~ `Temperature`*as.factor(Season), data = lmdata)
+summary(basiclm)
+#
+fixed <- plm(Total ~ Temperature,
+             data = lmdata, index = c("Season", "Year"), model = "within")
+fixed.time <- plm(Total ~ Temperature + I(Temperature^2) + factor(Year) - 1,
+                  data = lmdata, index = c("Season", "Year"), model = "within")
+summary(fixed.time)
+pFtest(fixed.time, fixed)
+plmtest(fixed, c("time"), type = "bp")
 
 
 
 
 # Curious about relationship between water temperature and other variables like pH and Dissolved Oxygen
 # summary(lm(Temperature ~ pH + `Dissolved Oxygen % Saturation`, data = ODEQData))
-# ggplot(data = ODEQData, aes(x = pH, y = Temperature)) + geom_point() + geom_smooth(method = "lm", formula = formula) + 
+# ggplot(data =  Data, aes(x = pH, y = Temperature)) + geom_point() + geom_smooth(method = "lm", formula = formula) +
 #   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T)
 
 
@@ -283,15 +282,16 @@ Proportion <- c(275,364,353,341,414,254,277,406,383,239,115,120,145,90,156,31)
 80/405
 RealDF <- data.frame(Year, Proportion)
 RealDF <- RealDF %>% mutate(Proportion = (Proportion * 0.1975309) + 16.642)
-testdf <- RealDF %>% left_join(ODFWData, by = c("Year"))
+# Wild steelhead transport slide 21 here
+testdf <- RealDF %>% left_join(ODFWDataYearly, by = c("Year"))
 testdf2 <- testdf %>% distinct(HSS, .keep_all = T)
-summary(lm(log(HSS) ~ Proportion + I(Proportion^2), data = testdf2))
+summary(lm(log(ActualHSS) ~ Proportion + I(Proportion^2), data = testdf))
 testdf3 <- MadrasData %>% group_by(Year) %>% summarize(Temperature = median(Temperature))
 
 formula = y ~ log(x)
 JohnDayData2 <- JohnDayData2 %>% mutate(pHOSObserved = pHOSObserved * 100)
 JohnDayData2 <- JohnDayData2 %>% rename(pHOSObserved = PHOSOBSERVED) #Not run yet
-ggplot(testdf2, aes(Proportion, HSS)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
+ggplot(testdf2, aes(Proportion, ActualHSS)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T)
 
 ggplot(JohnDayData2, aes(log(Num_H), pHOSObserved)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
@@ -303,3 +303,38 @@ lm3 <- lm(pHOSObserved ~ propTransported + log(num_H), data = JohnDayData2) # We
 stargazer(lm1, lm2, type = "text") # Check slide 20 for source on regression
 # Next going to use ODFWData and Summer Hatchery Steelhead correlated with proportion transported from McCann et al. 
 # 
+
+
+
+CulverData <- read.table("CulverUSGSData1.txt", header = T, fill = T, sep = "\t")
+CulverData <- CulverData %>% slice(-1)
+colnames(CulverData) <- c("Agency", "Site", "Date_time", "Max Temp", "d", "e", "f", "Temperature", "g", "Discharge (cfs)",
+                          "Discharge_qualification")
+
+CulverData <- CulverData %>% mutate(Temperature = 
+                                      case_when(is.na(as.numeric(as.character(Temperature))) ~ 
+                                                  as.numeric(as.character(`Max Temp`)) + as.numeric(as.character(e)) / 2,
+                                                                           !is.na(as.numeric(as.character(Temperature))) ~ 
+                                                  as.numeric(as.character(Temperature))))
+CulverData$Location <- "Culver"
+CulverData <- CulverData %>% select(Date_time, Temperature, `Discharge (cfs)`, Location)
+
+CulverData2 <- read.table("CulverUSGSData2.txt", header = T, fill = T, sep = "\t")
+CulverData2 <- CulverData2 %>% slice(-1)
+
+colnames(CulverData2) <- c("Agency", "Site", "Date_time", "Discharge (cfs)", "a", "Max","b","Min","c")
+CulverData2 <- CulverData2 %>% mutate(Temperature = (as.numeric(as.character(Max)) + as.numeric(as.character(Min))) / 2)
+CulverData2 <- CulverData2 %>% mutate(Temperature = (Temperature - 32) / 1.8)
+CulverData2$Location <- "Culver"
+CulverData2 <- CulverData2 %>% select(Date_time, Temperature, `Discharge (cfs)`, Location)
+
+CulverCombined <- rbind(CulverData, CulverData2)
+CulverCombined$Date_time <- ymd(CulverCombined$Date_time)
+CulverCombined$`Discharge (cfs)` <- as.numeric(as.character(CulverCombined$`Discharge (cfs)`))
+CulverCombined <- CulverCombined %>% mutate(Year = year(Date_time), Season = getSeason(Date_time), Julian = yday(Date_time))
+CulverCombined <- CulverCombined %>% arrange(Date_time)
+
+USGSData2 <- rbind(USGSData, CulverCombined)
+USGSData2 <- USGSData2 %>% arrange(Date_time)
+write_csv(USGSData2, "AllUSGSData.csv")
+
