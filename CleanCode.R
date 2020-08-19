@@ -109,6 +109,15 @@ lm1 <- lm(pHOSObserved ~ log(Num_H) + NOSA, data = JohnDayBargeData)
 lm2 <- lm(pHOSObserved ~ `PercentHBarged` + NOSA, data = JohnDayBargeData) #Current model
 stargazer(lm1, lm2, type = "text") # Check slide 20 for source on regression
 
+# Statistical evidence 
+
+
+
+
+
+
+
+
 # Testing for difference in season by Predam, PreSWW, PostSWW groupings
 MadrasDataYearly <- MadrasData %>% group_by(Year, Season) %>% summarise(Temperature = mean(Temperature)) %>% 
   mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
@@ -318,3 +327,26 @@ webshot(html, "Table1.png")
 stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "html", out = "Models.htm", covariate.labels = c("Pre-SWW","Post-SWW"))
 
 stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "text")
+
+# Plots for Sophia
+MadrasDataMedians <- MadrasData %>% group_by(Year, Season) %>% 
+  summarize(median = median(`Temperature`, na.rm = T), mean = mean(`Temperature`, na.rm = T)) %>% 
+  filter(Year == 1953 | Year == 1955 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019)
+# Seasonal Mean Temperature pre and post dam comparison
+MadrasDataMedians %>% ggplot(aes(Season, mean)) + geom_bar(aes(fill = as.factor(Year)), position = "dodge", stat = "identity") + 
+  labs(y = "Mean Temperature", fill = "Year") + scale_fill_brewer(palette = "Dark2") + theme_bw()
+
+temperatureColor <- "#C92A2A"
+fishColor <- rgb(0.2, 0.6, 0.9, 1)
+# Pre and post dam temperature comparison
+longtermtempplot <- MadrasData %>% filter(Year == 1953 | Year == 1955 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019) %>%
+  ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = Temperature, color = Year)) + geom_line(show.legend = F) + 
+  facet_wrap( ~ as.factor(Year), ncol = 2) + theme_bw() +
+  scale_x_date(date_labels = "%b") + ggtitle("Temperature Before and After Dam Installation") + labs(x = "Date") + 
+  theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
+        axis.title.x = element_text(color = fishColor, size = 13), 
+        plot.title = element_text(hjust = 0.5))
+colorset = c('1953' = "red", '1956' = "red", '2008' = "goldenrod", '2009' = "goldenrod", '2016' = "forestgreen", '2019' = "forestgreen")
+longtermtempplot + scale_fill_manual(values = colorset)
+
+
