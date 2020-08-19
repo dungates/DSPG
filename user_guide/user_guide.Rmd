@@ -5,6 +5,16 @@ date: "7/30/2020"
 output: html_document
 ---
 
+```{r}
+library(knitr)
+library(kableExtra)
+kable(MadrasDataYearly,  format = "html")
+```
+
+
+
+
+
 ## Introduction
 This application is designed to interactively visualize river water quality data collected by USGS and uses supplemental data from PGE, ODEQ, and ODFW to provide a platform for performing and reviewing aquatic life use based water quality assessments based on available river quality data.
 <br>

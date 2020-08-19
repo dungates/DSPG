@@ -13,6 +13,13 @@ library(lubridate)
 library(readr)
 library(broom)
 library(hydrostats)
+library(stargazer)
+library(GGally)
+library(zoo)
+library(kableExtra)
+library(knitr)
+library(reactable)
+library(htmlwidgets)
 setwd("~/DSPG")
 
 # Hourly PGE data
@@ -104,7 +111,7 @@ stargazer(lm1, lm2, type = "text") # Check slide 20 for source on regression
 
 # Testing for difference in season by Predam, PreSWW, PostSWW groupings
 MadrasDataYearly <- MadrasData %>% group_by(Year, Season) %>% summarise(Temperature = mean(Temperature)) %>% 
-  mutate(Group = case_when(Year <= 1968 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
 MadrasDataYearly$Group <- as.factor(MadrasDataYearly$Group)
 MadrasDataYearly$Group <- factor(MadrasDataYearly$Group, levels = c("PreDam", "PreSWW", "PostSWW"))
 
@@ -254,3 +261,46 @@ HourlyPGEData %>% select(-Date_time, -Season, -Julian) %>% gg_miss_fct(Year) + s
   labs(title = "PGE Water Quality Parameter Data Coverage", x = "Date", y = "Variable", fill = "% Missing Yearly") + 
   theme(plot.title = element_text(hjust = 0.5),
         legend.position = "none")
+
+# Correlation matrix for season data
+MadrasDataYearly <- MadrasData %>% group_by(Year, Season) %>% summarise(Temperature = mean(Temperature)) %>% 
+  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+MadrasDataYearly$Group <- as.factor(MadrasDataYearly$Group)
+MadrasDataYearly$Group <- factor(MadrasDataYearly$Group, levels = c("PreDam", "PreSWW", "PostSWW"))
+
+CorrelogramData <- MadrasData %>% 
+  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW")) %>% 
+  mutate(Temperature2 = rollmean(Temperature, k = 7, fill = NA))
+colnames(CorrelogramData) <- c("Date","Temp","Location","Year","Season","Julian","Period","Temperature")
+CorrelogramData$Period <- factor(CorrelogramData$Period, levels = c("PreDam", "PreSWW", "PostSWW"))
+
+CorrelogramData %>% ggpairs(columns = c(1,5,7,2), aes(color = Period))
+
+# Comparing Pre-Dam, Pre-SWW, Post-SWW at Madras
+
+ggplot(data = CorrelogramData, aes(x = Date, y = Temperature)) +
+  geom_line(color = "darkcyan") + facet_wrap( ~ Period, scales = "free_x") +
+  labs(y = "Temperature (Celsius °)", title = "7 Day Rolling Average Temperature at Madras Gage") + theme_bw() +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5)) 
+
+
+# Table of means and medians of Pre-Dam, Pre-SWW, Post-SWW
+MadrasDataYearly <- MadrasData %>% group_by(Year, Season) %>% 
+  summarise(`Mean Temperature` = mean(Temperature, na.rm = T, trim = 2),
+            `Median Temperature` = median(Temperature, na.rm = T, trim = 2)) %>% 
+  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+MadrasDataYearly <- MadrasDataYearly %>% drop_na() %>% 
+  pivot_wider(names_from = Season, values_from = c("Mean Temperature", "Median Temperature"))
+colnames(MadrasDataYearly) <- c("Year", "Period", "Winter Mean Temperature", "Spring Mean Temperature", 
+                                "Summer Mean Temperature", "Fall Mean Temperature")
+MadrasDataYearly <- MadrasDataYearly[,1:6]
+rtable <- reactable(MadrasDataYearly, defaultPageSize = 40)
+html <- "rtable.html"
+saveWidget(rtable,html)
+webshot(html, "Table1.png")
+
+
+
+
+
