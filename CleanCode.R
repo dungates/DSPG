@@ -173,7 +173,7 @@ ggplot(data = ODFWFishPlot, aes(x = Year, y = Count, color = Variable)) + geom_l
 
 
 
-# Overplot of all variables by Season and Year from PGE data
+# Overplot of all variables by Season and Year from PGE data, very ugly and most fish are not significant at all
 PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>%
   ggplot(aes(Season, as.numeric(Value), color = Variable, fill = Variable)) + geom_col() + facet_grid(Variable ~ Year) +
   theme_bw() + ggtitle("PGE Fish Count Data") + labs(y = "Number of Fish Captured") +
