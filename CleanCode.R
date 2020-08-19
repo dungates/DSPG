@@ -137,7 +137,7 @@ Summerlm <- lm(Temperature ~ (Group), data = MadrasDataYearlySummer)
 
 
 # View all at once
-stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "text") # Order here is 1:Fall,2:Winter,3:Spring,4:Summer
+stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "html") # Order here is 1:Fall,2:Winter,3:Spring,4:Summer
 
 
 
@@ -157,7 +157,21 @@ PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>%
   theme_bw() + ggtitle("PGE Fish Count Data") + labs(y = "Number of Fish Captured") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5),
         plot.title = element_text(hjust = 0.5),
+        legend.position = "none")
+
+# ODFW Yearly Fish Count Data
+ODFWFishPlot <- ODFWDataYearly %>% select(ActualHSS, Year, ActualWSS, ActualFC) %>% pivot_longer(-Year, names_to = "Variable", 
+                                                                                 values_to = "Count")
+ggplot(data = ODFWFishPlot, aes(x = Year, y = Count, color = Variable)) + geom_line() + 
+  labs(y = "Fish Count", x = "Date", title = "ODFW Fish Counts at Sherars Falls (RM 43)", color = "Fish") +
+  geom_vline(xintercept = 2010) + annotate(geom = "text", x = 2015.5, y = 3000, label = "SWW Installation") + 
+  scale_color_manual(labels = c("Fall Chinook","Hatchery Summer Steelhead","Wild Summer Steelhead"),
+                     values = c("blue","red","green")) +
+  theme_bw() + theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
         legend.title = element_blank())
+
+
 
 # Overplot of all variables by Season and Year from PGE data
 PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>%
@@ -300,7 +314,7 @@ html <- "rtable.html"
 saveWidget(rtable,html)
 webshot(html, "Table1.png")
 
+# Stats to back up previous table/chart
+stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "html", out = "Models.htm", covariate.labels = c("Pre-SWW","Post-SWW"))
 
-
-
-
+stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "text")
