@@ -210,9 +210,9 @@ MissingDataPlot2 <- MissingDataPlot %>% group_by(Date_time) %>% summarise(Culver
                                                                          Madras = mean(Madras, na.rm = T))
 MissingDataPlot2 <- MissingDataPlot2 %>% mutate(Year = year(Date_time), Season = getSeason(Date_time), Julian = yday(Date_time))
 MissingDataPlot2 %>% select(Moody, Madras, Culver, Year) %>% gg_miss_fct(Year) + 
-  labs(title = "Percent of Yearly Temperature Data Available", x = "Date", y = "Location", fill = "% Missing") + 
-  scale_fill_gradient(low = "#132B43",
-                      high = "#56B1F7") +
+  labs(title = "Percent of Yearly Temperature Data Available", x = "Date", y = "Location", fill = "% Missing Yearly") + 
+  scale_fill_gradient(high = "#132B43",
+                      low = "#56B1F7") +
   theme(plot.title = element_text(hjust = 0.5))
 
 # Plot of missing PGE Fish Count Data
@@ -223,19 +223,34 @@ notfishList <- c("Season", "Year", "Total", "Month", "Date_time")
 PGEFishData %>% select(-notfishList) %>% gg_miss_var()
 
 # Times where data is missing 
-PGEFishData %>% select(-Total, -Season, -Month, -Date_time) %>% gg_miss_fct(Year)
+PGEFishData %>% select(-Total, -Season, -Month, -Date_time) %>% gg_miss_fct(Year) + 
+  scale_fill_gradient2(low = "white", high = "black") + labs(title = "PGE Fish Count Data Availability", fill = "% Missing") +
+  theme(axis.title.y = element_blank())
 
-# Plot of missing ODFW Data
+# Plot of missing ODFW Data Monthly
 ODFWDataMonthly %>% select(-Season, -Month, -Date_time) %>% gg_miss_fct(Year) + 
-  labs(title = "ODFW Fish Count Data Availability") + 
-  scale_fill_gradient(low = "#132B43",
-                      high = "#56B1F7") + theme(plot.title = element_text(hjust = 0.5),
-                                                legend.position = "none",
-                                                axis.title.y = element_blank())
+  labs(title = "ODFW Fish Count Data Availability") + scale_fill_gradient2(low = "white", high = "black") + theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5), 
+        axis.title.y = element_blank(),
+        legend.position = "none")
+
+ODFWDataMonthly %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>% 
+  ggplot(aes(x = Year, y = Value)) + geom_miss_point() + scale_color_manual(values = c("white", "black")) + theme_dark() + 
+  labs(x = "Date", y = "Fish Count", color = "Missing Observations", title = "ODFW Fish Count Data Availability") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+# ODEQ missing data
+
+ODEQMissingPlot <- ODEQData %>% gather(Variable, Value, -Location, -Date_time, -Year, -Season, -Julian)
+
+ODEQData %>% select(-Date_time, -Season, -Julian, -Location) %>% gg_miss_fct(Year) + scale_fill_viridis_c() +
+  labs(title = "ODEQ Water Quality Parameter Data Coverage", x = "Date", y = "Variable", fill = "% Missing Yearly") + 
+  theme(plot.title = element_text(hjust = 0.5))
 
 
+# PGE Missing Data
 
-
-
-
-
+HourlyPGEData %>% select(-Date_time, -Season, -Julian) %>% gg_miss_fct(Year) + scale_fill_viridis_b() +
+  labs(title = "PGE Water Quality Parameter Data Coverage", x = "Date", y = "Variable", fill = "% Missing Yearly") + 
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "none")
