@@ -12,7 +12,7 @@
 # Data from that one website at Sherar Falls that is also ODFW data, collected by Jason and Rod
 
 ## PGE Data from Erica
-# path <- "Rereg Sonde Data 2004-2006_ 2010-2017.xlsx"
+# path <- "Data/Rereg Sonde Data 2004-2006_ 2010-2017.xlsx"
 # mad <- path %>% excel_sheets() %>% set_names() %>% map_df(read_excel, path = path)
 # mad$Time <- as.character(mad$Time)
 # mad <- mad %>% mutate(Time = sub(".* ", "", Time))
@@ -23,11 +23,11 @@
 # colnames(newpgeData) <- c("Temperature", "Dissolved Oxygen mg/l", "Dissolved Oxygen % Saturation", "pH", "Date_time")
 # newpgeData <- newpgeData %>% mutate(Season = getSeason(Date_time)) %>% mutate(Julian = yday(Date_time)) %>% mutate(Year = year(Date_time))
 
-newpgeData <- read_csv("newpgeData.csv", col_types = cols(Season = col_factor()))
+newpgeData <- read_csv("Data/newpgeData.csv", col_types = cols(Season = col_factor()))
 
 
 ## PGE Data from website
-# df <- read_excel("pge-water-chemistry-2015-2017.xlsx")
+# df <- read_excel("Data/pge-water-chemistry-2015-2017.xlsx")
 # df2 <- df %>% mutate(new = paste(Parameter, "in", Units))
 # # Deleting columns that were just pasted
 # df3 <- subset(df2, select = -c(Units, Parameter))
@@ -41,12 +41,12 @@ newpgeData <- read_csv("newpgeData.csv", col_types = cols(Season = col_factor())
 # colnames(oldpgeData)[1] <- c("Location")
 # colnames(oldpgeData)[2] <- c("Date_time")
 
-oldpgeData <- read_csv("oldpgeData.csv")
+oldpgeData <- read_csv("Data/oldpgeData.csv")
 oldpgeData$Date_time <- ymd(oldpgeData$Date_time)
 
 ## USGS Data
-# MadrasGageData <- read.table("MadrasTemperatureData.txt", header = T, fill = T, sep = "\t")
-# MoodyGageData <- read.table("MoodyTemperatureData.txt", header = T, fill = T, sep = "\t")
+# MadrasGageData <- read.table("Data/MadrasTemperatureData.txt", header = T, fill = T, sep = "\t")
+# MoodyGageData <- read.table("Data/MoodyTemperatureData.txt", header = T, fill = T, sep = "\t")
 # 
 # MadrasGageData <- MadrasGageData %>% mutate(Location = "Madras")
 # MadrasGageData$X113433_00010_00001_cd <- NULL
@@ -82,7 +82,7 @@ oldpgeData$Date_time <- ymd(oldpgeData$Date_time)
 # allusgsdata2 <- subset(allusgsdata2, select = -c(Agency, Site, `Min Temperature`, `Max Temperature`)) # Run if you don't want min or max temp
 # colnames(allusgsdata2)[2] = "Temperature"
 
-USGSData <- read_csv("USGSData.csv", col_types = cols(Season = col_factor()))
+USGSData <- read_csv("Data/USGSData.csv", col_types = cols(Season = col_factor()))
 # Just Madras temperature data which is largely what we use
 MadrasMergeData <- USGSData %>% filter(Location == "Madras") %>% select(-`Discharge (cfs)`)
 MoodyMergeData <- USGSData %>% filter(Location == "Moody") %>% select(-`Discharge (cfs)`)
@@ -92,7 +92,7 @@ MadrasMergeData <- MadrasMergeData %>% filter(!is.na(Temperature))
 # ggplot(data = MadrasMergeData, aes(x = Date_time, y = Temperature)) + geom_line()
 # ggplot(data = MoodyMergeData, aes(x = Date_time, y = Temperature)) + geom_line() 
 ## ODEQ Data
-# allodeqData <- read.csv("Standard Export 11365.csv")
+# allodeqData <- read.csv("Data/Standard Export 11365.csv")
 # 
 # allodeqData <- allodeqData %>% select("Result.Value", "Result.Unit", "Characteristic.Name","Monitoring.Location.Name",
 #                                       "Monitoring.Location.Latitude",	"Monitoring.Location.Longitude","Activity.Start.Date")
@@ -107,14 +107,14 @@ MadrasMergeData <- MadrasMergeData %>% filter(!is.na(Temperature))
 # allodeqData1$Date_time <- mdy(allodeqData1$Date_time)
 # allodeqData1 <- allodeqData1 %>% mutate(Year = year(Date_time))
 # allodeqDataFinal <- allodeqData1 %>% select(-c(Lat, Long)) %>% mutate(Season = getSeason(Date_time), Julian = yday(Date_time))
-ODEQData <- read_csv("ODEQData.csv", col_types = cols(Season = col_factor()))
+ODEQData <- read_csv("Data/ODEQData.csv", col_types = cols(Season = col_factor()))
 
 
 ## ODFW Data
-ODFWData <- read_csv("ODFWData.csv", col_types = cols(Season = col_factor()))
+ODFWData <- read_csv("Data/ODFWData.csv", col_types = cols(Season = col_factor()))
 
 ## PGE Fish Data
-PGEFishData <- read_csv("PGEFishData.csv", 
+PGEFishData <- read_csv("Data/PGEFishData.csv", 
                  col_names = c("Date_time", "Hatchery Summer Steelhead", "Summer Steelhead","Summer Steelhead RM", 
                                "Summer Steelhead LM", "Hatchery Spring Chinook", "Wild Spring Chinook","Spring Chinook RM", 
                                "Spring Chinook LM", "No Mark Sockeye", "Sockeye RM", "Sockeye LM", "Fall Chinook","Bull Trout", 
@@ -123,7 +123,7 @@ PGEFishData <- read_csv("PGEFishData.csv",
 PGEFishData$Date_time <- ymd(PGEFishData$Date_time)
 
 ### ODFW John Day
-JohnDayData <- read_csv("JohnDayReddCounts.csv")[1:13,1:17]
+JohnDayData <- read_csv("Data/JohnDayReddCounts.csv")[1:13,1:17]
 # For data merge purposes
 JohnDayData <- JohnDayData %>% gather(Year, Value, -`Stream Name`, -`Site ID`)
 #Yearly total
@@ -132,7 +132,7 @@ ggplot(data = JohnDayData, aes(x = as.Date(paste0(Year, "-10-01")), y = Total, c
 
 
 ### Ian Tatam John Day ODFW Data
-JohnDayData2 <- read_csv("JohnDayBargeRates.csv", skip = 1)[,1:14]
+JohnDayData2 <- read_csv("Data/JohnDayBargeRates.csv", skip = 1)[,1:14]
 colnames(JohnDayData2) <- c("Year","W_Observed","H_Observed","pHOSObserved","W_Captured","H_Captured","%H_Captured","NOSA",
                             "W_JDD","H_JDD","%H_JDD","PercentWBarged","PercentHBarged","Num_H","")
 JohnDayData2 <- JohnDayData2 %>% mutate(Line = Num_H / 10)
@@ -147,8 +147,8 @@ JohnDayData3 %>% filter(Measure != "#H", Measure != "Num_H") %>%
             size = 3,
             nudge_x = 0.5) + guides(color = "none") + coord_cartesian(xlim = c(2003, 2022))
 ### Bonneville Dam Data from Ian Tattam
-BonnevilleData <- read_csv("BonnevilleDamData.csv")
-ODFWDataYearly <- read_csv("ODFWDataYearly.csv")
+BonnevilleData <- read_csv("Data/BonnevilleDamData.csv")
+ODFWDataYearly <- read_csv("Data/ODFWDataYearly.csv")
 
 
 BonnevilleDatavsODFW <- BonnevilleData %>% left_join(ODFWDataYearly, by = c("Year"))
@@ -173,8 +173,7 @@ MadrasDataYearly$Group <- factor(MadrasDataYearly$Group, levels = c("PreDam", "P
 
 ggplot(data = MadrasDataYearly, aes(x = Year, y = Temperature)) + geom_smooth(method = "lm", formula = formula, se = F) +
   geom_line(aes(color = Season)) + facet_grid(Season ~ Group, scales = "free") + 
-  stat_poly_eq(aes(label = paste(..rr.label..)), formula = formula, parse = T) #Redo with rolling 7 day average maximum
-# You are here
+  stat_poly_eq(aes(label = paste(..rr.label..)), formula = formula, parse = T)
 
 MadrasDataYearlyFall <- MadrasDataYearly %>% filter(Season == "Fall")
 MadrasDataYearlyWinter <- MadrasDataYearly %>% filter(Season == "Winter")
@@ -189,7 +188,7 @@ Summerlm <- summary(lm(Temperature ~ (Group), data = MadrasDataYearlySummer))
 stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "text")
 
 ## Merged fish data with temperature
-MergedFishData <- read.csv("AllFishData.csv")
+MergedFishData <- read.csv("Data/AllFishData.csv")
 MergedFishData$X <- NULL
 MergedFishData$Total <- rowSums(MergedFishData[,2:16], na.rm = T)
 
@@ -306,7 +305,7 @@ stargazer(lm1, lm2, type = "text") # Check slide 20 for source on regression
 
 
 
-CulverData <- read.table("CulverUSGSData1.txt", header = T, fill = T, sep = "\t")
+CulverData <- read.table("Data/CulverUSGSData1.txt", header = T, fill = T, sep = "\t")
 CulverData <- CulverData %>% slice(-1)
 colnames(CulverData) <- c("Agency", "Site", "Date_time", "Max Temp", "d", "e", "f", "Temperature", "g", "Discharge (cfs)",
                           "Discharge_qualification")
@@ -319,7 +318,7 @@ CulverData <- CulverData %>% mutate(Temperature =
 CulverData$Location <- "Culver"
 CulverData <- CulverData %>% select(Date_time, Temperature, `Discharge (cfs)`, Location)
 
-CulverData2 <- read.table("CulverUSGSData2.txt", header = T, fill = T, sep = "\t")
+CulverData2 <- read.table("Data/CulverUSGSData2.txt", header = T, fill = T, sep = "\t")
 CulverData2 <- CulverData2 %>% slice(-1)
 
 colnames(CulverData2) <- c("Agency", "Site", "Date_time", "Discharge (cfs)", "a", "Max","b","Min","c")

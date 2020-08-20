@@ -23,20 +23,20 @@ library(htmlwidgets)
 setwd("~/DSPG")
 
 # Hourly PGE data
-HourlyPGEData <- read_csv("newpgeData.csv", col_types = cols(Season = col_factor()))
+HourlyPGEData <- read_csv("Data/newpgeData.csv", col_types = cols(Season = col_factor()))
 
 # Daily USGS data
-USGSData <- read_csv("AllUSGSData.csv", col_types = cols(Season = col_factor()))
+USGSData <- read_csv("Data/AllUSGSData.csv", col_types = cols(Season = col_factor()))
 MadrasData <- USGSData %>% filter(Location == "Madras") %>% select(-`Discharge (cfs)`)
 MoodyData <- USGSData %>% filter(Location == "Moody") %>% select(-`Discharge (cfs)`)
 CulverData <- USGSData %>% filter(Location == "Culver") %>% select(-`Discharge (cfs)`)
 
 # ODFW Fish Count data (Monthly and Yearly)
-ODFWDataMonthly <- read_csv("ODFWData.csv", col_types = cols(Season = col_factor()))
-ODFWDataYearly <- read_csv("ODFWDataYearly.csv") # Actual is total directly from ODFW, Total is from sum of monthly provided data
+ODFWDataMonthly <- read_csv("Data/ODFWData.csv", col_types = cols(Season = col_factor()))
+ODFWDataYearly <- read_csv("Data/ODFWDataYearly.csv") # Actual is total directly from ODFW, Total is from sum of monthly provided data
 
 # PGE Fish Count data (Daily 2014-2020)
-PGEFishData <- read_csv("PGEFishData.csv", 
+PGEFishData <- read_csv("Data/PGEFishData.csv", 
                         col_names = c("Date_time", "Hatchery Summer Steelhead", "Summer Steelhead","Summer Steelhead RM", 
                                       "Summer Steelhead LM", "Hatchery Spring Chinook", "Wild Spring Chinook","Spring Chinook RM", 
                                       "Spring Chinook LM", "No Mark Sockeye", "Sockeye RM", "Sockeye LM", "Fall Chinook","Bull Trout", 
@@ -45,7 +45,7 @@ PGEFishData <- read_csv("PGEFishData.csv",
 PGEFishData$Date_time <- ymd(PGEFishData$Date_time)
 
 # ODEQ Water Quality parameters data
-ODEQData <- read_csv("ODEQData.csv", col_types = cols(Season = col_factor()))
+ODEQData <- read_csv("Data/ODEQData.csv", col_types = cols(Season = col_factor()))
 
 
 
@@ -53,15 +53,15 @@ ODEQData <- read_csv("ODEQData.csv", col_types = cols(Season = col_factor()))
 
 
 # John Day Data
-JDReddsCountData <- read_csv("JohnDayReddCounts.csv")[1:13,1:17]
+JDReddsCountData <- read_csv("Data/JohnDayReddCounts.csv")[1:13,1:17]
 
-JohnDayBargeData <- read_csv("JohnDayBargeRates.csv", skip = 1)[,1:14]
+JohnDayBargeData <- read_csv("Data/JohnDayBargeRates.csv", skip = 1)[,1:14]
 colnames(JohnDayBargeData) <- c("Year","W_Observed","H_Observed","pHOSObserved","W_Captured","H_Captured","%H_Captured","NOSA",
                             "W_JDD","H_JDD","%H_JDD","PercentWBarged","PercentHBarged","Num_H","")
 
 
 # Bonneville Dam Data
-BonnevilleData <- read_csv("BonnevilleDamData.csv")
+BonnevilleData <- read_csv("Data/BonnevilleDamData.csv")
 
 
 

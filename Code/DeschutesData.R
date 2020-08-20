@@ -15,7 +15,7 @@ setwd("~/DSPG")
 
 
 # Biggs USGS Data
-BiggsData <- read.table("BiggsData2.txt", header = T, fill = T, sep = "\t")
+BiggsData <- read.table("Data/BiggsData2.txt", header = T, fill = T, sep = "\t")
 colnames(BiggsData) <- c("Agency", "Site", "Date_time", "tz_cd", "Temperature", "Temperature_qualification", "Discharge", 
                          "Discharge_qualification", "Gage_height", "Gage_height_qualification")
 
@@ -93,7 +93,7 @@ BiggsData2 <- BiggsData2 %>% mutate(Julian = yday(Date_time))
 
 #### CULVER DATA
 
-CulverData <- read.table("CulverData.txt", header = T, fill = T, sep = "\t")
+CulverData <- read.table("Data/CulverData.txt", header = T, fill = T, sep = "\t")
 colnames(CulverData) <- c("Agency", "Site", "Date_time", "tz_cd", "Temperature", "Temperature_qualification", "Discharge", 
                          "Discharge_qualification", "Gage_height", "Gage_height_qualification")
 
@@ -123,7 +123,7 @@ CulverData2 <- CulverData2 %>% mutate(Julian = yday(Date_time))
 
 #### MADRAS DATA
 
-MadrasData <- read.table("MadrasData.txt", header = T, fill = T, sep = "\t")
+MadrasData <- read.table("Data/MadrasData.txt", header = T, fill = T, sep = "\t")
 colnames(MadrasData) <- c("Agency", "Site", "Date_time", "tz_cd", "Temperature", "Temperature_qualification", "Discharge", 
                           "Discharge_qualification", "Gage_height", "Gage_height_qualification")
 
@@ -184,7 +184,7 @@ allusgsData <- rbind(partusgsData, CulverData2)
 mergeCols <- c("Temperature","Location","Date_time")
 # Note that df5 is from the PGE data file
 
-df <- read_excel("pge-water-chemistry-2015-2017.xlsx")
+df <- read_excel("Data/pge-water-chemistry-2015-2017.xlsx")
 
 # Using spread to make columns for different Parameters which are listed initially under Temperature column
 # df2 <- spread(data = df, Parameter, Value)
@@ -216,7 +216,7 @@ rivertempbigData <- merge(allusgsData, df5, by = mergeCols, all = TRUE)
 
 
 ## Taking in ODEQ data and then merging also mutatubg location names
-odeqData <- read_excel("ODEQ_data_datetime_revised.xlsx")
+odeqData <- read_excel("Data/ODEQ_data_datetime_revised.xlsx")
 
 odeqData$Date <- NULL
 odeqData$Time <- NULL
@@ -304,7 +304,7 @@ plotter <- rivertempbigData %>% group_by(Location)
 
 ## AIR TEMPERATURE DATA
 
-airtempData <- read.csv("2207755.csv")
+airtempData <- read.csv("Data/2207755.csv")
 
 # Converting data to better formats
 
@@ -638,8 +638,8 @@ pgeLocations <- unique(df5$Location)
 
 
 ### NEW USGS DATA READIN
-MadrasGageData <- read.table("MadrasTemperatureData.txt", header = T, fill = T, sep = "\t")
-MoodyGageData <- read.table("MoodyTemperatureData.txt", header = T, fill = T, sep = "\t")
+MadrasGageData <- read.table("Data/MadrasTemperatureData.txt", header = T, fill = T, sep = "\t")
+MoodyGageData <- read.table("Data/MoodyTemperatureData.txt", header = T, fill = T, sep = "\t")
 
 MadrasGageData <- MadrasGageData %>% mutate(Location = "Madras")
 MadrasGageData$X113433_00010_00001_cd <- NULL
@@ -724,14 +724,14 @@ longtermtempplot + geom_text(
 
 
 ### FISH DATA
-fishCountsSteelheadEstimated <- read.csv("EstimatedSteelheadODFW.csv")
-fishCounts <- read.csv("adult counts deschutes PGE 2014-2020.csv")
-fishCounts2 <- read.csv("RM43-steelhead-counts.csv")
+fishCountsSteelheadEstimated <- read.csv("Data/EstimatedSteelheadODFW.csv")
+fishCounts <- read.csv("Data/adult counts deschutes PGE 2014-2020.csv")
+fishCounts2 <- read.csv("Data/RM43-steelhead-counts.csv")
 fishCountsSteelhead <- fishCounts2 %>% select("BeginDate","EndDate","CountValue","TrendCom") %>% arrange(EndDate) # Actual captured rate
 
 
 
-fishCounts3 <- read.csv("FallChinookODFW.csv")[1:43,1:7]
+fishCounts3 <- read.csv("Data/FallChinookODFW.csv")[1:43,1:7]
 fishCounts3 <- gather(fishCounts3, Month, Count, June, July, August, September, October, -Total)
 fishCounts3 <- mutate(fishCounts3, monthNum = case_when(grepl("June", Month) ~ "-06", grepl("July", Month) ~ "-07", 
                                                         grepl("August", Month) ~ "-08", 
@@ -744,7 +744,7 @@ fishCounts3$monthNum <- NULL
 colnames(fishCounts3)[3] <- "Fall Chinook"
 fishCounts3$`Fall Chinook` <- as.numeric(fishCounts3$`Fall Chinook`)
 
-fishCounts4 <- read.csv("HatcherySteelhead.csv")[1:43,1:7]
+fishCounts4 <- read.csv("Data/HatcherySteelhead.csv")[1:43,1:7]
 odfwmergedata <- fishCounts4 %>% select("Year", "Total")
 fishCounts4 <- gather(fishCounts4, Month, Count, June, July, August, September, October, -Total)
 fishCounts4 <- mutate(fishCounts4, monthNum = case_when(grepl("June", Month) ~ "-06", grepl("July", Month) ~ "-07", 
@@ -758,7 +758,7 @@ fishCounts4$monthNum <- NULL
 colnames(fishCounts4)[3] <- "Hatchery Summer Steelhead"
 fishCounts4$`Hatchery Summer Steelhead` <- as.numeric(fishCounts4$`Hatchery Summer Steelhead`)
 
-fishCounts5 <- read.csv("WildSteelhead.csv")[1:43,1:7]
+fishCounts5 <- read.csv("Data/WildSteelhead.csv")[1:43,1:7]
 odfwmergedata <- odfwmergedata %>% left_join(select(fishCounts5, Total, Year), by = "Year")
 colnames(odfwmergedata) <- c("Year","Total Number of Captured Hatchery Summer Steelhead", "Number of Captured Wild Summer Steelhead")
 odfwmergedata <- odfwmergedata %>% mutate_all(funs(as.numeric(gsub(",", "", .))))
@@ -967,7 +967,7 @@ steelheadFinaldf %>% gather(Variable, Value, -steelheadListProp) %>% ggplot(aes(
   ggtitle("Sherars Falls Trap Data by Proportions")
 
 ### READING IN ODEQ Data - mostly useless
-# allodeqData <- read.csv("Standard Export 11365.csv")
+# allodeqData <- read.csv("Data/Standard Export 11365.csv")
 # 
 # allodeqData <- allodeqData %>% select("Result.Value", "Result.Unit", "Characteristic.Name","Monitoring.Location.Name",
 #                                       "Monitoring.Location.Latitude",	"Monitoring.Location.Longitude","Activity.Start.Date")
@@ -989,7 +989,7 @@ allodeqData1 %>% filter(Location == "Deschutes River at Deschutes River Park" | 
 
 
 ### Reading in new PGE data
-path <- "Rereg Sonde Data 2004-2006_ 2010-2017.xlsx"
+path <- "Data/Rereg Sonde Data 2004-2006_ 2010-2017.xlsx"
 mad <- path %>% excel_sheets() %>% set_names() %>% map_df(read_excel, path = path)
 mad$Time <- as.character(mad$Time)
 mad <- mad %>% mutate(Time = sub(".* ", "", Time))
