@@ -333,14 +333,30 @@ stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "text")
 MadrasDataMedians <- MadrasData %>% group_by(Year, Season) %>% 
   summarize(median = median(`Temperature`, na.rm = T), mean = mean(`Temperature`, na.rm = T)) %>% 
   filter(Year == 1953 | Year == 1955 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019)
-# Seasonal Mean Temperature pre and post dam comparison
+# Seasonal Mean Temperature pre and post dam comparison at Madras
+colorset3 <- c(`1953` = "firebrick3", `1955` = "firebrick3", `2008` = "royalblue4", `2009` = "royalblue4", 
+               `2016` = "firebrick3", `2019` = "firebrick3")
 MadrasDataMedians %>% ggplot(aes(Season, mean)) + geom_bar(aes(fill = as.factor(Year)), position = "dodge", stat = "identity") + 
-  labs(y = "Mean River Temperature (Celsius °)", fill = "Year") + scale_fill_brewer(palette = "Dark2") + theme_bw() +
-  scale_color_manual()
+  labs(y = "Mean River Temperature (Celsius °)", fill = "Year", title = "Madras") + scale_fill_brewer(palette = "Dark2") + 
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5, color = "firebrick4")) +
+  scale_fill_manual(values = colorset3)
 
+# Seasonal Mean Temperature pre and post dam comparison at Moody
+MoodyDataMedians <- MoodyData %>% group_by(Year, Season) %>% 
+  summarize(median = median(`Temperature`, na.rm = T), mean = mean(`Temperature`, na.rm = T)) %>% 
+  filter(Year == 1953 | Year == 1955 | Year == 1974 | Year == 1976 | Year == 2016 | Year == 2019)
+colorset4 <- c(`1953` = "firebrick3", `1955` = "firebrick3", `1974` = "royalblue4", `1976` = "royalblue4", 
+               `2016` = "firebrick3", `2019` = "firebrick3")
+MoodyDataMedians %>% ggplot(aes(Season, mean)) + geom_bar(aes(fill = as.factor(Year)), position = "dodge", stat = "identity") + 
+  labs(y = "Mean River Temperature (Celsius °)", fill = "Year", title = "Moody") + scale_fill_brewer(palette = "Dark2") + 
+  theme_bw() + theme(plot.title = element_text(hjust = 0.5, color = "dodgerblue4")) +
+  scale_fill_manual(values = colorset4)
+
+
+# Pre and post dam temperature comparison
 temperatureColor <- "#C92A2A"
 fishColor <- rgb(0.2, 0.6, 0.9, 1)
-# Pre and post dam temperature comparison
 colorset = c(`1953` = "firebrick3", `1955` = "firebrick3", `2008` = "royalblue4", `2009` = "royalblue4", 
              `2016` = "firebrick3", `2019` = "firebrick3")
 customcolors <- RColorBrewer::brewer.pal(6, "Spectral")
