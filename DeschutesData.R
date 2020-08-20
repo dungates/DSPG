@@ -692,7 +692,7 @@ MadrasDataMedians$Julian <- c("183", "183","183", "183","183", "183")
 
 
 longtermtempplot <- allusgsdata2 %>% filter(Location == "Madras" & Year == 2008 | Year == 2009 & Location == "Madras"| Year == 1953 & Location == "Madras" |
-                          Year == 1956 & Location == "Madras" | Year == 2016 & Location == "Madras" | Year == 2019 & Location == "Madras") %>%
+                          Year == 1955 & Location == "Madras" | Year == 2016 & Location == "Madras" | Year == 2019 & Location == "Madras") %>%
   ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = `Mean Temperature`, color = Year)) + geom_line(show.legend = F) + 
   facet_wrap( ~ as.factor(Year), ncol = 2) + theme_bw() +
   scale_x_date(date_labels = "%b") + ggtitle("Temperature Before and After Dam Installation") + labs(x = "Date") + 
