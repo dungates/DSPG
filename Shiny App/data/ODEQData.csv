@@ -1,0 +1,690 @@
+Location,Date_time,pH,Dissolved Oxygen % Saturation,Temperature,Dissolved Oxygen mg/l,Biochemical Oxygen Demand,Total Coliform,Total Solids,Ammonia,Nitrate + Nitrite,Escherichiac in cfu/100ml,Escherichia in MPN/100ml,Year,Season,Julian
+Deschutes River at Deschutes River Park,1962-07-16,8,102,17,9.9,1,620,NA,NA,NA,NA,NA,1962,Summer,197
+Deschutes River at Deschutes River Park,1962-10-08,8.4,111,14,11.5,1.8,620,NA,NA,NA,NA,NA,1962,Fall,281
+Deschutes River at Deschutes River Park,1963-01-07,7.6,95,5,12.1,1.9,230,NA,NA,NA,NA,NA,1963,Winter,7
+Deschutes River at Deschutes River Park,1963-04-16,8.2,101,9,11.7,1.3,60,NA,NA,NA,NA,NA,1963,Spring,106
+Deschutes River at Deschutes River Park,1963-07-09,8.2,106,17,10.3,1.1,60,124,0.082,NA,NA,NA,1963,Summer,190
+Deschutes River at Deschutes River Park,1964-01-07,8,102,6,12.8,1.5,230,162,0.01,NA,NA,NA,1964,Winter,7
+Deschutes River at Deschutes River Park,1964-06-09,8,106,15,10.8,0.7,45,122,0.008,NA,NA,NA,1964,Spring,161
+Deschutes River at Deschutes River Park,1964-08-19,8.4,103,19,9.7,0.4,230,126,0.055,NA,NA,NA,1964,Summer,232
+Deschutes River at Deschutes River Park,1964-11-09,7.9,102,9,11.8,1.9,230,122,0.008,NA,NA,NA,1964,Fall,314
+Deschutes River at Deschutes River Park,1965-03-08,7.8,101,8,12.3,1.4,700,118,0.005,NA,NA,NA,1965,Winter,67
+Deschutes River at Deschutes River Park,1965-05-11,8.4,97,9,11.3,1.7,62,72,0.037,NA,NA,NA,1965,Spring,131
+Deschutes River at Deschutes River Park,1965-08-23,8.1,92,16,9.2,4.1,7000,787,0.05,NA,NA,NA,1965,Summer,235
+Deschutes River at Deschutes River Park,1965-10-04,8.3,101,12,10.9,2.1,230,100,0.013,NA,NA,NA,1965,Fall,277
+Deschutes River at Deschutes River Park,1966-03-22,8.2,102,6,12.7,1.9,700,128,0.012,NA,NA,NA,1966,Spring,81
+Deschutes River at Deschutes River Park,1966-09-12,7.9,96,15,9.8,0.6,620,112,0.009,NA,NA,NA,1966,Summer,255
+Deschutes River at Deschutes River Park,1967-02-22,7.7,60,5,11.8,1,230,106,0.001,NA,NA,NA,1967,Winter,53
+Deschutes River at Maupin,1967-04-18,7.8,97,7,11.6,1.1,45,114,0.003,NA,NA,NA,1967,Spring,108
+Deschutes River at Deschutes River Park,1967-04-18,8.2,104,9.5,11.9,1.4,45,111,0.006,NA,NA,NA,1967,Spring,108
+Deschutes River at Deschutes River Park,1967-07-17,7.9,109,18,10.4,1.6,45,99,0.011,NA,NA,NA,1967,Summer,198
+Deschutes River at Maupin,1967-08-15,8.1,112,19.5,10.4,1,45,9,6e-4,NA,NA,NA,1967,Summer,227
+Deschutes River at Deschutes River Park,1967-08-15,8.3,115,22,10.1,1.7,45,4,0.001,NA,NA,NA,1967,Summer,227
+Deschutes River at Maupin,1968-04-09,8.3,111,11,12.3,2.3,23,96,0.003,NA,NA,NA,1968,Spring,100
+Deschutes River at Deschutes River Park,1968-04-09,8.3,108,13,11.4,NA,240,125,0.006,NA,NA,NA,1968,Spring,100
+Deschutes River at Deschutes River Park,1968-07-02,7.9,123,22,10.8,2.2,60,93,0.016,NA,NA,NA,1968,Summer,184
+Deschutes River at Maupin,1968-07-02,8.1,104,17,10,1,12,81,0.009,NA,NA,NA,1968,Summer,184
+Deschutes River at Deschutes River Park,1968-12-02,7.4,97,7,11.8,1.3,45,121,0.004,NA,NA,NA,1968,Fall,337
+Deschutes River at Maupin,1968-12-02,7.6,99,8,11.5,0.9,230,118,0.005,NA,NA,NA,1968,Fall,337
+Deschutes River at Deschutes River Park,1969-05-26,7.8,101,13.5,10.6,1.3,62,108,0.012,NA,NA,NA,1969,Spring,146
+Deschutes River at Maupin,1969-05-26,7.9,105,13.5,10.7,1.4,23,120,0.005,NA,NA,NA,1969,Spring,146
+Deschutes River at Deschutes River Park,1969-06-24,7.6,97,14,10.1,NA,2400,130,0.001,NA,NA,NA,1969,Summer,175
+Deschutes River at Deschutes River Park,1969-08-25,8.2,111,19,10.4,1.6,23,94,0.009,NA,NA,NA,1969,Summer,237
+Deschutes River at Maupin,1969-08-25,8.3,112,17,10.6,0.7,62,92,0.011,NA,NA,NA,1969,Summer,237
+Deschutes River at Deschutes River Park,1969-11-03,8,106,12,11.4,0.6,6,108,0.002,NA,NA,NA,1969,Fall,307
+Deschutes River at Maupin,1969-11-03,8.1,108,12.5,11.2,0.6,240,109,0.001,NA,NA,NA,1969,Fall,307
+Deschutes River at Deschutes River Park,1970-03-30,8.1,110,10,12.4,1.6,240,106,0.004,NA,NA,NA,1970,Spring,89
+Deschutes River at Maupin,1970-03-30,7.9,108,8.5,12.2,1.2,240,NA,NA,NA,NA,NA,1970,Spring,89
+Deschutes River at Deschutes River Park,1970-08-03,8.1,106,18.5,10,1.3,23,90,0.004,NA,NA,NA,1970,Summer,215
+Deschutes River at Maupin,1970-08-03,8.1,115,19,10.5,1.1,23,130,0.008,NA,NA,NA,1970,Summer,215
+Deschutes River at Deschutes River Park,1970-11-16,7.9,99,9.5,11.3,1.4,130,125,5e-4,NA,NA,NA,1970,Fall,320
+Deschutes River at Maupin,1970-11-16,8.1,108,10.5,11.7,1.7,130,124,3e-4,NA,NA,NA,1970,Fall,320
+Deschutes River at Maupin,1971-03-31,7.6,106,9,12,0.8,240,164,2e-4,NA,NA,NA,1971,Spring,90
+Deschutes River at Deschutes River Park,1971-03-31,8,109,9,12.7,1.7,240,135,2e-4,NA,NA,NA,1971,Spring,90
+Deschutes River at Deschutes River Park,1971-11-29,7.5,104,8.5,11.7,1.5,620,127,0.001,NA,NA,NA,1971,Fall,333
+Deschutes River at Maupin,1971-11-29,8,104,9,11.8,1,230,128,0.003,NA,NA,NA,1971,Fall,333
+Deschutes River at Deschutes River Park,1972-04-03,7.8,109,10,11.9,1,NA,124,2e-4,NA,NA,NA,1972,Spring,94
+Deschutes River at Maupin,1972-08-16,8.1,105,14,10.7,0.8,45,99,0.001,NA,NA,NA,1972,Summer,229
+Deschutes River at Deschutes River Park,1972-08-16,8.4,109,16,10.9,1.2,230,110,0.003,NA,NA,NA,1972,Summer,229
+Deschutes River at Deschutes River Park,1972-11-13,8,98,9,11.4,1,45,89,8e-4,NA,NA,NA,1972,Fall,318
+Deschutes River at Deschutes River Park,1973-03-05,8.1,104,7,12.6,1.6,230,96,0.002,NA,NA,NA,1973,Winter,64
+Deschutes River at Maupin,1973-07-11,NA,113,16.5,11.3,NA,NA,109,0.08,NA,NA,NA,1973,Summer,192
+John Day River at Hwy 206,1973-09-26,NA,130,19,12,NA,NA,232,0.29,NA,NA,NA,1973,Fall,269
+Deschutes River at Maupin,1973-11-12,7.7,97,10,10.8,1.1,230,117,0.001,NA,NA,NA,1973,Fall,316
+Deschutes River at Deschutes River Park,1974-04-08,7.6,103,10,11.6,1,120,124,0.002,NA,NA,NA,1974,Spring,98
+Deschutes River at Maupin,1974-04-08,7.6,101,8.5,11.6,0.6,45,118,8e-4,NA,NA,NA,1974,Spring,98
+John Day River at Hwy 206,1974-07-31,8.5,119,26,8.7,0.8,45,152,0.008,NA,NA,NA,1974,Summer,212
+Deschutes River at Deschutes River Park,1974-08-28,8.7,113,21,10.2,1.6,45,96,0.004,NA,NA,NA,1974,Summer,240
+Deschutes River at Maupin,1974-08-28,8.3,109,17.5,10.5,1.2,45,99,0.001,NA,NA,NA,1974,Summer,240
+Deschutes River at Maupin,1974-10-29,NA,NA,NA,NA,NA,NA,106,0.01,NA,NA,NA,1974,Fall,302
+Deschutes River at Deschutes River Park,1974-10-29,NA,NA,NA,NA,NA,NA,103,0.02,NA,NA,NA,1974,Fall,302
+John Day River at Hwy 206,1974-11-11,NA,NA,NA,NA,NA,NA,191,0.06,NA,NA,NA,1974,Fall,315
+Deschutes River at Deschutes River Park,1975-03-25,7.5,105,7.5,12.7,1.9,230,151,6e-5,NA,NA,NA,1975,Spring,84
+John Day River at Hwy 206,1975-07-09,8.5,106,28,8.7,1.1,200,188,0.048,NA,NA,NA,1975,Summer,190
+Deschutes River at Deschutes River Park,1975-09-08,8.5,118,20,10.9,NA,230,102,0.014,NA,NA,NA,1975,Summer,251
+Deschutes River at Maupin,1975-09-08,8.5,109,16,10.5,1.2,230,103,0.01,NA,NA,NA,1975,Summer,251
+John Day River at Hwy 206,1975-11-10,7.7,103,7,12.2,1.3,45,183,0.001,NA,NA,NA,1975,Fall,314
+John Day River at Hwy 206,1976-01-28,8,105,6,13.1,1.5,60,171,0.003,NA,NA,NA,1976,Winter,28
+Deschutes River at Deschutes River Park,1976-01-28,8.4,112,10,12.7,NA,45,121,0.011,NA,NA,NA,1976,Winter,28
+Deschutes River at Deschutes River Park,1976-02-17,7.9,100,7,12.2,1.2,620,115,1e-4,0.2,NA,NA,1976,Winter,48
+John Day River at Hwy 206,1976-03-17,8.5,103,12.5,11,6.2,60,275,0.003,0.03,NA,NA,1976,Winter,77
+John Day River at Hwy 206,1976-04-14,7.9,101,10.5,10.9,1.8,60,250,0.003,0.2,NA,NA,1976,Spring,105
+Deschutes River at Deschutes River Park,1976-04-14,8.6,114,11,12.6,2.7,45,101,0.002,0.1,NA,NA,1976,Spring,105
+John Day River at Hwy 206,1976-05-12,7.3,100,16,9.7,1.6,620,215,5e-4,0.8,NA,NA,1976,Spring,133
+Deschutes River at Deschutes River Park,1976-05-12,8.7,105,17,10.2,1.6,130,107,0.018,0.1,NA,NA,1976,Spring,133
+John Day River at Hwy 206,1976-06-09,8.2,102,19,9.4,0.6,620,119,0.007,0.1,NA,NA,1976,Spring,161
+Deschutes River at Deschutes River Park,1976-06-09,8,104,16.5,10.3,0.6,230,106,0.001,0.03,NA,NA,1976,Spring,161
+Deschutes River at Deschutes River Park,1976-07-14,8.5,105,18,10.3,1.3,60,82,0.006,0.1,NA,NA,1976,Summer,196
+John Day River at Hwy 206,1976-08-18,8.2,95,19,8.7,1.3,230,469,0.015,0.09,NA,NA,1976,Summer,231
+Deschutes River at Deschutes River Park,1976-08-18,8.4,108,17,10.5,0.9,45,113,0.005,0.1,NA,NA,1976,Summer,231
+John Day River at Hwy 206,1976-09-15,8.4,114,19,10.5,0.8,60,202,0.002,0.02,NA,NA,1976,Summer,259
+Deschutes River at Deschutes River Park,1976-09-15,8.4,109,17,10.6,1.1,60,101,0.006,0.1,NA,NA,1976,Summer,259
+John Day River at Hwy 206,1976-10-27,8.4,119,11,12.9,0.9,45,186,0.029,0.07,NA,NA,1976,Fall,301
+Deschutes River at Deschutes River Park,1976-10-27,8.4,111,12.5,11.9,0.8,45,117,7e-4,0.3,NA,NA,1976,Fall,301
+Deschutes River at Deschutes River Park,1976-12-01,7.9,101,5.5,13,1.5,230,104,6e-4,0.2,NA,NA,1976,Fall,336
+Deschutes River at Deschutes River Park,1976-12-21,7.9,102,5.5,12.9,1.4,45,113,8e-4,0.2,NA,NA,1976,Winter,356
+Deschutes River at Deschutes River Park,1977-01-19,7.5,102,8,12.1,0.2,60,120,0.002,0.25,NA,NA,1977,Winter,19
+Deschutes River at Deschutes River Park,1977-02-16,7.4,102,7,12.5,0.9,45,131,0.002,0.15,NA,NA,1977,Winter,47
+Deschutes River at Deschutes River Park,1977-03-09,7.3,105,8,12.5,1.5,45,97,0.002,0.09,NA,NA,1977,Winter,68
+Deschutes River at Deschutes River Park,1977-04-07,7.8,108,14.5,11.1,2.7,45,92,0.005,0.07,NA,NA,1977,Spring,97
+Deschutes River at Deschutes River Park,1977-05-26,7.3,105,14,10.9,1.5,45,105,0.007,0.03,NA,NA,1977,Spring,146
+Deschutes River at Deschutes River Park,1977-06-21,7.7,109,17.5,10.5,1.5,60,92,0.006,0.02,NA,NA,1977,Summer,172
+Deschutes River at Deschutes River Park,1977-11-16,7.8,94,9,10.9,1.6,230,336,6e-4,0.07,NA,NA,1977,Fall,320
+Deschutes River at Deschutes River Park,1978-01-25,7.7,97,5,12.4,1.4,60,105,9e-4,0.22,NA,NA,1978,Winter,25
+Deschutes River at Deschutes River Park,1978-02-21,7.9,103,8.5,12.1,1.1,46,129,0.003,0.29,NA,NA,1978,Winter,52
+Deschutes River at Deschutes River Park,1978-03-21,8.3,104,12,11.2,0.5,30,108,0.005,0.13,NA,NA,1978,Spring,80
+Deschutes River at Deschutes River Park,1978-04-19,7.5,88,11,9.8,0.2,91,119,0.001,0.05,NA,NA,1978,Spring,109
+Deschutes River at Deschutes River Park,1978-06-21,8,96,17,9.3,1,150,116,0.002,0.05,NA,NA,1978,Summer,172
+Deschutes River at Deschutes River Park,1978-07-12,8,96,16,9.6,0.8,230,132,0.002,0.1,NA,NA,1978,Summer,193
+Deschutes River at Deschutes River Park,1978-08-16,7.8,98,16,9.8,1.3,230,106,0.001,0.08,NA,NA,1978,Summer,228
+John Day River at Hwy 206,1978-10-25,8.5,112,12,12.1,1,36,191,0.011,0.02,NA,NA,1978,Fall,298
+John Day River at Hwy 206,1978-11-15,8.3,101,1.3,14.2,2.7,36,209,0.002,0.02,NA,NA,1978,Fall,319
+Deschutes River at Deschutes River Park,1979-01-17,8,101,3,13.7,2.2,91,113,5e-4,0.23,NA,NA,1979,Winter,17
+John Day River at Hwy 206,1979-02-22,7.7,95,6,11.9,1.3,91,276,0.002,0.62,NA,NA,1979,Winter,53
+Deschutes River at Deschutes River Park,1979-02-22,7.5,99,7,12.1,1.2,36,131,6e-4,0.34,NA,NA,1979,Winter,53
+Deschutes River at Deschutes River Park,1979-03-21,7.8,105,11,11.6,1.5,91,138,0.002,0.29,NA,NA,1979,Spring,80
+John Day River at Hwy 206,1979-04-18,7.9,96,11,10.7,0.7,91,203,0.002,0.08,NA,NA,1979,Spring,108
+Deschutes River at Deschutes River Park,1979-04-18,8,109,12,11.7,0.9,230,138,0.002,0.17,NA,NA,1979,Spring,108
+John Day River at Hwy 206,1979-05-16,7.9,95,17.5,9.1,0.9,93,391,0.003,0.08,NA,NA,1979,Spring,136
+Deschutes River at Deschutes River Park,1979-05-16,8.2,103,17,10.7,0.9,230,117,0.003,0.04,NA,NA,1979,Spring,136
+John Day River at Hwy 206,1979-06-20,8.2,101,19.5,9.4,0.8,36,130,0.004,0.02,NA,NA,1979,Spring,171
+John Day River at Hwy 206,1979-07-18,8.7,129,29,10,0.7,36,157,0.018,0.02,NA,NA,1979,Summer,199
+John Day River at Hwy 206,1979-08-22,8.5,110,23,9.6,2.3,36,204,0.01,0.06,NA,NA,1979,Summer,234
+Deschutes River at Deschutes River Park,1979-08-22,7.8,110,20.5,9.9,0.9,430,123,0.002,0.14,NA,NA,1979,Summer,234
+Deschutes River at Deschutes River Park,1979-09-19,8.4,114,17.5,10.9,1,91,107,0.003,0.04,NA,NA,1979,Summer,262
+Deschutes River at Deschutes River Park,1979-11-16,7.6,98,8,11.7,1,30,94,3e-4,0.22,NA,NA,1979,Fall,320
+Deschutes River at Deschutes River Park,1980-01-17,7.4,57,7,6.9,1.1,36,386,1e-4,0.39,NA,NA,1980,Winter,17
+Deschutes River at Deschutes River Park,1980-02-14,8,96,3.5,12.8,1.1,30,99,2e-4,0.32,NA,NA,1980,Winter,45
+Deschutes River at Deschutes River Park,1980-03-20,7.7,NA,9,12.1,0.7,23,92,2e-4,0.02,NA,NA,1980,Spring,80
+Deschutes River at Deschutes River Park,1980-06-12,7.9,100,15,10.2,0.9,91,113,0.001,0.02,NA,NA,1980,Spring,164
+Deschutes River at Deschutes River Park,1980-07-17,8.1,112,20.7,10.2,1.7,930,115,0.016,0.02,NA,NA,1980,Summer,199
+Deschutes River at Deschutes River Park,1980-08-14,7.8,107,19,10.1,1.2,91,97,0.002,0.02,NA,NA,1980,Summer,227
+Deschutes River at Deschutes River Park,1980-09-18,7.7,105,16,10.5,2.3,150,111,4e-4,0.02,NA,NA,1980,Summer,262
+Deschutes River at Deschutes River Park,1980-11-06,7.7,106,12,10.8,1.1,43,125,7e-4,0.19,NA,NA,1980,Fall,311
+Deschutes River at Deschutes River Park,1980-12-11,7.7,110,7.5,13.3,2,91,102,4e-4,0.1,NA,NA,1980,Fall,346
+Deschutes River at Deschutes River Park,1981-01-15,7.4,103,5.8,12.9,1.4,150,86,2e-4,0.15,NA,NA,1981,Winter,15
+Deschutes River at Deschutes River Park,1981-02-12,7.8,105,6.5,13,1.5,36,99,2e-4,0.21,NA,NA,1981,Winter,43
+Deschutes River at Deschutes River Park,1981-04-16,8.6,117,12.5,12.5,1.5,30,90,0.002,0.02,NA,NA,1981,Spring,106
+Deschutes River at Deschutes River Park,1981-07-16,8,106,19.2,10,1.4,210,97,0.001,0.02,NA,NA,1981,Summer,197
+Deschutes River at Deschutes River Park,1981-08-13,8.2,114,22,10,1.1,36,103,0.002,0.05,NA,NA,1981,Summer,225
+Deschutes River at Deschutes River Park,1981-09-17,7.8,113,17.5,10.4,1.4,30,89,0.002,0.03,NA,NA,1981,Summer,260
+Deschutes River at Deschutes River Park,1981-12-10,7.8,103,8,12.3,1.6,210,124,5e-4,0.17,NA,NA,1981,Fall,344
+Deschutes River at Deschutes River Park,1982-02-11,7.4,105,4.5,13.6,2.7,91,118,1e-4,0.27,NA,NA,1982,Winter,42
+Deschutes River at Deschutes River Park,1982-04-14,7.8,102,8.5,12,2.2,73,88,4e-4,0.1,NA,NA,1982,Spring,104
+Deschutes River at Deschutes River Park,1982-05-25,8.1,95,14.5,9.8,1.3,36,103,8e-4,0.02,NA,NA,1982,Spring,145
+Deschutes River at Deschutes River Park,1982-07-15,8.5,111,17.5,10.7,1.6,430,117,0.003,0.02,NA,NA,1982,Summer,196
+Deschutes River at Deschutes River Park,1982-09-29,7.5,91,12,9.8,0.2,36,110,2e-4,0.1,NA,NA,1982,Fall,272
+Deschutes River at Deschutes River Park,1982-10-26,7.6,96,10.5,10.7,1.5,30,106,2e-4,0.08,NA,NA,1982,Fall,299
+Deschutes River at Deschutes River Park,1982-11-18,8,96,10,10.8,1.6,30,92,3e-4,0.07,NA,NA,1982,Fall,322
+Deschutes River at Deschutes River Park,1983-02-14,8,98,8,11.6,0.5,36,119,4e-4,0.29,NA,NA,1983,Winter,45
+Deschutes River at Deschutes River Park,1983-05-25,8.2,107,16,10.7,1.7,39,93,0.001,0.02,NA,NA,1983,Spring,145
+Deschutes River at Deschutes River Park,1983-06-29,7.7,100,16,10,1.5,36,94,4e-4,3.2,NA,NA,1983,Summer,180
+Deschutes River at Deschutes River Park,1983-07-28,7.7,106,18.5,10,1.1,30,106,0.006,0.02,NA,NA,1983,Summer,209
+Deschutes River at Deschutes River Park,1983-10-26,8.4,104,11,11.5,1.8,36,112,0.001,0.12,NA,NA,1983,Fall,299
+Deschutes River at Deschutes River Park,1984-02-15,8,100,7.5,12.1,1.3,30,163,5e-4,0.2,NA,NA,1984,Winter,46
+Deschutes River at Deschutes River Park,1984-04-21,8.1,95,13,10.1,1.2,91,100,7e-4,0.02,NA,NA,1984,Spring,112
+Deschutes River at Deschutes River Park,1984-04-23,8.1,107,12,11.7,0.9,73,120,6e-4,0.11,NA,NA,1984,Spring,114
+Deschutes River at Deschutes River Park,1984-06-27,7.8,116,19,10.9,1.8,73,98,8e-4,0.02,NA,NA,1984,Summer,179
+Deschutes River at Deschutes River Park,1984-07-25,8.3,109,22,9.6,1.5,NA,106,0.002,0.02,NA,NA,1984,Summer,207
+Deschutes River at Deschutes River Park,1984-09-19,7.8,113,16.6,11.1,2.6,36,94,6e-4,0.09,NA,NA,1984,Summer,263
+Deschutes River at Deschutes River Park,1985-02-14,8,103,5.5,13,1.5,430,112,1e-4,0.19,NA,NA,1985,Winter,45
+Deschutes River at Deschutes River Park,1985-04-10,8.6,113,13.5,11.9,3.2,73,111,0.003,0.02,NA,NA,1985,Spring,100
+Deschutes River at Deschutes River Park,1985-04-21,8.1,95,13,10.1,1.2,91,10,7e-4,0.02,NA,NA,1985,Spring,111
+John Day River at Hwy 206,1985-07-23,8.8,114,25.5,9.5,0.8,7,164,0.007,0.02,NA,NA,1985,Summer,204
+Deschutes River at Deschutes River Park,1985-08-13,8.5,124,21.5,11,2,2900,96,0.004,0.02,NA,NA,1985,Summer,225
+John Day River at Hwy 206,1985-08-13,8.4,124,25,10.3,39,91,182,0.005,0.02,NA,NA,1985,Summer,225
+John Day River at Hwy 206,1985-10-03,8.8,110,16,11,1.1,NA,186,0.004,0.03,NA,NA,1985,Fall,276
+John Day River at Hwy 206,1986-02-26,8,99,9,11.5,1.7,NA,465,8e-4,0.27,NA,NA,1986,Winter,57
+Deschutes River at Deschutes River Park,1986-03-18,8.1,93,10,11.6,1.1,NA,151,6e-4,0.27,NA,NA,1986,Winter,77
+John Day River at Hwy 206,1986-04-22,8.2,94,14,9.6,1,NA,132,9e-4,0.02,NA,NA,1986,Spring,112
+John Day River at Hwy 206,1986-05-20,8.1,99,18,9.3,1.7,NA,140,0.001,0.02,NA,NA,1986,Spring,140
+Deschutes River at Deschutes River Park,1986-06-09,8.4,117,17.6,11.2,1.8,NA,94,0.002,0.02,NA,NA,1986,Spring,160
+Deschutes River at Deschutes River Park,1986-07-29,8.4,105,18,10,1.4,NA,105,0.002,0.02,NA,NA,1986,Summer,210
+John Day River at Hwy 206,1987-01-27,7.8,99,2.5,13.5,2,NA,1872,5e-4,0.39,NA,NA,1987,Winter,27
+Deschutes River at Deschutes River Park,1987-01-27,8,100,6.5,12.3,2.6,NA,171,4e-4,0.27,NA,NA,1987,Winter,27
+Deschutes River at Deschutes River Park,1987-02-04,8.3,112,8.5,13.2,2.4,NA,108,5e-4,0.17,NA,NA,1987,Winter,35
+John Day River at Hwy 206,1987-02-24,7.8,105,7,12.8,1.3,NA,160,3e-4,0.1,NA,NA,1987,Winter,55
+Deschutes River at Deschutes River Park,1987-02-24,8.3,112,8.5,13.2,1.8,NA,106,4e-4,0.16,NA,NA,1987,Winter,55
+John Day River at Hwy 206,1987-03-31,8.2,106,12,11.5,1.3,NA,150,8e-4,0.08,NA,NA,1987,Spring,90
+Deschutes River at Deschutes River Park,1987-03-31,8.9,121,12.5,12.9,2,NA,107,0.004,0.03,NA,NA,1987,Spring,90
+Deschutes River at Deschutes River Park,1987-04-27,8.2,105,13,11.1,2.3,NA,101,7e-4,0.02,NA,NA,1987,Spring,117
+John Day River at Hwy 206,1987-04-29,7.9,101,19,9.3,1.1,NA,114,7e-4,0.02,NA,NA,1987,Spring,119
+Deschutes River at Deschutes River Park,1987-05-26,8,106,15,10.8,2.5,NA,109,6e-4,0.02,NA,NA,1987,Spring,146
+John Day River at Hwy 206,1987-05-28,8.5,108,17.5,10.2,1.3,NA,142,0.001,0.02,NA,NA,1987,Spring,148
+John Day River at Hwy 206,1987-06-29,8.7,120,26.5,9,1.4,NA,132,0.006,0.02,NA,NA,1987,Summer,180
+Deschutes River at Deschutes River Park,1987-07-01,8.8,120,22.5,10.5,2,NA,90,0.006,0.02,NA,NA,1987,Summer,182
+Deschutes River at Deschutes River Park,1987-08-04,8.5,108,20,9.9,1.2,NA,98,0.003,0.02,NA,NA,1987,Summer,216
+John Day River at Hwy 206,1987-08-06,8.6,111,22.5,9.3,1.3,NA,197,0.006,0.03,NA,NA,1987,Summer,218
+Deschutes River at Deschutes River Park,1987-10-19,8.4,112,12,12.1,2.1,NA,118,0.001,0.09,NA,NA,1987,Fall,292
+John Day River at Hwy 206,1987-10-21,8.5,114,11,12,1.3,NA,223,0.002,0.02,NA,NA,1987,Fall,294
+Deschutes River at Deschutes River Park,1987-11-23,7.7,113,9.5,12.9,2.4,NA,124,2e-4,0.08,NA,NA,1987,Fall,327
+John Day River at Hwy 206,1987-11-24,8,92,11,10.2,0.6,NA,115,0.001,0.24,NA,NA,1987,Fall,328
+Deschutes River at Deschutes River Park,1987-12-21,8.1,102,7,12.4,1.5,NA,104,4e-4,0.19,NA,NA,1987,Winter,355
+John Day River at Hwy 206,1987-12-21,8.3,108,3,14,2.6,NA,NA,8e-4,0.02,NA,NA,1987,Winter,355
+Deschutes River at Deschutes River Park,1988-01-20,7.9,106,6,13.3,2.1,NA,103,3e-4,0.29,NA,NA,1988,Winter,20
+John Day River at Hwy 206,1988-01-20,8.2,112,4.3,14,2.7,NA,190,4e-4,0.3,NA,NA,1988,Winter,20
+Deschutes River at Deschutes River Park,1988-02-18,7.9,111,7.5,13.4,2,NA,119,6e-4,0.19,NA,NA,1988,Winter,49
+John Day River at Hwy 206,1988-02-18,8.2,112,7,13.3,2.1,NA,171,6e-4,0.02,NA,NA,1988,Winter,49
+Deschutes River at Deschutes River Park,1988-04-12,8.3,108,12.5,11.6,2.4,NA,80,0.004,0.03,NA,NA,1988,Spring,103
+John Day River at Hwy 206,1988-04-12,8,102,16,10.2,1.2,NA,129,0.002,0.02,NA,NA,1988,Spring,103
+Deschutes River at Deschutes River Park,1988-05-04,8.1,106,10.5,11.9,1.8,NA,89,0.001,0.02,NA,NA,1988,Spring,125
+John Day River at Hwy 206,1988-05-06,8.3,105,13,10.9,1.3,NA,120,0.002,0.02,NA,NA,1988,Spring,127
+John Day River at Hwy 206,1988-06-14,8.7,110,21,9.7,0.8,NA,114,0.004,0.02,NA,NA,1988,Spring,166
+Deschutes River at Deschutes River Park,1988-06-14,8.6,116,17,11.3,1.4,NA,98,0.003,0.02,NA,NA,1988,Spring,166
+Deschutes River at Deschutes River Park,1988-06-17,8.3,108,12.5,11.6,2.4,NA,79,0.003,0.02,NA,NA,1988,Spring,169
+John Day River at Hwy 206,1988-06-17,8.2,102,16,10.2,1.2,NA,129,0.002,0.02,NA,NA,1988,Spring,169
+Deschutes River at Deschutes River Park,1988-07-18,8.2,106,10.5,11.9,1.8,NA,92,0.002,0.02,NA,NA,1988,Summer,200
+John Day River at Hwy 206,1988-07-19,8.7,123,25,10.1,1.2,NA,150,0.005,0.02,NA,NA,1988,Summer,201
+Deschutes River at Deschutes River Park,1988-07-19,8.6,123,21,11.1,1.7,NA,89,0.004,0.02,NA,NA,1988,Summer,201
+Deschutes River at Deschutes River Park,1988-08-15,8.4,118,18,11.2,1.9,NA,96,0.002,0.05,NA,NA,1988,Summer,228
+John Day River at Hwy 206,1988-08-16,8.9,112,23,9.5,2,NA,190,0.01,0.02,NA,NA,1988,Summer,229
+Deschutes River at Deschutes River Park,1988-09-26,8.6,121,16,11.5,2.5,NA,98,0.003,0.04,NA,NA,1988,Fall,270
+John Day River at Hwy 206,1988-09-28,8.9,118,17,11.2,1.8,NA,220,0.005,0.02,NA,NA,1988,Fall,272
+Deschutes River at Deschutes River Park,1988-10-24,8.2,108,13,11.5,1.4,NA,100,7e-4,0.09,NA,NA,1988,Fall,298
+John Day River at Hwy 206,1988-10-26,8.6,104,14,10.6,0.6,NA,190,0.002,0.02,NA,NA,1988,Fall,300
+Deschutes River at Deschutes River Park,1988-11-22,8.3,106,10.5,11.9,1.9,NA,100,7e-4,0.1,NA,NA,1988,Fall,327
+John Day River at Hwy 206,1988-11-22,8.5,106,9.5,12.1,2,NA,171,0.003,0.02,NA,NA,1988,Fall,327
+Deschutes River at Deschutes River Park,1989-02-13,8.2,111,6.5,13.4,NA,NA,110,0.02,0.16,NA,NA,1989,Winter,44
+John Day River at Hwy 206,1989-03-30,7.8,90,4.5,11.6,NA,NA,170,0.03,0.09,NA,NA,1989,Spring,89
+Deschutes River at Deschutes River Park,1989-03-30,8.4,111,8.5,13,NA,NA,130,0.03,0.16,NA,NA,1989,Spring,89
+Deschutes River at Deschutes River Park,1989-05-09,8.1,NA,14,10.5,NA,NA,100,0.02,0.02,NA,NA,1989,Spring,129
+John Day River at Hwy 206,1989-05-17,8.3,100,15,10.2,NA,NA,160,0.04,0.08,NA,NA,1989,Spring,137
+Deschutes River at Deschutes River Park,1989-07-10,8.6,109,17,10.6,2.2,NA,100,0.02,0.02,NA,NA,1989,Summer,191
+John Day River at Hwy 206,1989-07-10,8.9,122,22,10.6,0.9,NA,160,0.02,0.02,NA,NA,1989,Summer,191
+Deschutes River at Deschutes River Park,1989-08-21,8.5,108,18,10.3,1.9,NA,110,0.03,0.02,NA,NA,1989,Summer,233
+John Day River at Hwy 206,1989-08-22,9.1,115,22,10,1.8,NA,210,0.02,0.02,NA,NA,1989,Summer,234
+Deschutes River at Deschutes River Park,1990-06-05,8.2,109,13.9,11.5,2.1,NA,100,9e-4,0.03,NA,NA,1990,Spring,156
+John Day River at Hwy 206,1990-06-06,8.4,108,17.8,9.9,1.2,NA,110,0.004,0.02,NA,NA,1990,Spring,157
+John Day River at Hwy 206,1990-06-25,8.3,111,17,9.7,1.5,NA,120,0.001,0.02,NA,NA,1990,Summer,176
+Deschutes River at Deschutes River Park,1990-07-09,7.9,113,21,10.2,1.9,NA,88,8e-4,0.02,NA,NA,1990,Summer,190
+Deschutes River at Deschutes River Park,1990-08-13,7.7,98,20,9,1,NA,110,0.001,0.03,NA,NA,1990,Summer,225
+John Day River at Hwy 206,1990-08-13,8.8,110,25,9,1.2,NA,170,0.006,0.02,NA,NA,1990,Summer,225
+Deschutes River at Deschutes River Park,1990-09-18,8.1,112,18,10.6,1.6,NA,110,0.001,0.05,NA,NA,1990,Summer,261
+Deschutes River at Deschutes River Park,1990-10-08,7.3,102,12,11,1.4,NA,100,1e-4,0.12,NA,NA,1990,Fall,281
+John Day River at Hwy 206,1990-10-08,8.3,102,12,10.8,1,NA,180,0.001,0.02,NA,NA,1990,Fall,281
+Deschutes River at Deschutes River Park,1990-12-05,7.8,112,9,13,2,NA,100,3e-4,0.08,NA,NA,1990,Fall,339
+John Day River at Hwy 206,1990-12-05,8,110,7,13.4,1.6,NA,150,4e-4,0.02,NA,NA,1990,Fall,339
+Deschutes River at Deschutes River Park,1991-01-09,8.1,106,2.5,14.5,2.4,NA,96,3e-4,0.17,NA,NA,1991,Winter,9
+John Day River at Hwy 206,1991-01-09,8.2,102,0,14.9,2.8,NA,170,3e-4,0.02,NA,NA,1991,Winter,9
+Deschutes River at Deschutes River Park,1991-02-20,8.2,103,8,12.2,1.4,NA,100,6e-4,0.14,NA,NA,1991,Winter,51
+John Day River at Hwy 206,1991-02-20,8.2,99,7.5,11.9,1.6,NA,150,6e-4,0.08,NA,NA,1991,Winter,51
+Deschutes River at Deschutes River Park,1991-03-27,8.4,124,11,13.8,2.9,NA,72,0.001,0.02,NA,NA,1991,Spring,86
+John Day River at Hwy 206,1991-03-27,8.2,113,14,11.7,1.3,NA,120,9e-4,0.02,NA,NA,1991,Spring,86
+Deschutes River at Deschutes River Park,1991-07-15,8.5,120,20,11,2,NA,96,0.003,0.02,NA,NA,1991,Summer,196
+John Day River at Hwy 206,1991-07-17,8.8,124,23,10.5,2.4,NA,130,0.009,0.02,NA,NA,1991,Summer,198
+John Day River at Hwy 206,1991-08-20,9.1,123,28.5,9.5,0.9,NA,190,0.017,0.02,NA,NA,1991,Summer,232
+Deschutes River at Deschutes River Park,1991-08-20,9.1,127,24.5,10.6,1.5,NA,120,0.015,0.04,NA,NA,1991,Summer,232
+John Day River at Hwy 206,1991-09-11,8.9,118,23,10.4,1.9,NA,190,0.007,0.02,NA,NA,1991,Summer,254
+Deschutes River at Deschutes River Park,1991-09-30,7.4,114,17,11.1,1.6,NA,93,2e-4,0.03,NA,NA,1991,Fall,273
+John Day River at Hwy 206,1991-10-25,8.4,96.6,9,11,NA,NA,220,0.002,0.02,NA,NA,1991,Fall,298
+John Day River at Hwy 206,1991-11-20,8.3,108,9,12.2,1.6,NA,170,0.001,0.02,NA,NA,1991,Fall,324
+John Day River at Hwy 206,1991-12-11,8,107,6.5,12.9,2.3,NA,150,7e-4,0.13,NA,NA,1991,Fall,345
+John Day River at Hwy 206,1992-01-15,8.3,111,6,13.9,2.9,NA,150,5e-4,0.02,NA,NA,1992,Winter,15
+Deschutes River at Deschutes River Park,1992-01-21,8.3,96,7.5,11.6,1.9,NA,99,7e-4,0.2,NA,NA,1992,Winter,21
+John Day River at Hwy 206,1992-02-12,8.3,101,6.5,12.2,1.6,NA,140,7e-4,0.02,NA,NA,1992,Winter,43
+John Day River at Hwy 206,1992-03-25,8.4,113,14,11.5,1.3,NA,120,0.001,0.02,NA,NA,1992,Spring,85
+Deschutes River at Deschutes River Park,1992-04-24,8.2,106,14,11,1.1,NA,94,0.001,0.02,NA,NA,1992,Spring,115
+John Day River at Hwy 206,1992-04-29,8.3,102,19,9.3,1.2,NA,110,0.002,0.02,NA,NA,1992,Spring,120
+John Day River at Hwy 206,1992-05-13,8.6,113,19,10.6,1.4,NA,100,0.003,0.02,NA,NA,1992,Spring,134
+John Day River at Hwy 206,1992-06-09,8.3,119,24,10,1.7,NA,130,0.002,0.02,NA,NA,1992,Spring,161
+Deschutes River at Deschutes River Park,1992-06-29,8.5,106,19,10,NA,NA,89,0.004,0.02,NA,NA,1992,Summer,181
+John Day River at Hwy 206,1992-07-29,8.7,127,26.5,10.2,0.5,NA,160,0.006,0.02,NA,NA,1992,Summer,211
+Deschutes River at Deschutes River Park,1992-08-03,8,109,19,10.3,1.7,NA,110,0.001,0.02,NA,NA,1992,Summer,216
+John Day River at Hwy 206,1992-08-18,9.1,123,28,9.2,0.6,NA,150,0.011,0.02,NA,NA,1992,Summer,231
+John Day River at Hwy 206,1992-10-14,8.6,117,13.5,11.5,1.1,NA,190,0.003,0.02,NA,NA,1992,Fall,288
+Deschutes River at Deschutes River Park,1992-10-26,8,107,13.5,11.2,1.5,NA,110,6e-4,0.07,NA,NA,1992,Fall,300
+Deschutes River at Deschutes River Park,1992-12-14,8,103,8,12.2,1.8,NA,95,0.02,0.11,NA,NA,1992,Fall,349
+John Day River at Hwy 206,1992-12-16,8,104,1.7,14.1,2.2,NA,170,2e-4,0.03,NA,NA,1992,Fall,351
+Deschutes River at Deschutes River Park,1993-02-22,7.4,105,4.5,13.6,2.8,NA,100,6e-5,0.13,NA,NA,1993,Winter,53
+John Day River at Hwy 206,1993-02-24,8.4,108,3.5,14.4,2.8,NA,140,0.02,0.04,NA,NA,1993,Winter,55
+John Day River at Hwy 206,1993-04-26,8.2,101,12,10.7,0.3,NA,150,8e-4,0.02,NA,NA,1993,Spring,116
+Deschutes River at Deschutes River Park,1993-04-27,7.6,102,10,11.5,0.8,NA,130,2e-4,0.19,NA,NA,1993,Spring,117
+Deschutes River at Deschutes River Park,1993-08-16,8.4,118,18,11.2,1.3,NA,100,0.002,0.08,NA,NA,1993,Summer,228
+John Day River at Hwy 206,1993-08-17,8.6,109,21,9.6,1.3,NA,170,0.004,0.02,NA,NA,1993,Summer,229
+Deschutes River at Deschutes River Park,1994-02-07,8.3,103,5,13.2,1.8,NA,93,6e-4,0.26,NA,NA,1994,Winter,38
+John Day River at Hwy 206,1994-02-09,8.5,110,2,14.8,3.4,NA,180,6e-4,0.02,NA,NA,1994,Winter,40
+Deschutes River at Deschutes River Park,1994-04-04,8.5,111,10,12.5,2.3,NA,110,0.001,0.03,NA,NA,1994,Spring,94
+Bakeoven Creek at mouth,1994-04-04,8.1,125,9.5,13.9,NA,NA,91,8e-4,0.07,NA,NA,1994,Spring,94
+John Day River at Hwy 206,1994-04-06,8.2,101,11,11.1,1.4,NA,150,7e-4,0.02,NA,NA,1994,Spring,96
+Deschutes River at Deschutes River Park,1994-06-13,8.6,110,17,10.7,2,NA,100,0.003,0.02,NA,NA,1994,Spring,164
+John Day River at Hwy 206,1994-06-15,8.7,107,18,10,0.9,NA,130,0.004,0.02,NA,NA,1994,Spring,166
+Deschutes River at Deschutes River Park,1994-08-01,8.4,105,19.5,9.8,1.1,NA,99,0.002,0.07,NA,NA,1994,Summer,213
+Deschutes River at Deschutes River Park,1994-10-10,8.3,108,14.5,10.9,0.9,NA,93,0.001,0.12,NA,NA,1994,Fall,283
+John Day River at Hwy 206,1994-10-12,8.4,106,13,11,0.6,NA,200,0.003,0.02,NA,NA,1994,Fall,285
+Deschutes River at Deschutes River Park,1994-12-19,8.1,96,7.5,11.6,0.6,NA,110,5e-4,0.2,NA,NA,1994,Fall,353
+Deschutes River at Deschutes River Park,1995-02-06,7.8,106,8,12.4,1.5,NA,110,0.04,0.27,NA,NA,1995,Winter,37
+John Day River at Hwy 206,1995-02-08,8,107,8,12.5,1.8,NA,150,0.02,0.14,NA,NA,1995,Winter,39
+Deschutes River at Deschutes River Park,1995-04-17,8.5,103,9.5,11.8,1.4,NA,91,0.02,0.02,NA,NA,1995,Spring,107
+John Day River at Hwy 206,1995-04-19,8.2,104,9,11.8,1.1,NA,130,0.02,0.02,NA,NA,1995,Spring,109
+Deschutes River at Deschutes River Park,1995-06-12,8.5,115,16.5,11.1,0.3,NA,100,0.03,0.05,NA,NA,1995,Spring,163
+John Day River at Hwy 206,1995-06-14,8.4,101,17,9.6,0.3,NA,170,0.03,0.02,NA,NA,1995,Spring,165
+Deschutes River at Deschutes River Park,1995-07-03,NA,NA,16.9,NA,NA,NA,NA,NA,NA,NA,NA,1995,Summer,184
+Deschutes River at Deschutes River Park,1995-08-15,NA,NA,20.1,NA,NA,NA,NA,NA,NA,NA,NA,1995,Summer,227
+Deschutes River at Deschutes River Park,1995-08-16,NA,NA,19.6,NA,NA,NA,NA,NA,NA,NA,NA,1995,Summer,228
+Deschutes River at Deschutes River Park,1995-08-17,NA,NA,19.7,NA,NA,NA,NA,NA,NA,NA,NA,1995,Summer,229
+Deschutes River at Deschutes River Park,1995-08-18,NA,NA,20.2,NA,NA,NA,NA,NA,NA,NA,NA,1995,Summer,230
+Deschutes River at Deschutes River Park,1995-08-28,8.4,111,18,10.5,1.5,NA,110,0.02,0.03,NA,NA,1995,Summer,240
+John Day River at Hwy 206,1995-08-30,8.8,122,23,10.4,0.9,NA,190,0.02,0.02,NA,NA,1995,Summer,242
+Deschutes River at Deschutes River Park,1995-10-02,8.3,113,15,11.5,2,NA,110,0.03,0.07,NA,NA,1995,Fall,275
+John Day River at Hwy 206,1995-10-04,8.7,109,15,10.9,0.5,NA,200,0.02,0.02,NA,NA,1995,Fall,277
+Deschutes River at Deschutes River Park,1995-12-04,8.1,104,8.4,12.4,1.4,NA,110,0.04,0.08,NA,NA,1995,Fall,338
+John Day River at Hwy 206,1995-12-06,8.2,104,4.7,13.2,1.5,NA,140,0.03,0.07,NA,NA,1995,Fall,340
+Deschutes River at Deschutes River Park,1996-02-26,8.1,101,6,12.4,1.5,NA,120,8e-4,0.28,2,NA,1996,Winter,57
+John Day River at Hwy 206,1996-02-28,8.2,98,1.5,13.5,1.9,NA,150,4e-4,0.15,4,NA,1996,Winter,59
+Deschutes River at Deschutes River Park,1996-04-15,8.2,107,12,11.6,1,NA,92,0.001,0.05,4,NA,1996,Spring,106
+Deschutes River at Deschutes River Park,1996-06-03,8.4,107,16.8,10.6,1.6,NA,98,0.002,0.02,4,NA,1996,Spring,155
+Deschutes River at Deschutes River Park,1996-08-19,8.3,102,17,9.9,0.7,NA,97,0.003,0.02,NA,NA,1996,Summer,232
+Deschutes River at Deschutes River Park,1996-10-14,8.4,106,13.2,11.2,1.2,NA,110,0.002,0.1,4,NA,1996,Fall,288
+John Day River at Hwy 206,1996-10-17,8.7,103,9.5,11.6,0.4,NA,180,0.003,0.02,4,NA,1996,Fall,291
+Deschutes River at Deschutes River Park,1996-12-16,8.2,103,7.2,12.6,1.2,NA,110,8e-4,0.24,24,NA,1996,Fall,351
+John Day River at Hwy 206,1996-12-19,8.4,100,0.9,13.9,1.1,NA,160,5e-4,0.21,6,NA,1996,Fall,354
+Deschutes River at Deschutes River Park,1997-02-24,8,105,6.5,13,2.3,NA,100,3e-4,0.22,4,NA,1997,Winter,55
+John Day River at Hwy 206,1997-02-27,8.4,99,5.7,12.3,1.2,NA,150,0.04,0.22,20,NA,1997,Winter,58
+Deschutes River at Deschutes River Park,1997-04-07,8.3,107,9.5,12.3,0.8,NA,92,0.001,0.08,4,NA,1997,Spring,97
+John Day River at Hwy 206,1997-04-10,8.4,102,10.2,11.3,0.5,NA,120,0.001,0.03,4,NA,1997,Spring,100
+Deschutes River at Deschutes River Park,1997-06-09,8.4,109,15.5,11,1,NA,94,0.02,0.06,72,NA,1997,Spring,160
+John Day River at Hwy 206,1997-06-12,8.5,104,20.1,9.4,0.6,NA,130,0.02,0.02,8,NA,1997,Spring,163
+Deschutes River at Deschutes River Park,1997-08-25,8.5,109,18,10.4,1.4,NA,90,0.03,0.05,4,NA,1997,Summer,237
+John Day River at Hwy 206,1997-08-28,8.9,112,22.2,9.7,1.6,NA,180,0.02,0.02,10,NA,1997,Summer,240
+Deschutes River at Deschutes River Park,1997-10-27,8.6,106,10.9,11.6,1,NA,97,0.004,0.12,4,NA,1997,Fall,300
+John Day River at Hwy 206,1997-10-30,8.3,95,12.9,10.5,0.6,NA,180,0.03,0.02,20,NA,1997,Fall,303
+Deschutes River at Deschutes River Park,1997-12-01,8.2,103,8,12.2,1.7,NA,96,0.02,0.14,4,NA,1997,Fall,335
+John Day River at Hwy 206,1997-12-04,8.6,102,4.1,13.1,2,NA,160,0.02,0.02,8,NA,1997,Fall,338
+Deschutes River at Deschutes River Park,1998-02-23,8.1,100,6.8,12.3,1.2,NA,110,0.02,0.22,4,NA,1998,Winter,54
+John Day River at Hwy 206,1998-02-25,8.7,111,7.6,13.1,1.9,NA,160,0.03,0.04,2,NA,1998,Winter,56
+Deschutes River at Deschutes River Park,1998-04-19,8.4,107,11.2,11.9,1.5,NA,100,0.02,0.02,2,NA,1998,Spring,109
+John Day River at Hwy 206,1998-04-22,8.3,100,16.9,9.7,1,NA,140,0.03,0.02,72,NA,1998,Spring,112
+Deschutes River at Deschutes River Park,1998-06-01,7.9,98,15,10,1.3,NA,210,0.26,0.14,240,NA,1998,Spring,152
+John Day River at Hwy 206,1998-06-04,8.2,95,18.2,9,0.5,NA,210,0.03,0.07,76,NA,1998,Spring,155
+Deschutes River at Deschutes River Park,1998-08-17,8.7,115,17.7,11,1.8,NA,91,0.03,0.05,6,NA,1998,Summer,229
+John Day River at Hwy 206,1998-08-20,8.8,107,22.1,9.2,0.6,NA,180,0.02,0.02,6,NA,1998,Summer,232
+Deschutes River at Deschutes River Park,1998-10-19,8.3,110,11.5,12,1.5,NA,99,0.02,0.13,16,NA,1998,Fall,292
+John Day River at Hwy 206,1998-10-22,8.6,107,10.6,11.7,1.3,NA,170,0.02,0.02,2,NA,1998,Fall,295
+Deschutes River at Deschutes River Park,1998-12-14,8,102,8,12.1,1.2,NA,110,0.02,0.2,4,NA,1998,Fall,348
+John Day River at Hwy 206,1998-12-17,8.3,105,5.5,13,2.6,NA,160,0.02,0.06,14,NA,1998,Fall,351
+Deschutes River at Deschutes River Park,1999-02-22,8,101,7.2,12.3,1.3,NA,120,0.03,0.219,4,NA,1999,Winter,53
+John Day River at Hwy 206,1999-02-24,8.6,106,8.6,12.3,1.4,NA,170,0.02,0.0193,4,NA,1999,Winter,55
+Deschutes River at Deschutes River Park,1999-04-26,8.5,108,11.2,12,0.7,NA,96,0.02,0.0069,2,NA,1999,Spring,116
+John Day River at Hwy 206,1999-04-28,8,101,10.9,11,1.3,NA,160,0.02,0.0538,22,NA,1999,Spring,118
+Deschutes River at Deschutes River Park,1999-06-14,8.4,107,17.4,10.3,1.3,NA,87,0.02,0.0062,10,NA,1999,Spring,165
+John Day River at Hwy 206,1999-06-17,8.3,100,23.5,8.4,0.4,NA,97,0.02,0.005,10,NA,1999,Spring,168
+Deschutes River at Deschutes River Park,1999-08-23,8.2,109,18,10.2,1.2,NA,99,0.03,0.0373,26,NA,1999,Summer,235
+John Day River at Hwy 206,1999-08-26,8.7,110,24.7,9.1,0.6,NA,170,0.03,0.005,6,NA,1999,Summer,238
+Deschutes River at Deschutes River Park,1999-10-18,8.4,108,11.2,11.8,1.8,NA,86,0.02,0.0822,2,NA,1999,Fall,291
+John Day River at Hwy 206,1999-10-20,8.6,104,12.2,11,0.9,NA,190,0.03,0.0059,2,NA,1999,Fall,293
+Deschutes River at Deschutes River Park,1999-12-13,8.1,102,8,12.1,1.1,NA,100,0.05,0.126,2,NA,1999,Fall,347
+John Day River at Hwy 206,1999-12-16,8.5,101,8.2,12,0.7,NA,140,0.04,0.005,2,NA,1999,Fall,350
+Deschutes River at Deschutes River Park,2000-02-07,7.7,102,7.2,12.4,1.3,NA,100,0.02,0.256,4,NA,2000,Winter,38
+John Day River at Hwy 206,2000-02-10,8.5,105,6.4,12.7,1.7,NA,140,0.02,0.005,2,NA,2000,Winter,41
+Deschutes River at Deschutes River Park,2000-04-24,8.4,106,10,12,1.5,NA,96,0.02,0.0081,2,NA,2000,Spring,115
+John Day River at Hwy 206,2000-04-27,8.1,99,12.8,10.4,0.1,NA,100,0.02,0.0213,2,NA,2000,Spring,118
+Deschutes River at Deschutes River Park,2000-06-19,8.4,107,15,10.9,2.1,NA,92,0.02,0.0121,6,NA,2000,Spring,171
+John Day River at Hwy 206,2000-06-22,8.9,122,23.9,10.2,1.3,NA,120,NA,NA,26,NA,2000,Summer,174
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-07,NA,NA,21.9,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,189
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-08,NA,NA,21.4,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,190
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-09,NA,NA,21.1,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,191
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-10,NA,NA,21.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,192
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-11,NA,NA,21.6,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,193
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-12,NA,NA,21.1,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,194
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-13,NA,NA,21.36,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,195
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-14,NA,NA,21.17,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,196
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-15,NA,NA,21.01,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,197
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-16,NA,NA,20.9,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,198
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-17,NA,NA,20.7,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,199
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-18,NA,NA,21.6,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,200
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-19,NA,NA,21.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,201
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-20,NA,NA,21.4,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,202
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-21,NA,NA,21.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,203
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-22,NA,NA,21.1,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,204
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-23,NA,NA,21.06,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,205
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-24,NA,NA,21.21,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,206
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-25,NA,NA,21.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,207
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-26,NA,NA,21.13,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,208
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-27,NA,NA,21.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,209
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-28,NA,NA,21.8,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,210
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-29,NA,NA,21.9,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,211
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-30,NA,NA,22.1,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,212
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-07-31,NA,NA,22.4,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,213
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-01,NA,NA,22.2,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,214
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-02,NA,NA,21.9,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,215
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-03,NA,NA,21.97,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,216
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-04,NA,NA,21.97,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,217
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-05,NA,NA,21.97,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,218
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-06,NA,NA,21.93,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,219
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-07,NA,NA,21.84,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,220
+Deschutes River at Deschutes River Park,2000-08-07,8.5,112,19.5,10.4,1.3,NA,92,0.03,0.0812,2,NA,2000,Summer,220
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-08,NA,NA,21.76,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,221
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-09,NA,NA,21.8,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,222
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-10,NA,NA,21.73,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,223
+John Day River at Hwy 206,2000-08-10,8.8,109,23.8,9.1,0.8,NA,180,0.03,0.005,6,NA,2000,Summer,223
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-11,NA,NA,21.54,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,224
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-12,NA,NA,21.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,225
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-13,NA,NA,21.09,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,226
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-14,NA,NA,20.86,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,227
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-15,NA,NA,20.67,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,228
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-16,NA,NA,20.46,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,229
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-17,NA,NA,20.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,230
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-18,NA,NA,20.19,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,231
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-19,NA,NA,20.07,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,232
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-20,NA,NA,20.03,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,233
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-21,NA,NA,20.5,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,234
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-22,NA,NA,21,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,235
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-23,NA,NA,21.1,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,236
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-24,NA,NA,21.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,237
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-25,NA,NA,20.8,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,238
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-26,NA,NA,20.71,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,239
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-27,NA,NA,20.7,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,240
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-28,NA,NA,20.66,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,241
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-29,NA,NA,20.6,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,242
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-30,NA,NA,20.6,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,243
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-08-31,NA,NA,20.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,244
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-01,NA,NA,20.07,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,245
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-02,NA,NA,19.91,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,246
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-03,NA,NA,19.76,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,247
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-04,NA,NA,20.5,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,248
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-05,NA,NA,20.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,249
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-06,NA,NA,20,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,250
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-07,NA,NA,20.5,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,251
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-08,NA,NA,19.54,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,252
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-09,NA,NA,19.53,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,253
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-10,NA,NA,19.61,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,254
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-11,NA,NA,20.8,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,255
+"Bakeoven Creek, 1 mile downstream of Lindley corral (Deschutes)",2000-09-12,NA,NA,21.3,NA,NA,NA,NA,NA,NA,NA,NA,2000,Summer,256
+Deschutes River at Deschutes River Park,2000-10-02,7.9,95,15.4,9.6,2.4,NA,630,0.06,0.134,42,NA,2000,Fall,276
+John Day River at Hwy 206,2000-10-04,8.8,102,15.6,10.7,0.8,NA,180,0.03,0.005,4,NA,2000,Fall,278
+Deschutes River at Deschutes River Park,2000-12-18,8.1,104,6.3,12.9,1.5,NA,100,0.02,0.119,2,NA,2000,Fall,353
+John Day River at Hwy 206,2000-12-21,8.4,101,1.3,13.8,2.3,NA,160,0.02,0.005,2,NA,2000,Winter,356
+Deschutes River at Deschutes River Park,2001-02-05,8.4,105,7.9,12.5,1.5,NA,110,0.02,0.174,2,NA,2001,Winter,36
+John Day River at Hwy 206,2001-02-08,8.5,101,4,13,1.7,NA,160,0.02,0.005,2,NA,2001,Winter,39
+Deschutes River at Deschutes River Park,2001-04-23,8.5,105,11,11.7,2,NA,91,0.03,0.01,2,NA,2001,Spring,113
+John Day River at Hwy 206,2001-04-26,8.2,100,18.4,9.3,0.9,NA,140,0.04,0.005,34,NA,2001,Spring,116
+Deschutes River at Deschutes River Park,2001-06-04,8.4,106,13.2,11.2,1.6,NA,91,0.02,0.005,2,NA,2001,Spring,155
+John Day River at Hwy 206,2001-06-07,8.8,119,21.5,10.4,0.9,NA,110,0.02,0.005,8,NA,2001,Spring,158
+Deschutes River at Deschutes River Park,2001-08-13,8.5,113,20,10.4,2.9,NA,100,0.02,0.0083,2,NA,2001,Summer,225
+John Day River at Hwy 206,2001-08-16,8.9,115,26.5,9.2,1.1,NA,170,0.02,0.005,10,NA,2001,Summer,228
+Deschutes River at Deschutes River Park,2001-10-15,8.7,112,13.8,11.8,2.5,NA,130,0.02,0.0875,44,NA,2001,Fall,288
+John Day River at Hwy 206,2001-10-17,8.5,112,13.5,11.5,1.2,NA,180,0.03,0.005,2,NA,2001,Fall,290
+Deschutes River at Deschutes River Park,2001-12-10,8.6,98,7.3,12,1.4,NA,100,0.04,0.0956,0,NA,2001,Fall,344
+John Day River at Hwy 206,2001-12-13,8.5,102,7.3,12.2,0.9,NA,140,0.03,0.0082,4,NA,2001,Fall,347
+Deschutes River at Deschutes River Park,2002-03-04,8.3,105,6.9,12.8,2.3,NA,98,NA,0.0996,NA,NA,2002,Winter,63
+John Day River at Hwy 206,2002-03-07,8.3,100,6.2,12.3,1.2,NA,130,NA,0.0058,NA,NA,2002,Winter,66
+Deschutes River at Deschutes River Park,2002-04-08,8,98,10.5,11,0.8,NA,88,NA,0.0105,NA,NA,2002,Spring,98
+John Day River at Hwy 206,2002-04-10,8,98,13.3,10.1,0.8,NA,110,0.02,0.0076,16,NA,2002,Spring,100
+Deschutes River at Deschutes River Park,2002-06-10,8.4,107,14.3,11,1.2,NA,89,NA,0.0104,NA,NA,2002,Spring,161
+John Day River at Hwy 206,2002-06-13,8.6,110,22.7,9.4,0.5,NA,89,0.03,NA,24,NA,2002,Spring,164
+Long Rock Creek,2002-07-09,NA,40,14.9,3.8,NA,NA,NA,NA,NA,NA,NA,2002,Summer,190
+Deschutes River at Deschutes River Park,2002-08-05,8.5,111,16.9,10.8,10.3,NA,89,0.03,0.0055,NA,2,2002,Summer,217
+John Day River at Hwy 206,2002-08-08,9,121,23.9,9.7,0.5,NA,160,0.03,NA,NA,NA,2002,Summer,220
+Deschutes River at Deschutes River Park,2002-10-28,8.5,108,10.4,12.5,1.3,NA,110,NA,0.131,NA,1,2002,Fall,301
+John Day River at Hwy 206,2002-10-31,8.5,105,4,13.5,2.2,NA,170,NA,NA,NA,1,2002,Fall,304
+Deschutes River at Deschutes River Park,2002-12-02,8.1,99,6.5,12.2,1.7,NA,95,0.03,0.1,NA,2,2002,Fall,336
+John Day River at Hwy 206,2002-12-05,8.4,102,3.4,13.5,1.8,NA,160,NA,0.0056,NA,11,2002,Fall,339
+Deschutes River at Deschutes River Park,2003-02-24,8.1,100,5.2,12.8,1,NA,92,0.04,0.159,NA,NA,2003,Winter,55
+John Day River at Hwy 206,2003-02-27,8.5,105,6,12.9,1.4,NA,130,0.02,NA,NA,NA,2003,Winter,58
+Deschutes River at Deschutes River Park,2003-04-14,8.3,102,10.9,11.3,0.6,NA,88,0.03,0.0071,NA,3,2003,Spring,104
+John Day River at Hwy 206,2003-04-17,8.2,93,12,9.9,0.1,NA,120,0.02,NA,NA,40,2003,Spring,107
+Deschutes River at Deschutes River Park,2003-06-09,8.6,106,17.2,10.3,1.7,NA,84,NA,NA,NA,10,2003,Spring,160
+John Day River at Hwy 206,2003-06-12,8.7,109,23.9,9.1,0.6,NA,96,0.02,NA,NA,6,2003,Spring,163
+Deschutes River at Deschutes River Park,2003-08-18,8.4,109,19.7,10.1,0.6,NA,91,0.02,0.028,NA,1,2003,Summer,230
+John Day River at Hwy 206,2003-09-03,8.9,105,24.6,8.7,0.5,NA,180,NA,NA,NA,2,2003,Summer,246
+Deschutes River at Deschutes River Park,2003-10-13,8.2,105,13.6,11,0.5,NA,100,NA,0.156,NA,4,2003,Fall,286
+John Day River at Hwy 206,2003-10-16,8.6,98,12.1,10.4,0.2,NA,160,NA,NA,NA,20,2003,Fall,289
+Deschutes River at Deschutes River Park,2003-12-08,7.9,100,7.7,11.9,0.3,NA,110,0.02,0.201,NA,2,2003,Fall,342
+John Day River at Hwy 206,2003-12-11,8.5,98,4.5,12.5,1,NA,140,NA,NA,NA,12,2003,Fall,345
+Deschutes River at Deschutes River Park,2004-02-02,7.9,96,6.2,12,0.6,NA,120,NA,0.337,NA,10,2004,Winter,33
+John Day River at Hwy 206,2004-02-05,8,100,5.2,12.5,1.3,NA,150,0.02,0.227,NA,2,2004,Winter,36
+Deschutes River at Deschutes River Park,2004-04-19,7.5,104,10.4,11.6,1.5,NA,100,0.02,0.0352,NA,3,2004,Spring,110
+John Day River at Hwy 206,2004-04-22,8.3,107,13.6,11,1.9,NA,120,0.02,0.005,NA,5,2004,Spring,113
+Deschutes River at Deschutes River Park,2004-06-14,8.3,104,15.5,10.5,1.2,NA,110,0.02,0.0318,NA,2,2004,Spring,166
+John Day River at Hwy 206,2004-06-17,8.6,105,22.2,9.1,0.6,NA,120,0.02,0.005,NA,17,2004,Spring,169
+John Day River at Hwy 206,2004-08-07,NA,NA,24.9,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,220
+John Day River at Hwy 206,2004-08-08,NA,NA,25.6,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,221
+John Day River at Hwy 206,2004-08-09,NA,NA,26.6,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,222
+Deschutes River at Deschutes River Park,2004-08-09,8.6,109,19.1,10.2,1.2,NA,95,0.02,0.0675,NA,1,2004,Summer,222
+John Day River at Hwy 206,2004-08-10,NA,NA,27.8,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,223
+John Day River at Hwy 206,2004-08-11,NA,NA,28.5,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,224
+John Day River at Hwy 206,2004-08-12,8.9,116,28.5,9.2,0.8,NA,150,0.02,0.005,NA,6,2004,Summer,225
+John Day River at Hwy 206,2004-08-13,NA,NA,28.5,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,226
+John Day River at Hwy 206,2004-08-14,NA,NA,27.54,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,227
+John Day River at Hwy 206,2004-08-15,NA,NA,27.79,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,228
+John Day River at Hwy 206,2004-08-16,NA,NA,27.64,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,229
+John Day River at Hwy 206,2004-08-17,NA,NA,27.37,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,230
+John Day River at Hwy 206,2004-08-18,NA,NA,27.3,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,231
+John Day River at Hwy 206,2004-08-19,NA,NA,28.7,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,232
+John Day River at Hwy 206,2004-08-20,NA,NA,28.4,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,233
+John Day River at Hwy 206,2004-08-21,NA,NA,27.01,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,234
+John Day River at Hwy 206,2004-08-22,NA,NA,26.41,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,235
+John Day River at Hwy 206,2004-08-23,NA,NA,25.81,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,236
+John Day River at Hwy 206,2004-08-24,NA,NA,25.09,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,237
+John Day River at Hwy 206,2004-08-25,NA,NA,23.97,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,238
+John Day River at Hwy 206,2004-08-26,NA,NA,22.84,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,239
+John Day River at Hwy 206,2004-08-27,NA,NA,23.1,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,240
+John Day River at Hwy 206,2004-08-28,NA,NA,23.7,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,241
+John Day River at Hwy 206,2004-08-29,NA,NA,25.1,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,242
+John Day River at Hwy 206,2004-08-30,NA,NA,25.7,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,243
+John Day River at Hwy 206,2004-08-31,NA,NA,26.6,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,244
+John Day River at Hwy 206,2004-09-13,NA,NA,13.8,NA,NA,NA,NA,NA,NA,NA,NA,2004,Summer,257
+Deschutes River at Deschutes River Park,2004-10-25,8.4,103,10.8,11.4,0.8,NA,110,NA,0.174,NA,5,2004,Fall,299
+John Day River at Hwy 206,2004-10-28,8.6,103,10,11.4,1,NA,170,0.02,0.005,NA,16,2004,Fall,302
+Deschutes River at Deschutes River Park,2004-12-27,8.2,97,7.3,11.7,0.8,NA,85,0.02,0.276,NA,1,2004,Winter,362
+John Day River at Hwy 206,2004-12-30,8.4,96,2.5,12.9,0.8,NA,140,NA,NA,NA,5,2004,Winter,365
+Deschutes River at Deschutes River Park,2005-02-14,8.3,104,8.2,12.4,1.6,NA,110,0.03,0.212,NA,NA,2005,Winter,45
+John Day River at Hwy 206,2005-02-17,8.5,101,4.1,13,0.1,NA,160,0.02,NA,NA,NA,2005,Winter,48
+Deschutes River at Deschutes River Park,2005-04-25,8.2,102,11.6,11.2,1.7,NA,110,0.03,0.0518,NA,3,2005,Spring,115
+John Day River at Hwy 206,2005-04-27,8.1,95,17,9,1.1,NA,190,0.03,NA,NA,122,2005,Spring,117
+Deschutes River at Deschutes River Park,2005-06-13,8.4,106,16,10.6,1.3,NA,110,NA,NA,NA,2,2005,Spring,164
+John Day River at Hwy 206,2005-06-16,8.7,104,20.6,9.5,0.7,NA,140,NA,NA,NA,7,2005,Spring,167
+Deschutes River at Deschutes River Park,2005-08-22,8.5,109,19.6,10.1,1.2,NA,120,0.02,0.0069,NA,4,2005,Summer,234
+John Day River at Hwy 206,2005-08-25,8.9,103,22.7,8.8,0.4,NA,200,NA,NA,NA,1,2005,Summer,237
+John Day River at Hwy 206,2005-08-29,8.7,105,21.4,9.2,NA,NA,200,0.02,0.005,NA,NA,2005,Summer,241
+John Day River at Hwy 206,2005-09-01,8.7,104,25.2,8.6,NA,NA,190,0.02,0.005,NA,NA,2005,Summer,244
+Deschutes River at Deschutes River Park,2005-10-03,8.8,102,13.2,10.8,1.5,NA,140,0.04,0.218,NA,15,2005,Fall,276
+John Day River at Hwy 206,2005-10-06,9.2,105,16.6,10.1,0.3,NA,180,0.02,NA,NA,37,2005,Fall,279
+Deschutes River at Deschutes River Park,2005-12-05,7.9,99,6.3,12.2,1.4,NA,120,0.04,0.0883,NA,1,2005,Fall,339
+John Day River at Hwy 206,2005-12-08,8.5,103,0.4,14.6,3.1,NA,160,NA,NA,NA,1,2005,Fall,342
+Deschutes River at Deschutes River Park,2006-02-06,7.3,99,6.2,12.3,1,NA,110,NA,0.189,NA,3,2006,Winter,37
+John Day River at Hwy 206,2006-02-09,8.4,104,5.8,12.8,1.3,NA,150,NA,0.108,NA,2,2006,Winter,40
+Deschutes River at Deschutes River Park,2006-04-10,8.1,98,9.3,11.3,1.5,NA,110,NA,0.147,NA,9,2006,Spring,100
+John Day River at Hwy 206,2006-04-13,8.1,94,11.7,10.1,0.3,NA,160,NA,0.0318,NA,9,2006,Spring,103
+Deschutes River at Deschutes River Park,2006-06-12,7.9,103,16.2,10.3,2.8,NA,80,NA,0.0452,NA,7,2006,Spring,163
+John Day River at Hwy 206,2006-06-15,8.3,95,19,8.8,1.1,NA,1200,0.03,0.0481,NA,1986,2006,Spring,166
+Deschutes River at Deschutes River Park,2006-08-07,8.3,106,19.2,10,0.7,NA,78,0.03,0.0478,NA,7,2006,Summer,219
+John Day River at Hwy 206,2006-08-10,8.8,107,23.9,8.9,1.2,NA,180,0.06,0.0096,NA,NA,2006,Summer,222
+Deschutes River at Deschutes River Park,2006-10-02,8.2,102,14.8,10.4,1,NA,92,NA,0.101,NA,8,2006,Fall,275
+John Day River at Hwy 206,2006-10-05,8.7,101,15.3,10.1,0.4,NA,190,NA,NA,NA,10,2006,Fall,278
+Deschutes River at Deschutes River Park,2006-12-11,8.2,98,7.1,12,0.9,NA,110,NA,0.0921,NA,4,2006,Fall,345
+John Day River at Hwy 206,2006-12-14,8.4,100,6.3,12.1,1.3,NA,170,NA,0.0126,NA,8,2006,Fall,348
+Deschutes River at Deschutes River Park,2007-02-05,7.6,98,6.4,12.1,0.6,NA,99,NA,0.195,NA,2,2007,Winter,36
+John Day River at Hwy 206,2007-02-08,8.5,103,5,12.9,1.1,NA,170,NA,NA,NA,NA,2007,Winter,39
+Deschutes River at Deschutes River Park,2007-04-02,8.3,101,8.4,11.9,0.6,NA,95,NA,0.071,NA,3,2007,Spring,92
+John Day River at Hwy 206,2007-04-05,8.4,104,11.9,11,0.8,NA,120,NA,NA,NA,4,2007,Spring,95
+Deschutes River at Deschutes River Park,2007-06-04,8.2,103,17.5,9.9,1.7,NA,100,NA,0.0148,NA,33,2007,Spring,155
+John Day River at Hwy 206,2007-06-07,8.7,115,18.3,10.7,1.2,NA,140,NA,NA,NA,7,2007,Spring,158
+Deschutes River at Deschutes River Park,2007-08-27,8.4,105,16.9,10.2,0.7,NA,100,NA,0.04,NA,4,2007,Summer,239
+John Day River at Hwy 206,2007-08-30,8.9,104,25.6,8.5,1.5,NA,190,NA,NA,NA,6,2007,Summer,242
+Deschutes River at Deschutes River Park,2007-10-01,8.3,103,13.7,10.7,1.2,NA,120,NA,0.16,NA,9,2007,Fall,274
+John Day River at Hwy 206,2007-10-04,8.7,101,12.7,10.6,1.1,NA,190,NA,NA,NA,36,2007,Fall,277
+Deschutes River at Deschutes River Park,2008-02-04,8,96,5.7,12.1,1.4,NA,110,NA,0.197,NA,1,2008,Winter,35
+John Day River at Hwy 206,2008-02-07,8.4,104,5.3,13.1,1.8,NA,160,NA,NA,NA,2,2008,Winter,38
+Deschutes River at Deschutes River Park,2008-04-14,8.1,100,11,11.1,3,NA,96,NA,0.013,NA,1,2008,Spring,105
+John Day River at Hwy 206,2008-04-17,8,98,10.9,10.7,1.7,NA,150,NA,0.0358,NA,57,2008,Spring,108
+Deschutes River at Deschutes River Park,2008-06-23,8.5,105,15.4,10.6,1.6,NA,85,NA,0.0051,NA,3,2008,Summer,175
+John Day River at Hwy 206,2008-06-26,8.4,104,21.4,9.1,1.2,NA,120,NA,NA,NA,9,2008,Summer,178
+Deschutes River at Deschutes River Park,2008-08-25,8,100,17.1,9.7,1.3,NA,140,NA,0.131,NA,8,2008,Summer,238
+John Day River at Hwy 206,2008-08-28,8.7,110,22,9.5,2.6,NA,170,NA,NA,NA,1,2008,Summer,241
+Deschutes River at Deschutes River Park,2008-10-27,8.1,104,10.6,11.6,1.5,NA,100,NA,0.132,NA,5,2008,Fall,301
+John Day River at Hwy 206,2008-10-30,8.6,105,10,11.6,1.1,NA,170,NA,NA,NA,2,2008,Fall,304
+Deschutes River at Deschutes River Park,2008-12-08,8.3,101,7.9,12,1.6,NA,99,NA,0.157,NA,2,2008,Fall,343
+John Day River at Hwy 206,2008-12-11,8.4,106,4.7,13.4,2.6,NA,150,NA,NA,NA,2,2008,Fall,346
+Deschutes River at Deschutes River Park,2009-02-09,8.3,99,5.6,12.5,1.8,NA,95,NA,0.226,NA,2,2009,Winter,40
+John Day River at Hwy 206,2009-02-12,8.3,89,4,11.5,NA,NA,140,NA,NA,NA,2,2009,Winter,43
+Deschutes River at Deschutes River Park,2009-04-06,8.2,104,9.8,11.8,1.3,NA,94,NA,0.0343,NA,NA,2009,Spring,96
+John Day River at Hwy 206,2009-04-09,8.1,98,13.2,10.1,1.1,NA,140,NA,NA,NA,59,2009,Spring,99
+Deschutes River at Deschutes River Park,2009-06-01,8.1,100,15.2,10.2,2.6,NA,110,NA,0.018,NA,7,2009,Spring,152
+John Day River at Hwy 206,2009-06-04,8.2,104,21,8.9,0.6,NA,110,NA,NA,NA,7,2009,Spring,155
+Deschutes River at Deschutes River Park,2009-08-24,8.6,112,17.1,10.9,1.5,NA,93,NA,0.0596,NA,1,2009,Summer,236
+John Day River at Hwy 206,2009-08-27,8.6,102,23.1,8.7,1.5,NA,150,NA,NA,NA,2,2009,Summer,239
+Deschutes River at Deschutes River Park,2009-09-03,8.9,108,19.1,9.9,NA,NA,NA,NA,NA,NA,NA,2009,Summer,246
+Deschutes River at Deschutes River Park,2009-09-04,NA,NA,NA,NA,NA,NA,NA,0.02,0.0451,NA,2,2009,Summer,247
+Deschutes River at Deschutes River Park,2009-10-26,8.2,97,10.9,10.7,1,NA,110,NA,0.193,NA,4,2009,Fall,299
+John Day River at Hwy 206,2009-10-29,8.5,96,8.2,11.2,0.7,NA,160,NA,NA,NA,8,2009,Fall,302
+Deschutes River at Deschutes River Park,2009-12-07,8,97,2.8,13.2,2.4,NA,110,NA,0.232,NA,1,2009,Fall,341
+Deschutes River at Deschutes River Park,2010-02-22,8.2,100,5.9,12.5,1.4,NA,97,NA,0.19,NA,NA,2010,Winter,53
+John Day River at Hwy 206,2010-02-25,8.5,104,7,12.4,1.1,NA,130,NA,NA,NA,NA,2010,Winter,56
+Deschutes River at Deschutes River Park,2010-04-05,8.7,103,9,12,3.3,NA,110,NA,0.0072,NA,1,2010,Spring,95
+John Day River at Hwy 206,2010-04-08,8.6,107,10.9,11.7,1.1,NA,140,NA,NA,NA,NA,2010,Spring,98
+Deschutes River at Deschutes River Park,2010-06-07,8.4,99,15.2,10.1,1.5,NA,140,NA,0.0498,NA,105,2010,Spring,158
+John Day River at Hwy 206,2010-06-10,8.1,95,15.9,9.3,0.9,NA,180,NA,0.0384,NA,88,2010,Spring,161
+Deschutes River at Deschutes River Park,2010-08-23,8.4,100,16,10,1.4,NA,91,NA,0.0165,NA,2,2010,Summer,235
+John Day River at Hwy 206,2010-08-26,8.7,102,23,8.7,0.8,NA,175,NA,NA,NA,3,2010,Summer,238
+Deschutes River at Deschutes River Park,2010-10-11,8.2,101,12.5,10.8,1.3,NA,120,NA,0.222,NA,6,2010,Fall,284
+John Day River at Hwy 206,2010-10-14,8.6,100,13.2,10.4,0.4,NA,190,NA,NA,NA,4,2010,Fall,287
+Deschutes River at Deschutes River Park,2010-12-13,8,97,8.4,11.4,2,NA,230,NA,0.173,NA,40,2010,Fall,347
+John Day River at Hwy 206,2010-12-16,8,95,4.4,12,1.6,NA,180,NA,0.0418,NA,96,2010,Fall,350
+Deschutes River at Deschutes River Park,2011-02-14,8,95,7.2,11.5,0.4,NA,102,NA,0.182,NA,2,2011,Winter,45
+John Day River at Hwy 206,2011-02-17,8.4,102,5.9,12.4,2.1,NA,198,NA,0.0806,NA,9,2011,Winter,48
+Deschutes River at Deschutes River Park,2011-04-04,8.1,98,9.6,11.2,1.4,NA,116,0.014,0.161,NA,7,2011,Spring,94
+John Day River at Hwy 206,2011-04-07,8.2,98,9,11.2,1.4,NA,146,0.013,0.044,NA,30,2011,Spring,97
+Deschutes River at Deschutes River Park,2011-06-27,8.3,97,16.3,9.6,1.7,NA,109,NA,0.0053,NA,16,2011,Summer,178
+John Day River at Hwy 206,2011-06-30,8.3,97,19.3,8.8,0.6,NA,126,NA,NA,NA,49,2011,Summer,181
+John Day River at Hwy 206,2011-08-25,8.9,120,26.5,9.4,0.7,NA,173,NA,0.0064,NA,6,2011,Summer,237
+John Day River at Hwy 206,2011-10-13,8.6,98,13.9,10.4,1,NA,216,NA,NA,NA,8,2011,Fall,286
+Deschutes River at Deschutes River Park,2011-10-17,8.2,105,12.8,11.1,0.8,NA,81,NA,0.16,NA,4,2011,Fall,290
+Deschutes River at Deschutes River Park,2011-12-06,8.2,99,5,12.7,2.6,NA,101,0.017,0.21,NA,2,2011,Fall,340
+John Day River at Hwy 206,2011-12-15,8.4,101,0.5,14.3,3.3,NA,200,NA,NA,NA,2,2011,Fall,349
+John Day River at Hwy 206,2012-02-16,8.3,103,4.8,12.9,2.4,NA,138,NA,NA,NA,2,2012,Winter,47
+Deschutes River at Deschutes River Park,2012-02-28,8.2,100,5.7,12.6,1.6,NA,89,NA,0.161,NA,NA,2012,Winter,59
+Deschutes River at Deschutes River Park,2012-04-04,8.2,103,9.2,11.9,1.4,NA,102,0.011,0.123,NA,NA,2012,Spring,95
+John Day River at Hwy 206,2012-04-26,8,94,13,9.8,1.2,NA,178,NA,0.0244,NA,111,2012,Spring,117
+Deschutes River at Deschutes River Park,2012-06-04,8.1,102,14.3,10.3,NA,NA,107,0.01,0.0094,NA,NA,2012,Spring,156
+Deschutes River at Shears Falls Fish Ladder,2012-06-04,8.3,115,13.1,11.7,NA,NA,108,0.01,0.0174,NA,NA,2012,Spring,156
+Deschutes River at Deschutes River Park,2012-06-06,8.7,104,15,10.6,1.5,NA,100,NA,NA,NA,60,2012,Spring,158
+John Day River at Hwy 206,2012-06-14,8.7,114,20.2,10.3,1.3,NA,111,NA,NA,NA,23,2012,Spring,166
+John Day River at Hwy 206,2012-06-17,9,118,23.7,9.8,NA,NA,126,0.01,0.0114,NA,NA,2012,Spring,169
+Deschutes River at Deschutes River Park,2012-08-07,8.6,111,20.7,10.1,1.1,NA,103,NA,0.0501,NA,2,2012,Summer,220
+Deschutes River at Deschutes River Park,2012-08-20,8.5,113,18.6,10.5,NA,NA,99,0.01,0.103,NA,NA,2012,Summer,233
+John Day River at Hwy 206,2012-08-20,9.1,126,24.5,10.3,NA,NA,171,0.01,0.005,NA,NA,2012,Summer,233
+John Day River at Hwy 206,2012-08-30,8.9,100,20.6,8.9,1.1,NA,172,NA,NA,NA,6,2012,Summer,243
+Deschutes River at Shears Falls Fish Ladder,2012-09-10,8.1,112,15.1,10.9,NA,NA,92,0.021,0.18,NA,NA,2012,Summer,254
+Deschutes River at Deschutes River Park,2012-10-08,8.4,110,11.2,12,NA,NA,92,0.01,0.17,NA,NA,2012,Fall,282
+John Day River at Hwy 206,2012-10-08,8.7,111,13.5,11.3,NA,NA,198,0.01,0.005,NA,NA,2012,Fall,282
+John Day River at Hwy 206,2012-10-11,8.6,102,14.4,10.3,1,NA,220,NA,NA,NA,17,2012,Fall,285
+Deschutes River at Deschutes River Park,2012-10-16,8.4,109,13.6,11.4,2.4,NA,95,NA,0.176,NA,16,2012,Fall,290
+Deschutes River at Shears Falls Fish Ladder,2012-10-22,8.1,112,10,12.1,NA,NA,108,0.011,0.132,NA,NA,2012,Fall,296
+Deschutes River at Deschutes River Park,2012-12-04,8.2,100,9.6,11.5,1.5,NA,98,0.01,0.151,NA,NA,2012,Fall,339
+John Day River at Hwy 206,2012-12-13,8.4,100,4.4,12.8,1.8,NA,136,0.01,0.0089,NA,NA,2012,Fall,348
+Deschutes River at Deschutes River Park,2013-02-05,8.4,107,8,12.7,1.7,NA,97,0.01,0.19,NA,NA,2013,Winter,36
+John Day River at Hwy 206,2013-02-14,8.4,107,5.4,13.4,2.3,NA,139,0.01,0.005,NA,NA,2013,Winter,45
+John Day River at Hwy 206,2013-04-11,8.1,101,11.5,10.8,0.8,NA,112,0.01,0.0087,NA,NA,2013,Spring,101
+Deschutes River at Deschutes River Park,2013-04-16,8.5,106,10,12.1,2.6,NA,97,0.01,0.0091,NA,NA,2013,Spring,106
+Deschutes River at Deschutes River Park,2013-06-06,8.6,112,19.7,10.2,1.9,NA,85,0.01,0.005,NA,NA,2013,Spring,157
+John Day River at Hwy 206,2013-06-20,8.7,107,17.5,10.1,1.1,NA,107,0.01,0.005,NA,NA,2013,Spring,171
+John Day River at Hwy 206,2013-08-15,9.1,104,22.9,8.7,1.1,NA,179,0.038,0.0057,NA,NA,2013,Summer,227
+Deschutes River at Deschutes River Park,2013-08-27,8.2,109,17.9,10.2,1.4,NA,107,0.021,0.249,NA,NA,2013,Summer,239
+John Day River at Hwy 206,2013-10-10,8.5,103,12.4,10.8,0.6,NA,145,0.01,0.005,NA,NA,2013,Fall,283
+Deschutes River at Deschutes River Park,2013-10-16,8.4,109,11.2,12.1,1.5,NA,96,0.01,0.118,NA,NA,2013,Fall,289
+John Day River at Hwy 206,2013-12-05,8.4,101,0.2,14.5,5.1,NA,166,0.01,0.005,NA,NA,2013,Fall,339
+Deschutes River at Deschutes River Park,2013-12-18,8.2,103,6.1,12.7,1.2,NA,92,0.01,0.157,NA,NA,2013,Fall,352
+Deschutes River at Deschutes River Park,2014-02-12,8.1,104,5.9,12.8,1,NA,79,0.01,0.15,NA,NA,2014,Winter,43
+John Day River at Hwy 206,2014-02-27,8.3,100,5.3,12.3,1,NA,163,0.01,0.0521,NA,NA,2014,Winter,58
+John Day River at Hwy 206,2014-04-17,8.2,100,12.9,10.3,0.4,NA,111,0.01,0.005,NA,NA,2014,Spring,107
+Deschutes River at Deschutes River Park,2014-04-22,8.2,101,11.6,10.9,1.5,NA,81,0.01,0.0134,NA,NA,2014,Spring,112
+John Day River at Hwy 206,2014-06-12,8.6,109,21.9,9.3,0.9,NA,109,0.01,0.005,NA,NA,2014,Spring,163
+Deschutes River at Deschutes River Park,2014-06-25,8.6,111,17.9,10.4,2.7,NA,89,0.01,0.005,NA,NA,2014,Summer,176
+Deschutes River at Deschutes River Park,2014-08-06,8.8,117,19.9,10.6,1.2,NA,103,0.01,0.0395,NA,NA,2014,Summer,218
+John Day River at Hwy 206,2014-08-14,9,116,25.9,9.5,0.7,NA,151,0.01,0.0055,NA,NA,2014,Summer,226
+John Day River at Hwy 206,2014-10-09,8.7,107,18.3,9.9,0.9,NA,197,0.01,0.005,NA,NA,2014,Fall,282
+Deschutes River at Deschutes River Park,2014-10-15,8.4,108,13.8,11.1,1.5,NA,97,0.01,0.0882,NA,NA,2014,Fall,288
+Deschutes River at Deschutes River Park,2014-12-03,7.9,102,5.7,12.9,2.1,NA,119,0.01,0.207,NA,NA,2014,Fall,337
+John Day River at Hwy 206,2014-12-11,8.4,102,7,12,1.3,NA,155,0.01,0.005,NA,NA,2014,Fall,345
+Deschutes River at Deschutes River Park,2015-02-11,8.1,102,8.5,12.1,1.2,NA,87,0.01,0.221,NA,3,2015,Winter,42
+John Day River at Hwy 206,2015-02-26,8.4,104,6.8,12.5,1.3,NA,135,0.01,0.005,NA,3,2015,Winter,57
+Deschutes River at Deschutes River Park,2015-04-08,8.7,109,12.5,11.7,2.6,NA,107,0.01,0.005,NA,1,2015,Spring,98
+John Day River at Hwy 206,2015-04-23,8.6,107,15.5,10.5,1,NA,131,0.01,0.005,NA,10,2015,Spring,113
+John Day River at Hwy 206,2015-06-04,8.5,109,20.7,9.7,0.9,NA,132,0.01,0.005,NA,8,2015,Spring,155
+Deschutes River at Deschutes River Park,2015-06-10,8.5,108,18.4,10,1.8,NA,107,0.01,0.005,NA,64,2015,Spring,161
+Deschutes River at Deschutes River Park,2015-08-06,8.8,114,18.7,10.5,1.9,NA,126,0.01,0.0081,NA,1,2015,Summer,218
+John Day River at Hwy 206,2015-08-13,9.2,147,27.3,11.4,1.2,NA,184,0.01,0.005,NA,2,2015,Summer,225
+John Day River at Hwy 206,2015-10-08,8.4,97,17.1,9.3,0.9,NA,181,0.01,0.005,NA,17,2015,Fall,281
+Deschutes River at Deschutes River Park,2015-10-21,8.5,107,12.9,11.3,1.3,NA,110,0.01,0.0999,NA,15,2015,Fall,294
+John Day River at Hwy 206,2015-12-03,8.4,103,1.5,14,2.4,NA,163,0.01,0.005,NA,5,2015,Fall,337
+Deschutes River at Deschutes River Park,2015-12-09,8.1,100,10.4,11.1,1.4,NA,207,0.015,0.171,NA,50,2015,Fall,343
+Deschutes River at Deschutes River Park,2016-02-10,8.2,104,7.1,12.7,1.5,NA,96,0.01,0.274,NA,5,2016,Winter,41
+John Day River at Hwy 206,2016-02-25,8.2,99,6.6,12.2,1.3,NA,148,0.01,0.081,NA,7,2016,Winter,56
+John Day River at Hwy 206,2016-04-14,8.1,100,12.4,10.4,0.7,NA,116,0.01,0.0123,NA,20,2016,Spring,105
+Deschutes River at Deschutes River Park,2016-04-27,8.5,107,13,11,1.4,NA,97,0.01,0.0082,NA,1,2016,Spring,118
+Bakeoven Creek at mouth,2016-05-12,8,99,14.5,9.8,NA,NA,NA,0.01,0.0795,NA,NA,2016,Spring,133
+John Day River at Hwy 206,2016-05-17,8.6,114,20.6,10.1,NA,NA,119,0.01,0.005,NA,NA,2016,Spring,138
+John Day River at Hwy 206,2016-06-09,8.8,113,22.4,9.6,0.7,NA,128,0.01,0.005,NA,9,2016,Spring,161
+Deschutes River at Deschutes River Park,2016-06-22,8.5,107,17.6,10.2,1.7,NA,119,0.01,0.0106,NA,5,2016,Summer,174
+Deschutes River at Deschutes River Park,2016-08-03,8.4,109,18,10.1,1.2,NA,103,0.01,0.113,NA,3,2016,Summer,216
+Bakeoven Creek at mouth,2016-08-15,7.8,76,19.5,6.8,NA,NA,NA,0.01,0.0935,NA,NA,2016,Summer,228
+John Day River at Hwy 206,2016-08-18,9,109,25.7,8.7,0.5,NA,171,0.01,0.005,NA,3,2016,Summer,231
+John Day River at Hwy 206,2016-08-23,9.3,141,25.4,11.4,NA,NA,191,0.01,0.005,NA,NA,2016,Summer,236
+Bakeoven Creek at RM 12.98,2016-08-25,8.1,96,13.9,9.3,NA,NA,244,0.01,1.45,NA,NA,2016,Summer,238
+John Day River at Hwy 206,2016-10-13,8.6,100,12.7,10.3,0.7,NA,192,0.01,0.005,NA,6,2016,Fall,287
+Deschutes River at Deschutes River Park,2016-10-19,8.3,103,11.9,11.3,1.6,NA,104,0.01,0.164,NA,11,2016,Fall,293
+John Day River at Hwy 206,2016-11-01,8.7,112,12.7,11.7,NA,NA,NA,NA,NA,NA,NA,2016,Fall,306
+Bakeoven Creek at mouth,2016-11-02,8.1,94,12.1,9.9,NA,NA,NA,0.01,0.594,NA,NA,2016,Fall,307
+John Day River at Hwy 206,2016-12-08,8.4,101,0,14.6,2.9,NA,162,0.01,0.005,NA,2,2016,Fall,343
+Deschutes River at Deschutes River Park,2016-12-20,8.3,104,6.3,12.9,1,NA,108,0.01,0.19,NA,5,2016,Fall,355
+John Day River at Hwy 206,2017-02-16,8.2,101,4.4,12.5,2.3,NA,162,0.01,0.245,NA,7,2017,Winter,47
+Deschutes River at Deschutes River Park,2017-02-22,7.95,102,6.7,12.5,1.6,NA,135,0.01,0.328,NA,14,2017,Winter,53
+Deschutes River at Deschutes River Park,2017-04-05,8.2,102,10.2,11.4,1.1,NA,121,0.01,0.145,NA,2,2017,Spring,95
+John Day River at Hwy 206,2017-04-27,8.1,99,10.6,10.8,0.5,NA,146,0.01,0.0082,NA,70,2017,Spring,117
+John Day River at Hwy 206,2017-06-08,8.1,98,19.8,8.7,0.7,NA,115,0.01,0.005,NA,7,2017,Spring,159
+Deschutes River at Deschutes River Park,2017-06-21,8.5,108,18.7,10.1,1.6,NA,103,0.01,0.014,NA,4,2017,Summer,172
+Deschutes River at Deschutes River Park,2017-08-02,8.5,111,20.5,10,1.2,NA,102,0.01,0.0804,NA,2,2017,Summer,214
+John Day River at Hwy 206,2017-08-17,8.7,107,23.1,9,0.6,NA,185,0.01,0.005,NA,1,2017,Summer,229
+Deschutes River at Deschutes River Park,2017-10-11,8.3,104,11.5,11.4,1,NA,109,0.01,0.243,NA,2,2017,Fall,284
+John Day River at Hwy 206,2017-10-19,8.5,100,12.5,10.3,0.8,NA,192,0.01,0.005,NA,5,2017,Fall,292
+John Day River at Hwy 206,2017-12-07,8.3,100,1.3,14.3,2.6,NA,152,0.01,0.005,NA,4,2017,Fall,341
+Deschutes River at Deschutes River Park,2017-12-19,8.1,105,8.5,12,0.6,NA,101,0.01,0.244,NA,3,2017,Fall,353
+John Day River at Hwy 206,2018-02-15,8,104,4.7,13.4,1.6,NA,116,0.01,0.005,NA,1,2018,Winter,46
+Deschutes River at Deschutes River Park,2018-02-28,8.3,104,6.5,12.7,1.1,NA,88,0.01,0.173,NA,1,2018,Winter,59
+Deschutes River at Deschutes River Park,2018-04-11,8.7,107,11.1,11.7,2.2,NA,108,0.01,0.005,NA,1,2018,Spring,101
+John Day River at Hwy 206,2018-04-19,8.1,102,10.9,11.2,0.7,NA,122,0.01,0.0052,NA,18,2018,Spring,109
+John Day River at Hwy 206,2018-06-07,8.7,115,21.4,10,0.9,NA,126,0.01,0.005,NA,2,2018,Spring,158
+Deschutes River at Deschutes River Park,2018-06-20,8.6,110,19.7,10,1.6,NA,103,0.01,0.005,NA,6,2018,Spring,171
+Deschutes River at Deschutes River Park,2018-08-08,8.6,110,20.5,9.9,1.1,NA,86,0.01,0.0216,NA,5,2018,Summer,220
+John Day River at Hwy 206,2018-08-16,9.3,133,25.5,10.7,1.4,NA,168,0.01,0.005,NA,1,2018,Summer,228
+Deschutes River at Deschutes River Park,2018-10-10,NA,NA,NA,NA,2.4,NA,106,0.01,0.102,NA,5,2018,Fall,283
+John Day River at Hwy 206,2018-10-18,8.24,NA,NA,NA,0.6,NA,201,0.01,0.005,NA,4,2018,Fall,291
+John Day River at Hwy 206,2018-12-06,NA,NA,NA,NA,1.9,NA,153,0.01,0.005,NA,1,2018,Fall,340
+Deschutes River at Deschutes River Park,2018-12-18,NA,NA,NA,NA,1.2,NA,103,0.012,0.194,NA,4,2018,Fall,352
+John Day River at Hwy 206,2019-02-14,NA,NA,NA,NA,2,NA,148,0.01,0.0373,NA,10,2019,Winter,45
+Deschutes River at Deschutes River Park,2019-02-20,NA,NA,NA,NA,3.2,NA,104,0.01,0.172,NA,1,2019,Winter,51
+Deschutes River at Deschutes River Park,2019-04-10,NA,NA,NA,NA,2.5,NA,172,0.016,0.181,NA,36,2019,Spring,100
+John Day River at Hwy 206,2019-04-18,NA,NA,NA,NA,0.4,NA,180,0.01,0.12,NA,32,2019,Spring,108
+John Day River at Hwy 206,2019-06-06,NA,NA,NA,NA,0.7,NA,145,0.01,0.0059,NA,7,2019,Spring,157
+Deschutes River at Deschutes River Park,2019-06-19,NA,NA,NA,NA,2.3,NA,106,0.01,0.017,NA,2,2019,Spring,170
+Deschutes River at Deschutes River Park,2019-08-07,NA,NA,NA,NA,1.3,NA,105,0.012,0.0968,NA,44,2019,Summer,219
+John Day River at Hwy 206,2019-08-15,NA,NA,NA,NA,1,NA,200,0.01,0.005,NA,12,2019,Summer,227
+Deschutes River at Deschutes River Park,2019-10-09,8.4,108,11.6,12,1.4,NA,104,0.013,0.19,NA,4,2019,Fall,282
+John Day River at Hwy 206,2019-10-17,8.6,100,12.6,10.4,0.6,NA,202,0.01,0.005,NA,6,2019,Fall,290
+John Day River at Hwy 206,2019-12-05,8.4,102,2.1,13.9,2.2,NA,174,0.01,0.005,NA,1,2019,Fall,339
+Deschutes River at Deschutes River Park,2019-12-17,9.3,105,5.5,13.3,1.4,NA,107,0.01,0.257,NA,2,2019,Fall,351
+John Day River at Hwy 206,2020-02-13,8.2,102,5.6,12.7,1.6,NA,150,0.01,0.0881,NA,8,2020,Winter,44
+Deschutes River at Deschutes River Park,2020-02-19,8.2,105,6.3,13.2,1.5,NA,98,0.01,0.198,NA,1,2020,Winter,50
+Deschutes River at Deschutes River Park,2020-04-13,8.3,109,12.8,11.7,2.2,NA,101,0.016,0.007,NA,1,2020,Spring,104
+John Day River at Hwy 206,2020-04-13,8.1,101,14.2,10.4,1,NA,166,0.01,0.005,NA,NA,2020,Spring,104
