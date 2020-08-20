@@ -7,3 +7,5 @@ app.R
 osufavicon.jpg
 osufavicon.png
 user_guide/
+.RData
+.Rhistory
