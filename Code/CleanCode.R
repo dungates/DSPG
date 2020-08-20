@@ -20,6 +20,7 @@ library(kableExtra)
 library(knitr)
 library(reactable)
 library(htmlwidgets)
+library(webshot)
 setwd("~/DSPG")
 
 # Hourly PGE data
@@ -303,9 +304,9 @@ CorrelogramData %>% ggpairs(columns = c(1,5,7,2), aes(color = Period))
 
 ggplot(data = CorrelogramData, aes(x = Date, y = Temperature)) +
   geom_line(color = "darkcyan") + facet_wrap( ~ Period, scales = "free_x") +
-  labs(y = "Temperature (Celsius °)", title = "7 Day Rolling Average Temperature at Madras Gage") + theme_bw() +
+  labs(y = "River Temperature (Celsius °)", title = "7 Day Rolling Average Temperature at Madras Gage") + theme_bw() +
   theme(legend.position = "none",
-        plot.title = element_text(hjust = 0.5)) 
+        plot.title = element_text(hjust = 0.5)) #come back to redo
 
 
 # Table of means and medians of Pre-Dam, Pre-SWW, Post-SWW
@@ -334,19 +335,48 @@ MadrasDataMedians <- MadrasData %>% group_by(Year, Season) %>%
   filter(Year == 1953 | Year == 1955 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019)
 # Seasonal Mean Temperature pre and post dam comparison
 MadrasDataMedians %>% ggplot(aes(Season, mean)) + geom_bar(aes(fill = as.factor(Year)), position = "dodge", stat = "identity") + 
-  labs(y = "Mean Temperature", fill = "Year") + scale_fill_brewer(palette = "Dark2") + theme_bw()
+  labs(y = "Mean River Temperature (Celsius °)", fill = "Year") + scale_fill_brewer(palette = "Dark2") + theme_bw() +
+  scale_color_manual()
 
 temperatureColor <- "#C92A2A"
 fishColor <- rgb(0.2, 0.6, 0.9, 1)
 # Pre and post dam temperature comparison
+colorset = c(`1953` = "firebrick3", `1955` = "firebrick3", `2008` = "royalblue4", `2009` = "royalblue4", 
+             `2016` = "firebrick3", `2019` = "firebrick3")
+customcolors <- RColorBrewer::brewer.pal(6, "Spectral")
 longtermtempplot <- MadrasData %>% filter(Year == 1953 | Year == 1955 | Year == 2008 | Year == 2009 | Year == 2016 | Year == 2019) %>%
-  ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = Temperature, color = Year)) + geom_line(show.legend = F) + 
-  facet_wrap( ~ as.factor(Year), ncol = 2) + theme_bw() +
-  scale_x_date(date_labels = "%b") + ggtitle("Temperature Before and After Dam Installation") + labs(x = "Date") + 
+  ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = Temperature, color = as.factor(Year))) + geom_line(show.legend = F) + 
+  facet_wrap( ~ as.factor(Year), ncol = 2, labeller = as_labeller(c(`1953` = "1953: Pre-Dam",
+                                                                        `1955` = "1955: Pre-Dam",
+                                                                        `2008` = "2008: Pre-SWW",
+                                                                        `2009` = "2009: Pre-SWW",
+                                                                        `2016` = "2016: Post-SWW",
+                                                                        `2019` = "2019: Post-SWW"))) +
+  theme_bw() + 
+  scale_x_date(date_labels = "%b") + ggtitle("Deschutes River Temperature at Madras by Period") + 
+  labs(x = "Date", y = "River Temperature (Celsius °)") + 
   theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
-        axis.title.x = element_text(color = fishColor, size = 13), 
+        axis.title.x = element_text(color = "black", size = 13), 
         plot.title = element_text(hjust = 0.5))
-colorset = c('1953' = "red", '1956' = "red", '2008' = "goldenrod", '2009' = "goldenrod", '2016' = "forestgreen", '2019' = "forestgreen")
-longtermtempplot + scale_fill_manual(values = colorset)
+longtermtempplot + scale_color_manual(values = colorset)
 
+colorset2 <- c(`1953` = "firebrick3", `1955` = "firebrick3", `1974` = "royalblue4", `1976` = "royalblue4", 
+               `2016` = "firebrick3", `2019` = "firebrick3")
+longtermtempplot2 <- MoodyData %>% filter(Year == 1953 | Year == 1955 | Year == 1974 | Year == 1976 | Year == 2016 | Year == 2019) %>%
+  ggplot(aes(x = as.Date(Julian, origin = "1952-01-01"), y = Temperature, color = as.factor(Year))) + geom_line(show.legend = F) + 
+  facet_wrap( ~ as.factor(Year), ncol = 2, labeller = as_labeller(c(`1953` = "1953: Pre-Dam",
+                                                                    `1955` = "1955: Pre-Dam",
+                                                                    `1974` = "1974: Pre-SWW",
+                                                                    `1976` = "1976: Pre-SWW",
+                                                                    `2016` = "2016: Post-SWW",
+                                                                    `2019` = "2019: Post-SWW"))) +
+  theme_bw() + 
+  scale_x_date(date_labels = "%b") + ggtitle("Deschutes River Temperature at Moody by Period") + 
+  labs(x = "Date", y = "River Temperature (Celsius °)") + 
+  theme(axis.title.y = element_text(color = temperatureColor, size = 13), 
+        axis.title.x = element_text(color = "black", size = 13), 
+        plot.title = element_text(hjust = 0.5))
+longtermtempplot2 + scale_color_manual(values = colorset2)
+
+MoodyData %>% filter(Year == 1974) %>% ggplot(aes(x = Julian, y = Temperature)) + geom_line()
 
