@@ -191,7 +191,7 @@ MadrasDataYearly$Group <- factor(MadrasDataYearly$Group, levels = c("PreDam", "P
 
 ggplot(data = MadrasDataYearly, aes(x = Year, y = Temperature)) + geom_smooth(method = "lm", formula = formula, se = F) +
   geom_line(aes(color = Season)) + facet_grid(Season ~ Group, scales = "free") + 
-  stat_poly_eq(aes(label = paste(..rr.label..)), formula = formula, parse = T) #Redo with rolling 7 day average maximum START HERE
+  stat_poly_eq(aes(label = paste(..rr.label..)), formula = formula, parse = T)
 
 MadrasDataYearlyFall <- MadrasDataYearly %>% filter(Season == "Fall")
 MadrasDataYearlyWinter <- MadrasDataYearly %>% filter(Season == "Winter")
@@ -222,7 +222,7 @@ MoodyDataYearly$Group <- factor(MoodyDataYearly$Group, levels = c("PreDam", "Pre
 
 ggplot(data = MoodyDataYearly, aes(x = Year, y = Temperature)) + geom_smooth(method = "lm", formula = formula, se = F) +
   geom_line(aes(color = Season)) + facet_grid(Season ~ Group, scales = "free") + 
-  stat_poly_eq(aes(label = paste(..rr.label..)), formula = formula, parse = T) #Redo with rolling 7 day average maximum START HERE
+  stat_poly_eq(aes(label = paste(..rr.label..)), formula = formula, parse = T) 
 
 MoodyDataYearlyFall <- MoodyDataYearly %>% filter(Season == "Fall")
 MoodyDataYearlyWinter <- MoodyDataYearly %>% filter(Season == "Winter")
