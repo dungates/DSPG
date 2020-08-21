@@ -9,3 +9,5 @@ osufavicon.png
 user_guide/
 .RData
 .Rhistory
+*.html
+*.htm

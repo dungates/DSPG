@@ -21,6 +21,8 @@ library(knitr)
 library(reactable)
 library(htmlwidgets)
 library(webshot)
+library(htmltools)
+library(formattable)
 setwd("~/DSPG")
 
 # Hourly PGE data
@@ -59,7 +61,6 @@ JDReddsCountData <- read_csv("Data/JohnDayReddCounts.csv")[1:13,1:17]
 JohnDayBargeData <- read_csv("Data/JohnDayBargeRates.csv", skip = 1)[,1:14]
 colnames(JohnDayBargeData) <- c("Year","W_Observed","H_Observed","pHOSObserved","W_Captured","H_Captured","%H_Captured","NOSA",
                             "W_JDD","H_JDD","%H_JDD","PercentWBarged","PercentHBarged","Num_H","")
-
 
 # Bonneville Dam Data
 BonnevilleData <- read_csv("Data/BonnevilleDamData.csv")
@@ -119,7 +120,7 @@ stargazer(lm1, lm2, type = "text") # Check slide 20 for source on regression
 
 
 
-# Testing for difference in season by Predam, PreSWW, PostSWW groupings
+# Testing for difference in season by Predam, PreSWW, PostSWW groupings at Madras
 MadrasDataYearly <- MadrasData %>% group_by(Year, Season) %>% summarise(Temperature = mean(Temperature)) %>% 
   mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
 MadrasDataYearly$Group <- as.factor(MadrasDataYearly$Group)
@@ -148,6 +149,44 @@ Summerlm <- lm(Temperature ~ (Group), data = MadrasDataYearlySummer)
 
 # View all at once
 stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "html") # Order here is 1:Fall,2:Winter,3:Spring,4:Summer
+
+
+# Testing for difference in season by Predam, PreSWW, PostSWW groupings at Moody
+MoodyDataYearly <- MoodyData %>% group_by(Year, Season) %>% summarise(Temperature = mean(Temperature, na.rm = T)) %>% 
+  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+MoodyDataYearly$Group <- as.factor(MoodyDataYearly$Group)
+MoodyDataYearly$Group <- factor(MoodyDataYearly$Group, levels = c("PreDam", "PreSWW", "PostSWW"))
+
+ggplot(data = MoodyDataYearly, aes(x = Year, y = Temperature)) + geom_smooth(method = "lm", formula = formula, se = F) +
+  geom_line(aes(color = Season)) + facet_grid(Season ~ Group, scales = "free") + 
+  stat_poly_eq(aes(label = paste(..rr.label..)), formula = formula, parse = T) #Redo with rolling 7 day average maximum START HERE
+
+MoodyDataYearlyFall <- MoodyDataYearly %>% filter(Season == "Fall")
+MoodyDataYearlyWinter <- MoodyDataYearly %>% filter(Season == "Winter")
+MoodyDataYearlySpring <- MoodyDataYearly %>% filter(Season == "Spring")
+MoodyDataYearlySummer <- MoodyDataYearly %>% filter(Season == "Summer")
+
+# Summarized individually
+summary(lm(Temperature ~ Group, data = MoodyDataYearlyFall))
+summary(lm(Temperature ~ (Group), data = MoodyDataYearlyWinter))
+summary(lm(Temperature ~ (Group), data = MoodyDataYearlySpring))
+summary(lm(Temperature ~ (Group), data = MoodyDataYearlySummer))
+
+Falllm1 <- lm(Temperature ~ Group, data = MoodyDataYearlyFall)
+Winterlm1 <- lm(Temperature ~ (Group), data = MoodyDataYearlyWinter)
+Springlm1 <- lm(Temperature ~ (Group), data = MoodyDataYearlySpring)
+Summerlm1 <- lm(Temperature ~ (Group), data = MoodyDataYearlySummer)
+
+
+# View all at once
+stargazer(Falllm1,Winterlm1,Springlm1,Summerlm1, type = "text") # Order here is 1:Fall,2:Winter,3:Spring,4:Summer
+
+
+
+
+
+
+
 
 
 
@@ -294,39 +333,119 @@ MadrasDataYearly$Group <- factor(MadrasDataYearly$Group, levels = c("PreDam", "P
 
 CorrelogramData <- MadrasData %>% 
   mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW")) %>% 
-  mutate(Temperature2 = rollmean(Temperature, k = 7, fill = NA))
+  mutate(Temperature2 = rollmax(Temperature, k = 7, fill = NA))
 colnames(CorrelogramData) <- c("Date","Temp","Location","Year","Season","Julian","Period","Temperature")
 CorrelogramData$Period <- factor(CorrelogramData$Period, levels = c("PreDam", "PreSWW", "PostSWW"))
 
-CorrelogramData %>% ggpairs(columns = c(1,5,7,2), aes(color = Period))
+CorrelogramData[,] %>% ggcorr(method = "pairwise") # Spread season to make work
 
 # Comparing Pre-Dam, Pre-SWW, Post-SWW at Madras
-
+CorrelogramData %>% group_by(Period) %>% mutate(Line = case_when())
 ggplot(data = CorrelogramData, aes(x = Date, y = Temperature)) +
-  geom_line(color = "darkcyan") + facet_wrap( ~ Period, scales = "free_x") +
-  labs(y = "River Temperature (Celsius °)", title = "7 Day Rolling Average Temperature at Madras Gage") + theme_bw() +
+  geom_line(color = "darkcyan") + facet_wrap( ~ Period, scales = "free_x") + 
+  geom_vline(aes(xintercept = as.Date("1956-04-01")), linetype = "dotted") + 
+  geom_vline(aes(xintercept = as.Date("2010-01-01")), linetype = "dashed") +
+  labs(y = "River Temperature (Celsius °)", title = "7 Day Rolling Max Temperature at Madras Gage") + theme_bw() +
   theme(legend.position = "none",
-        plot.title = element_text(hjust = 0.5)) #come back to redo
+        plot.title = element_text(hjust = 0.5))
 
 
-# Table of means and medians of Pre-Dam, Pre-SWW, Post-SWW
-MadrasDataYearly <- MadrasData %>% group_by(Year, Season) %>% 
+# Table of means and medians of Pre-Dam, Pre-SWW, Post-SWW at Madras
+MadrasDataYearly <- MadrasData %>% group_by(Year, Season) %>%
   summarise(`Mean Temperature` = mean(Temperature, na.rm = T, trim = 2),
-            `Median Temperature` = median(Temperature, na.rm = T, trim = 2)) %>% 
+            `Median Temperature` = median(Temperature, na.rm = T, trim = 2)) %>%
   mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
-MadrasDataYearly <- MadrasDataYearly %>% drop_na() %>% 
+MadrasDataYearly <- MadrasDataYearly %>% drop_na() %>%
   pivot_wider(names_from = Season, values_from = c("Mean Temperature", "Median Temperature"))
-colnames(MadrasDataYearly) <- c("Year", "Period", "Winter Mean Temperature", "Spring Mean Temperature", 
+colnames(MadrasDataYearly) <- c("Year", "Period", "Winter Mean Temperature", "Spring Mean Temperature",
                                 "Summer Mean Temperature", "Fall Mean Temperature")
 MadrasDataYearly <- MadrasDataYearly[,1:6]
-rtable <- reactable(MadrasDataYearly, defaultPageSize = 40)
-html <- "rtable.html"
-saveWidget(rtable,html)
-webshot(html, "Table1.png")
+
+# rtable <- reactable(MadrasDataYearly, defaultPageSize = 40)
+# html <- "rtable.html"
+# saveWidget(rtable,html)
+# webshot(html, "Table1.png")
 
 # Stats to back up previous table/chart
 stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "html", out = "Models.htm", covariate.labels = c("Pre-SWW","Post-SWW"))
 
+# Table of means and medians of Pre-Dam, Pre-SWW, Post-SWW at Madras
+MoodyDataYearly <- MoodyData %>% group_by(Year, Season) %>% 
+  summarise(`Mean Temperature` = mean(Temperature, na.rm = T, trim = 2),
+            `Median Temperature` = median(Temperature, na.rm = T, trim = 2)) %>% 
+  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+MoodyDataYearly <- MoodyDataYearly %>% drop_na() %>% 
+  pivot_wider(names_from = Season, values_from = c("Mean Temperature", "Median Temperature"))
+colnames(MoodyDataYearly) <- c("Year", "Period", "Winter Mean Temperature", "Spring Mean Temperature", 
+                                "Summer Mean Temperature", "Fall Mean Temperature")
+MoodyDataYearly <- MoodyDataYearly[,1:6]
+
+customGreen = "#71CA97"
+customRed = "#ff7f7f"
+
+improvement_formatter <- formatter("span", style = x ~ style(font.weight = "bold", color = 
+                                                               ifelse(x - lag(x, default = first(x)) > 0, 
+                                                               customGreen, 
+                                                               ifelse(x - lag(x, default = first(x)) < 0, 
+                                                               customRed, "black"))),
+                                   x ~ icontext(icon = 
+                                                ifelse(x - lag(x, default = first(x)) > 0, "arrow-up",
+                                                ifelse(x - lag(x, default = first(x)) < 0, "arrow-down","circle")), 
+                                                       x))
+
+Table1 <- formattable(MadrasDataYearly, list(
+            `Totals` = formatter("span", style = ~ style(color = "grey",font.weight = "bold")),
+            `Winter Mean Temperature` = improvement_formatter,
+            `Spring Mean Temperature` = improvement_formatter,
+            `Summer Mean Temperature` = improvement_formatter,
+            `Fall Mean Temperature` = improvement_formatter
+            ))
+
+Table2 <- formattable(MoodyDataYearly, list(
+  `Totals` = formatter("span", style = ~ style(color = "grey",font.weight = "bold")),
+  `Winter Mean Temperature` = improvement_formatter,
+  `Spring Mean Temperature` = improvement_formatter,
+  `Summer Mean Temperature` = improvement_formatter,
+  `Fall Mean Temperature` = improvement_formatter
+))
+
+
+export_formattable <- function(f, file, width = "100%", height = NULL, 
+                               background = "white", delay = 0.2)
+{
+  w <- as.htmlwidget(f, width = width, height = height)
+  path <- html_print(w, background = background, viewer = NULL)
+  url <- paste0("file:///", gsub("\\\\", "/", normalizePath(path)))
+  webshot(url,
+          file = file,
+          selector = ".formattable_widget",
+          delay = delay)
+}
+
+export_formattable(Table1,"Plots/Table1.png")
+export_formattable(Table2,"Plots/Table2.png")
+
+# rtable1 <- reactable(MoodyDataYearly, defaultPageSize = 40, 
+#                      defaultColDef = colDef(align = "center", minWidth = 150), 
+#                      bordered = TRUE, highlight = TRUE, theme = reactableTheme(
+#                        borderColor = "#dfe2e5",
+#                        stripedColor = "#f6f8fa",
+#                        highlightColor = "#f0f5f9",
+#                        cellPadding = "8px 12px",
+#                        headerStyle = list(color = "f7f7f8")))
+# rtable1 <- htmlwidgets::prependContent(rtable1, htmltools::h2(class = "title", "Seasonal Mean Temperature at Madras by Year"))
+# html1 <- "rtable1.html"
+# saveWidget(rtable1,html1)
+# webshot(html, "Plots/Table2.png")
+
+
+
+
+
+
+
+
+stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "html", out = "Models1.htm", covariate.labels = c("Pre-SWW","Post-SWW"))
 stargazer(Falllm,Winterlm,Springlm,Summerlm, type = "text")
 
 # Plots for Sophia
@@ -395,4 +514,34 @@ longtermtempplot2 <- MoodyData %>% filter(Year == 1953 | Year == 1955 | Year == 
 longtermtempplot2 + scale_color_manual(values = colorset2)
 
 MoodyData %>% filter(Year == 1974) %>% ggplot(aes(x = Julian, y = Temperature)) + geom_line()
+
+
+## John Day Barge Data pHOS vs Hatchery
+ggplot(JohnDayBargeData) + geom_line(aes(x = Year, y = PercentHBarged), color = "black") + 
+  geom_line(aes(x = Year, y = pHOSObserved*100), color = "red") + 
+  labs(y = "Percentage of Hatchery Fish Barged", 
+       title = "Barging Rate vs. pHOS (proportion of hatchery-origin spawners) in the John Day") + 
+  scale_y_continuous(sec.axis = sec_axis(~., name = "pHOS")) +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.y.right = element_text(color = "red")) #+ 
+  # annotate(x = 2017, y = 34, label = "Barging Rate", geom = "text") + 
+  # annotate(x = 2017, y = 7, label = "pHOS", color = "red", geom = "text")
+
+# Two axis plot temperature vs fish count
+ggplot(data = fishandtempdfMadras, aes(x = Date_time)) + geom_line(aes(y = `Mean Temperature`), color = temperatureColor) +
+  geom_line(aes(y = Total / coeff), color = fishColor) + 
+  scale_y_continuous(name = "River Temperature (Celsius °)", sec.axis = sec_axis(~.*coeff, name = "Total Fish Count")) + 
+  theme_bw() +
+  ggtitle("Temperature vs. Fish Count") + theme(axis.title.y = element_text(color = temperatureColor, size = 13),
+                                                axis.title.y.right = element_text(color = fishColor, size = 13),
+                                                plot.title = element_text(hjust = 0.5)) + xlab("Date")
+
+
+# Moody Plot by Season and Group
+MoodyData <- MoodyData %>% mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+ggplot(MoodyData, aes(x = Date_time, y = Temperature, color = Group)) + geom_line() + geom_smooth(method = "lm") +
+  facet_wrap( ~ Season)
+
+
 

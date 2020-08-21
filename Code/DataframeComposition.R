@@ -159,7 +159,7 @@ ggplot(data = BonnevilleDatavsODFW) + geom_line(aes(as.Date(paste0(Year, "-01-01
 
 formula = y ~ x + I(x^2)
 ggplot(data = BonnevilleDatavsODFW, aes(Hatchery, ActualHSS)) + geom_point() + geom_smooth(method = "lm", se = F, formula = formula) +
-  stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T) #This is good shit
+  stat_poly_eq(aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~~")), formula = formula, parse = T) #This is good shit
 
 ggplot(data = BonnevilleDatavsODFW, aes(Hatchery, ActualFC)) + geom_point() + geom_smooth(method = "lm", se = F, formula = y ~ x) +
   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = y ~ x, parse = T)
@@ -290,8 +290,11 @@ testdf3 <- MadrasData %>% group_by(Year) %>% summarize(Temperature = median(Temp
 formula = y ~ log(x)
 JohnDayData2 <- JohnDayData2 %>% mutate(pHOSObserved = pHOSObserved * 100)
 JohnDayData2 <- JohnDayData2 %>% rename(pHOSObserved = PHOSOBSERVED) #Not run yet
-ggplot(testdf2, aes(Proportion, ActualHSS)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
+ggplot(testdf, aes(Proportion, ActualHSS)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
   stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T)
+
+ggplot(JohnDayData2) + geom_line(aes(x = Year, y = PercentHBarged), color = "black") + 
+  geom_line(aes(x = Year, y = log(pHOSObserved)), color = "red")
 
 ggplot(JohnDayData2, aes(log(Num_H), pHOSObserved)) + geom_point() + geom_smooth(method = "lm", formula = formula, se = F) + 
   stat_poly_eq(aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~~")), formula = formula, parse = T)
@@ -336,4 +339,14 @@ CulverCombined <- CulverCombined %>% arrange(Date_time)
 USGSData2 <- rbind(USGSData, CulverCombined)
 USGSData2 <- USGSData2 %>% arrange(Date_time)
 write_csv(USGSData2, "AllUSGSData.csv")
+
+
+
+
+
+
+
+
+
+
 
