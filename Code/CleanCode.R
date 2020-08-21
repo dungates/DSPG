@@ -83,6 +83,25 @@ BonnevilleData2 <- read_csv("Data/bonneville fish .csv", col_types = cols(Year =
 
 ### ANALYSIS
 
+# Air and Water Temperature Analysis
+PeltonData <- read_csv("Data/pelton_NOAA.csv")
+PeltonData <- PeltonData %>% select(date, tAVG)
+AirvsWaterData <- left_join(MadrasData, PeltonData, by = c("Date_time" = "date"))
+summary(lm(Temperature ~ tAVG, data = AirvsWaterData)) # Obviously correlated 
+
+ggplot(data = AirvsWaterData, aes(x = tAVG, y = Temperature)) + geom_point() + facet_wrap( ~ Year)
+
+
+ggplot()
+
+
+
+
+
+
+
+
+
 # ODFW Fish Data Analysis
 fishDataAnalysis <- JohnDayBargeData %>% left_join(ODFWDataYearly, by = c("Year"))
 fishDataAnalysis <- fishDataAnalysis %>% mutate(SWW = case_when(Year >= 2010 ~ 1, Year < 2010 ~ 0))
@@ -92,7 +111,8 @@ ols3 <- lm(ActualHSS ~ SWW*Year, data = fishDataAnalysis)
 stargazer(ols1,ols2,ols3, type = "text")
 stargazer(ols1, ols2, type = "html", out = "Models2.htm", 
           covariate.labels = c("SWW","Year","Number of Hatchery Fish Barged","SWW * Year"))
-summary(logistic.reg <- glm(pHOSObserved ~ Year*SWW, data = fishDataAnalysis, family = binomial))
+fit = glm(pHOSObserved ~ ActualHSS, data = fishDataAnalysis, family = binomial)
+summary(fit)
 
 ols2$resid <- ols2$residuals
 ols2$fit <- ols2$fit
@@ -303,10 +323,13 @@ MergedFishData %>% filter(Year < 2014 & Season != "Spring") %>% group_by(Year) %
   stat_poly_eq(aes(label = ..eq.label..), method = "lm", parse = T, formula = formula)
 
 # Season interaction term plot shows the lack of data we are struggling with
-ggplot(data = lmdata, aes(x = Year, y = Total, color = Season)) + geom_point(aes(x = Year, y = Total)) +
-  geom_point(aes(x = Year, y = `Temperature`), color = "red", size = 3) +
-  geom_smooth(method = "lm", se = F, formula = formula) + facet_wrap( ~ Season) + geom_vline(aes(xintercept = 2010)) +
-  stat_poly_eq(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")), formula = formula, parse = T, angle = -30)
+seasonInteraction <- MadrasDataYearly %>% left_join(ODFWDataYearly, by = "Year") %>% 
+  filter(Year > 1976 & Year != 2020)
+seasonInteraction = seasonInteraction %>% mutate(Total = ActualHSS + ActualWSS)
+ggplot(data = seasonInteraction, aes(x = Temperature, y = Total)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F, formula = y ~ x) +
+  stat_poly_eq(aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~~")), formula = y ~ x, parse = T)
 
 # Plot of pHOSObserved vs. log of number of hatchery barged
 formula = y ~ x + I(x^2)
@@ -399,9 +422,21 @@ CorrelogramData <- MadrasData %>%
   mutate(Temperature2 = rollmax(Temperature, k = 7, fill = NA))
 colnames(CorrelogramData) <- c("Date","Temp","Location","Year","Season","Julian","Period","Temperature")
 CorrelogramData$Period <- factor(CorrelogramData$Period, levels = c("PreDam", "PreSWW", "PostSWW"))
+CorrelogramData2 <- CorrelogramData %>% pivot_wider(names_from = Season, values_from = Temperature)
+fishDataAnalysis2 <- fishDataAnalysis %>% left_join(MadrasDataYearly, by = "Year")
+fishDataAnalysis2 <- fishDataAnalysis2 %>% select(SWW, ActualFC, ActualWSS, ActualHSS, Num_H, PercentHBarged, PercentWBarged,
+                                                  NOSA, H_Captured, W_Captured, pHOSObserved, H_Observed, W_Observed, 
+                                                  Temperature, Year)
+fishDataAnalysis2 <- fishDataAnalysis2 %>% mutate(Yearsq = Year^2)
+colnames(fishDataAnalysis2) <- c("SWW", "Fall Chinook", "Wild Steelhead", "Hatchery Steelhead", "No.Hatchery Barged", 
+                                 "Per.Hatchery Barged", "Per.Wild Barged", "NOSA", "No.Hatchery Captured", "No.Wild Captured", 
+                                 "pHOS Observed", "Hatchery Observed", "Wild Observed","Temperature", "Year", "Yearsq")
 
-CorrelogramData[,] %>% ggcorr(method = "pairwise") # Spread season to make work
-?ggcorr
+ggc <- fishDataAnalysis2 %>% ggcorr(label = T, hjust = 0.8)
+g = ggplot_build(ggc)
+g$data[[2]]$label = gsub("_", " ", g$data[[2]]$label)
+grid::grid.draw(ggplot_gtable(g))
+
 # Comparing Pre-Dam, Pre-SWW, Post-SWW at Madras
 CorrelogramData <- CorrelogramData %>% group_by(Period) %>% mutate(Line = case_when(Period == "PreDam" ~ "1956-04-01", 
                                                                  Period == "PostSWW" ~ "2010-01-01"))
@@ -615,13 +650,14 @@ ggplot(MoodyData, aes(x = Date_time, y = Temperature, color = Group)) + geom_lin
 ### Bonneville Dam Data from Ian Tattam
 BonnevilleDatavsODFW <- BonnevilleData %>% left_join(ODFWDataYearly, by = c("Year"))
 ggplot(data = BonnevilleDatavsODFW) + geom_line(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
-  labs(x = "Date", y = "Hatchery Summer Steelhead and Bonneville Hatchery Counts", title = "Bonneville and Deschutes Steelhead Presence") + 
+  labs(x = "Date", y = "Hatchery Summer Steelhead and Bonneville Hatchery Counts", 
+       title = "Barging in Columbia River vs Steelhead Presence at Sherars Falls") + 
   theme_bw() + theme(plot.title = element_text(hjust = 0.5)) +
   geom_point(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
   geom_point(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") + 
   geom_line(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") + 
-  annotate(x = as.Date("2015-01-01"), y = 1500, label = "Bonneville Hatchery Summer Steelhead", geom = "text", color = "red") + 
-  annotate(x = as.Date("2016-01-01"), y = 210, geom = "text", label = "Sherars Falls Hatchery Summer Steelhead", color = "black") 
+  annotate(x = as.Date("2015-01-01"), y = 1500, label = "Sherars Falls Hatchery Summer Steelhead", geom = "text", color = "red") + 
+  annotate(x = as.Date("2015-01-01"), y = 210, geom = "text", label = "Hatchery Summer Steelhead Barged at Bonneville", color = "black") 
 
 BonnevilleDatavsODFW2 <- BonnevilleData2 %>% left_join(ODFWDataYearly, by = c("Year"))
 bonnevillecoeff <- max(BonnevilleDatavsODFW2$Steelhead)/max(BonnevilleDatavsODFW2$ActualHSS, na.rm = T)

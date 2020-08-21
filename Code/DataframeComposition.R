@@ -153,9 +153,14 @@ ODFWDataYearly <- read_csv("Data/ODFWDataYearly.csv")
 
 BonnevilleDatavsODFW <- BonnevilleData %>% left_join(ODFWDataYearly, by = c("Year"))
 ggplot(data = BonnevilleDatavsODFW) + geom_line(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
+  labs(x = "Date", y = "Hatchery Summer Steelhead and Bonneville Hatchery Counts", title = "Bonneville and Deschutes Steelhead Presence") + 
+  theme_bw() + theme(plot.title = element_text(hjust = 0.5)) +
   geom_point(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
   geom_point(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") + 
-  geom_line(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") # ActualHSS is ODFW Count Hatchery is Bonneville Barged Numbers
+  geom_line(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") + 
+  annotate(x = as.Date("2015-01-01"), y = 1500, label = "Sherars Falls Hatchery Summer Steelhead", geom = "text", color = "red") + 
+  annotate(x = as.Date("2016-01-01"), y = 210, geom = "text", label = "Bonneville Hatchery Summer Steelhead", color = "black") 
+  # ActualHSS is ODFW Count Hatchery is Bonneville Barged Numbers
 
 formula = y ~ x + I(x^2)
 ggplot(data = BonnevilleDatavsODFW, aes(Hatchery, ActualHSS)) + geom_point() + geom_smooth(method = "lm", se = F, formula = formula) +
