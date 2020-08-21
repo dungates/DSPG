@@ -64,6 +64,7 @@ colnames(JohnDayBargeData) <- c("Year","W_Observed","H_Observed","pHOSObserved",
 
 # Bonneville Dam Data
 BonnevilleData <- read_csv("Data/BonnevilleDamData.csv")
+BonnevilleData2 <- read_csv("Data/bonneville fish .csv", col_types = cols(Year = col_integer()))[1:82,]
 
 
 
@@ -394,7 +395,7 @@ MadrasDataYearly$Group <- as.factor(MadrasDataYearly$Group)
 MadrasDataYearly$Group <- factor(MadrasDataYearly$Group, levels = c("PreDam", "PreSWW", "PostSWW"))
 
 CorrelogramData <- MadrasData %>% 
-  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW")) %>% 
+  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 & Year > 1956 ~ "PreSWW", Year >= 2010 ~ "PostSWW")) %>% 
   mutate(Temperature2 = rollmax(Temperature, k = 7, fill = NA))
 colnames(CorrelogramData) <- c("Date","Temp","Location","Year","Season","Julian","Period","Temperature")
 CorrelogramData$Period <- factor(CorrelogramData$Period, levels = c("PreDam", "PreSWW", "PostSWW"))
@@ -402,14 +403,19 @@ CorrelogramData$Period <- factor(CorrelogramData$Period, levels = c("PreDam", "P
 CorrelogramData[,] %>% ggcorr(method = "pairwise") # Spread season to make work
 
 # Comparing Pre-Dam, Pre-SWW, Post-SWW at Madras
-CorrelogramData %>% group_by(Period) %>% mutate(Line = case_when())
+CorrelogramData <- CorrelogramData %>% group_by(Period) %>% mutate(Line = case_when(Period == "PreDam" ~ "1956-04-01", 
+                                                                 Period == "PostSWW" ~ "2010-01-01"))
 ggplot(data = CorrelogramData, aes(x = Date, y = Temperature)) +
-  geom_line(color = "darkcyan") + facet_wrap( ~ Period, scales = "free_x") + 
-  geom_vline(aes(xintercept = as.Date("1956-04-01")), linetype = "dotted") + 
-  geom_vline(aes(xintercept = as.Date("2010-01-01")), linetype = "dashed") +
+  geom_line(color = "darkblue") + facet_wrap( ~ Period, scales = "free_x", ncol = 1, labeller = 
+                                                as_labeller(c(`PreDam` = "Pre-Dam",
+                                                              `PreSWW` = "Pre-SWW",
+                                                              `PostSWW` = "Post-SWW"))) + 
+  geom_vline(aes(xintercept = as.Date("1956-04-01"), color = "red4"), linetype = "longdash") + 
+  geom_vline(aes(xintercept = as.Date("2010-01-01"), color = "royalblue4"), linetype = "dashed") +
   labs(y = "River Temperature (Celsius °)", title = "7 Day Rolling Max Temperature at Madras Gage") + theme_bw() +
   theme(legend.position = "none",
         plot.title = element_text(hjust = 0.5))
+
 
 
 # Table of means and medians of Pre-Dam, Pre-SWW, Post-SWW at Madras
@@ -591,6 +597,7 @@ ggplot(JohnDayBargeData) + geom_line(aes(x = Year, y = PercentHBarged), color = 
   # annotate(x = 2017, y = 7, label = "pHOS", color = "red", geom = "text")
 
 # Two axis plot temperature vs fish count
+MadrasData
 ggplot(data = fishandtempdfMadras, aes(x = Date_time)) + geom_line(aes(y = `Mean Temperature`), color = temperatureColor) +
   geom_line(aes(y = Total / coeff), color = fishColor) + 
   scale_y_continuous(name = "River Temperature (Celsius °)", sec.axis = sec_axis(~.*coeff, name = "Total Fish Count")) + 
@@ -605,5 +612,30 @@ MoodyData <- MoodyData %>% mutate(Group = case_when(Year <= 1956 ~ "PreDam", Yea
 ggplot(MoodyData, aes(x = Date_time, y = Temperature, color = Group)) + geom_line() + geom_smooth(method = "lm") +
   facet_wrap( ~ Season)
 
+### Bonneville Dam Data from Ian Tattam
+BonnevilleDatavsODFW <- BonnevilleData %>% left_join(ODFWDataYearly, by = c("Year"))
+ggplot(data = BonnevilleDatavsODFW) + geom_line(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
+  labs(x = "Date", y = "Hatchery Summer Steelhead and Bonneville Hatchery Counts", title = "Bonneville and Deschutes Steelhead Presence") + 
+  theme_bw() + theme(plot.title = element_text(hjust = 0.5)) +
+  geom_point(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
+  geom_point(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") + 
+  geom_line(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") + 
+  annotate(x = as.Date("2015-01-01"), y = 1500, label = "Sherars Falls Hatchery Summer Steelhead", geom = "text", color = "red") + 
+  annotate(x = as.Date("2016-01-01"), y = 210, geom = "text", label = "Bonneville Hatchery Summer Steelhead", color = "black") 
+
+BonnevilleDatavsODFW2 <- BonnevilleData2 %>% left_join(ODFWDataYearly, by = c("Year"))
+bonnevillecoeff <- max(BonnevilleDatavsODFW2$Steelhead)/max(BonnevilleDatavsODFW2$ActualHSS, na.rm = T)
+ggplot(data = BonnevilleDatavsODFW2) + geom_line(aes(as.Date(paste0(Year, "-01-01")), ActualHSS), color = "red") + 
+  labs(x = "Date", title = "Bonneville and Deschutes Steelhead Presence") + 
+  scale_y_continuous(name = "Sherars Falls Hatchery Summer Steelhead", 
+                     sec.axis = sec_axis(~ .*bonnevillecoeff, name = "Bonneville Hatchery Summer Steelhead",
+                                         labels = scales::comma), position = "right") + 
+  theme_bw() + theme(plot.title = element_text(hjust = 0.5),
+                     axis.title.y = element_text(color = "black", size = 13),
+                     axis.title.y.right = element_text(color = "red", size = 13)) +
+  geom_point(aes(as.Date(paste0(Year, "-01-01")), ActualHSS), color = "red") + 
+  geom_point(aes(as.Date(paste0(Year, "-01-01")), Steelhead / bonnevillecoeff), color = "black") + 
+  geom_line(aes(as.Date(paste0(Year, "-01-01")), Steelhead / bonnevillecoeff), color = "black") +
+  geom_line(aes(as.Date(paste0(Year, "-01-01")), ActualHSS), color = "red")
 
 
