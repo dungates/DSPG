@@ -82,6 +82,68 @@ BonnevilleData <- read_csv("Data/BonnevilleDamData.csv")
 
 ### ANALYSIS
 
+# ODFW Fish Data Analysis
+fishDataAnalysis <- JohnDayBargeData %>% left_join(ODFWDataYearly, by = c("Year"))
+fishDataAnalysis <- fishDataAnalysis %>% mutate(SWW = case_when(Year >= 2010 ~ 1, Year < 2010 ~ 0))
+ols1 <- lm(ActualWSS ~ SWW*Year + Num_H, data = fishDataAnalysis)
+ols2 <- lm(ActualHSS ~ SWW*Year + Num_H, data = fishDataAnalysis)
+ols3 <- lm(ActualHSS ~ SWW*Year, data = fishDataAnalysis)
+stargazer(ols1,ols2,ols3, type = "text")
+stargazer(ols1, ols2, type = "html", out = "Models2.htm", 
+          covariate.labels = c("SWW","Year","Number of Hatchery Fish Barged","SWW * Year"))
+summary(logistic.reg <- glm(pHOSObserved ~ Year*SWW, data = fishDataAnalysis, family = binomial))
+
+ols2$resid <- ols2$residuals
+ols2$fit <- ols2$fit
+
+ggplot(data = ols2, aes(x = fit, y = resid)) + geom_point() + theme_linedraw() + 
+  geom_hline(yintercept = 0, lty = 2, color = "red")
+qplot(ols2$fit, ols2$resid)
+
+MadrasDataYearly <- MadrasData %>% group_by(Year) %>% summarise(Temperature = mean(Temperature, na.rm = T)) %>% 
+  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+MadrasDataYearly$Group <- as.factor(MadrasDataYearly$Group)
+MadrasDataYearly$Group <- factor(MadrasDataYearly$Group, levels = c("PreDam", "PreSWW", "PostSWW")) # 10.22426 is all time average temperature
+MadrasDataYearly <- MadrasDataYearly %>% mutate(Temperature2 = Temperature - mean(Temperature, na.rm = T))
+FishMadras <- MadrasDataYearly %>% left_join(ODFWDataYearly, by = "Year")
+FishMadras <- FishMadras %>% mutate(SWW = case_when(Year >= 2010 ~ 1, Year < 2010 ~ 0))
+
+ggplot(data = FishMadras, aes(x = Year, y = Temperature2, color = SWW)) + geom_point() + 
+  geom_line(aes(x = Year, y = ActualHSS/1000)) + 
+  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1, se = FALSE) + 
+  stat_poly_eq(aes(label = paste(..rr.label..)), formula = formula, parse = T)
+
+quadmodel <- lm(Temperature2 ~ Year + I(Year^2), data = MadrasDataYearly)
+summary(quadmodel)
+
+quadmodel_diag <- augment(quadmodel, data = MadrasDataYearly)
+qplot(Year, .resid, data = quadmodel_diag) + geom_line()
+
+with(quadmodel_diag, pacf(.resid, plot = T, cex.lab = 1.5))
+
+with(quadmodel_diag, acf(.resid, lag.max = 1, type = "correlation", plot = F))
+
+
+
+
+
+
+MoodyDataYearly <- MoodyData %>% group_by(Year) %>% summarise(Temperature = mean(Temperature, na.rm = T)) %>% 
+  mutate(Group = case_when(Year <= 1956 ~ "PreDam", Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+MoodyDataYearly$Group <- as.factor(MoodyDataYearly$Group)
+MoodyDataYearly$Group <- factor(MoodyDataYearly$Group, levels = c("PreDam", "PreSWW", "PostSWW")) # 10.22426 is all time average temperature
+MoodyDataYearly <- MoodyDataYearly %>% mutate(Temperature2 = Temperature - mean(Temperature, na.rm = T))
+FishMoody <- MoodyDataYearly %>% left_join(ODFWDataYearly, by = "Year")
+FishMoody <- FishMoody %>% mutate(SWW = case_when(Year >= 2010 ~ 1, Year < 2010 ~ 0))
+
+quadmodel2 <- lm(Temperature2 ~ Year + I(Year^2), data = MoodyDataYearly)
+summary(quadmodel2)
+
+quadmodel_diag2 <- augment(quadmodel2, data = MoodyDataYearly)
+qplot(Year, .resid, data = quadmodel_diag2) + geom_line()
+
+stargazer(quadmodel, quadmodel2, type = "latex", out = "Models3.htm", covariate.labels = c("Year","{Year}^2"))
+
 
 ## Seasonal and Yearly analysis 
 
