@@ -401,12 +401,12 @@ colnames(CorrelogramData) <- c("Date","Temp","Location","Year","Season","Julian"
 CorrelogramData$Period <- factor(CorrelogramData$Period, levels = c("PreDam", "PreSWW", "PostSWW"))
 
 CorrelogramData[,] %>% ggcorr(method = "pairwise") # Spread season to make work
-
+?ggcorr
 # Comparing Pre-Dam, Pre-SWW, Post-SWW at Madras
 CorrelogramData <- CorrelogramData %>% group_by(Period) %>% mutate(Line = case_when(Period == "PreDam" ~ "1956-04-01", 
                                                                  Period == "PostSWW" ~ "2010-01-01"))
 ggplot(data = CorrelogramData, aes(x = Date, y = Temperature)) +
-  geom_line(color = "darkblue") + facet_wrap( ~ Period, scales = "free_x", ncol = 1, labeller = 
+  geom_line(color = "darkblue") + facet_grid( ~ Period, scales = "free_x", labeller = 
                                                 as_labeller(c(`PreDam` = "Pre-Dam",
                                                               `PreSWW` = "Pre-SWW",
                                                               `PostSWW` = "Post-SWW"))) + 
@@ -414,8 +414,8 @@ ggplot(data = CorrelogramData, aes(x = Date, y = Temperature)) +
   geom_vline(aes(xintercept = as.Date("2010-01-01"), color = "royalblue4"), linetype = "dashed") +
   labs(y = "River Temperature (Celsius °)", title = "7 Day Rolling Max Temperature at Madras Gage") + theme_bw() +
   theme(legend.position = "none",
-        plot.title = element_text(hjust = 0.5))
-
+        plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 90, vjust = 0.5))
 
 
 # Table of means and medians of Pre-Dam, Pre-SWW, Post-SWW at Madras
@@ -620,8 +620,8 @@ ggplot(data = BonnevilleDatavsODFW) + geom_line(aes(as.Date(paste0(Year, "-01-01
   geom_point(aes(as.Date(paste0(Year, "-01-01")),ActualHSS), color = "red") + 
   geom_point(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") + 
   geom_line(aes(as.Date(paste0(Year, "-01-01")),Hatchery), color = "black") + 
-  annotate(x = as.Date("2015-01-01"), y = 1500, label = "Sherars Falls Hatchery Summer Steelhead", geom = "text", color = "red") + 
-  annotate(x = as.Date("2016-01-01"), y = 210, geom = "text", label = "Bonneville Hatchery Summer Steelhead", color = "black") 
+  annotate(x = as.Date("2015-01-01"), y = 1500, label = "Bonneville Hatchery Summer Steelhead", geom = "text", color = "red") + 
+  annotate(x = as.Date("2016-01-01"), y = 210, geom = "text", label = "Sherars Falls Hatchery Summer Steelhead", color = "black") 
 
 BonnevilleDatavsODFW2 <- BonnevilleData2 %>% left_join(ODFWDataYearly, by = c("Year"))
 bonnevillecoeff <- max(BonnevilleDatavsODFW2$Steelhead)/max(BonnevilleDatavsODFW2$ActualHSS, na.rm = T)
