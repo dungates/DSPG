@@ -135,6 +135,7 @@ plot_fish_RB <- function(vars, startdate, enddate, reporttype) {
     fishdata_times <- fishdata[,(colnames(fishdata) == "Date_time" | colnames(fishdata) == "Season" | colnames(fishdata) == "Year"| colnames(fishdata) == "month_numeric")]
     fishdata_fish <- fishdata %>% select(all_of(vars))
     fishdata_all <- data.frame(fishdata_times, fishdata_fish)
+    fishdata_all <- fishdata_all[fishdata_all$Date_time >= startdate & fishdata_all$Date_time <= enddate,]
     fishdata_gathered <- fishdata_all %>% gather(key = fishtype, value = count, vars[1]:tail(vars,1))
     fishdata_gathered$Yearmonth <- with(fishdata_gathered, sprintf("%d-%02d", Year, month_numeric))
     fishdata_gathered <- fishdata_gathered %>% group_by(Yearmonth, fishtype) %>% summarize(mean_count = mean(count, na.rm = TRUE)) %>% ungroup()
@@ -145,13 +146,17 @@ plot_fish_RB <- function(vars, startdate, enddate, reporttype) {
       color = "#7f7f7f")
     x <- list(title = "Date", titlefont = f)
     y <- list(title = "Fish #", titlefont = f)
-    plt %>% layout(title = "ODFW - Fish Count", xaxis = x, yaxis = y)
+    plt %>% layout(title = "ODFW @ Round Butte - Fish abundance, monthly average", xaxis = x, yaxis = y, 
+                   legend = list(orientation = "h",   
+                                 xanchor = "center",  
+                                 x = 0.5))
      
   }
-  else if (reporttype=="yearly"){
+  else if (reporttype=="annual"){
     fishdata_times <- fishdata[,(colnames(fishdata) == "Date_time" | colnames(fishdata) == "Season" | colnames(fishdata) == "Year"| colnames(fishdata) == "Month")]
     fishdata_fish <- fishdata %>% select(all_of(vars))
     fishdata_all <- data.frame(fishdata_times, fishdata_fish)
+    fishdata_all <- fishdata_all[fishdata_all$Date_time >= startdate & fishdata_all$Date_time <= enddate,]
     fishdata_gathered <- fishdata_all %>% gather(key = fishtype, value = count, vars[1]:tail(vars,1))
     fishdata_gathered <- fishdata_gathered %>% group_by(Year, fishtype) %>% summarize(mean_count = mean(count, na.rm = TRUE)) %>% ungroup()
     fishdata_gathered$Yearnum <- as.numeric(fishdata_gathered$Year)
@@ -162,15 +167,18 @@ plot_fish_RB <- function(vars, startdate, enddate, reporttype) {
       color = "#7f7f7f")
     x <- list(title = "Date", titlefont = f)
     y <- list(title = "Fish #", titlefont = f)
-    plt %>% layout(title = "ODFW - Fish abundance, yearly average", xaxis = x, yaxis = y)
+    plt %>% layout(title = "ODFW @ Round Butte - Fish abundance, yearly average", xaxis = x, yaxis = y, 
+                   legend = list(orientation = "h",   
+                                 xanchor = "center",  
+                                 x = 0.5))
     
   }
 }
 
-#plot_fish(vars,startdate = 01/01/2000,enddate = 01/01/2020,reporttype = "yearly")
+plot_fish_RB(vars,"2004-01-01", "2020-01-01",reporttype = "annual")
 #vars <- c("Hatchery.Summer.Steelhead","Wild.Summer.Steelhead", "Summer.Steelhead.RM","Summer.Steelhead.LM","Rainbow.Trout","Bull.Trout")
-plot_fish_SF <- function(vars, startdate, enddate) {
-  fishdata_SF <- read.csv("data/AllSteelheadData.csv", header = T)
+plot_fish_SF <- function(vars, startdate, enddate, dataset) {
+  fishdata_SF <- dataset
   fishdata_times <- fishdata_SF[,2]
   fishdata_fish <- fishdata_SF %>% select(all_of(vars))
   fishdata_all <- data.frame(fishdata_times, fishdata_fish)
@@ -183,26 +191,34 @@ plot_fish_SF <- function(vars, startdate, enddate) {
     color = "#7f7f7f")
   x <- list(title = "Year", titlefont = f)
   y <- list(title = "Fish #, Yearly Average", titlefont = f)
-  plt %>% layout(title = "ODFW - Fish Count @ Sherars Falls, RM 43", xaxis = x, yaxis = y)
+  plt %>% layout(title = "ODFW - Fish Count @ Sherars Falls, RM 43", xaxis = x, yaxis = y,
+                 legend = list(orientation = "h",   
+                               xanchor = "center",  
+                               x = 0.5))
  
 }
 
-# plot_fish_SF(vars2,"2000-01-01", "2020-01-01")
+#plot_fish_SF(vars2,"2004-01-01", "2020-01-01", fishdata_SF)
 # vars2 <- colnames(fishdata_SF)
-# vars2<- vars2[3:10]
+# vars2<- vars2[3:6]
 # vars2 <- join(vars, vars2)
 # vars3 <- append(vars, vars2)
 
-shinyServer(function(input, output) {
-  USGSreactive <- eventReactive(input$submit, {plot_USGS(input$variable, input$location, input$daterange[1], input$daterange[2], input$view)})
-  NOAAreactive <- eventReactive(input$submit, {if (input$variableNOAA == "Atemp") {plot_NOAA(input$location2, input$daterange[1], input$daterange[2])}})
-  # Fishreactive <- eventReactive(input$submit, {if (input$locationODFW == "SF") {plot_fish_SF(input$fishSF, input$daterange[1], input$daterange[2])} 
-  #   else if (input$locationODFW == "RB") {plot_fish_RB(input$fishRB, input$daterange[1], input$daterange[2], input$view)}})
-  Fishreactive <- eventReactive(input$submit, {plot_fish_SF(input$fishSF, input$daterange[1], input$daterange[2])}) 
+shinyServer <- function(input, output) {
+  USGSreactive <- eventReactive(input$submit, 
+                                {plot_USGS(input$variable, input$location, input$daterange[1], input$daterange[2], input$view)})
+  NOAAreactive <- eventReactive(input$submit, 
+                                {if (input$variableNOAA == "Atemp") {plot_NOAA(input$location2, input$daterange[1], input$daterange[2])}})
+  Fishreactive <- eventReactive(input$submit, 
+                                {if (input$locationODFW == "SF") {plot_fish_SF(input$fishSF, as.character(input$daterange[1]), 
+                                                                               as.character(input$daterange[2]), fishdata_SF)} 
+                                  else if (input$locationODFW == "RB") {plot_fish_RB(input$fishRB, as.character(input$daterange[1]), 
+                                                                                     as.character(input$daterange[2]), input$view)}})
+  #Fishreactive <- eventReactive(input$submit, {plot_fish_SF(input$fishSF, as.character(input$daterange[1]), as.character(input$daterange[2]),fishdata_SF)}) 
   output$USGSplot <- renderPlotly({USGSreactive()})
   output$NOAAplot <- renderPlotly({NOAAreactive()})
   output$Fishplot <- renderPlotly({Fishreactive()})
   output$table <- renderTable(fishdata_SF)
     # output$madrastemps <- plotMadras(input$daterange[1],input$daterange[2])
 }
-)
+

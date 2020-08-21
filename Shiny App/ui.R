@@ -58,7 +58,7 @@ sidebar <- dashboardSidebar(
                                         "Sockeye, Unmarked" = "No.Mark.Sockeye", "Sockeye, RM" = "Sockeye.RM", "Sockeye, LM" = "Sockeye.LM",
                                         "Fall Chinook" = "Fall.Chinook", "Bull Trout" =  "Bull.Trout", "Rainbow Trout" = "Rainbow.Trout")), circle = FALSE, Label = "Test"),
     
-    checkboxGroupInput("fishSF", "Fish Species at Sherars Falls:",
+    dropdown(checkboxGroupInput("fishSF", "Fish Species at Sherars Falls:",
                         c("Summer Steelhead, Wild" = "Number.of.Captured.Wild.Summer.Steelhead", 
                           "Summer Steelhead, Hatchery, RB" = "Number.of.Captured.Round.Butte.Hatchery.Summer.Steelhead",
                           "Summer Steelhead, Hatchery, Stray" = "Number.of.Captured.Stray.Hatchery.Summer.Steelhead", 
@@ -66,7 +66,7 @@ sidebar <- dashboardSidebar(
                           "Summer Steelhead, Wild, Estimated" = "Estimated.Wild.Summer.Steelhead", 
                           "Summer Steelhead, Hatchery, RB, Estimated" = "Estimated.Round.Butte.Hatchery.Summer.Steelhead", 
                           "Summer Steelhead, Hatchery, Stray, Estimated" = "Estimated.Stray.Hatchery.Summer.Steelhead", 
-                          "Summer Steelhead, Hatchery, Total, Estimated" = "Estimated.Total.Hatchery.Summer.Steelhead")), 
+                          "Summer Steelhead, Hatchery, Total, Estimated" = "Estimated.Total.Hatchery.Summer.Steelhead")), circle = FALSE, Label = "Test"),
     
     
     
@@ -88,7 +88,7 @@ body <-  dashboardBody(
     ),
     fluidRow(
     box(plotlyOutput(outputId = "Fishplot")),
-    box( dataTableOutput('table'))
+    #box(img(src='map.png', align = "right"))
     )
     
     )
