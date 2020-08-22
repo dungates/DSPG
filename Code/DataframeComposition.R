@@ -243,7 +243,7 @@ plmtest(fixed, c("time"), type = "bp")
 #         plot.title = element_text(hjust = 0.5),
 #         legend.title = element_blank())
 
-#Overplot of all variables by Season and Year from PGE data
+# Overplot of all variables by Season and Year from PGE data
 # PGEFishData %>% gather(Variable, Value, -Date_time, -Year, -Season, -Month) %>%
 #   ggplot(aes(Season, as.numeric(Value), color = Variable, fill = Variable)) + geom_col() + facet_grid(Variable ~ Year) +
 #   theme_bw() + ggtitle("PGE Fish Count Data") + labs(y = "Number of Fish Captured") +

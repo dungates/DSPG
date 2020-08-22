@@ -23,6 +23,7 @@ library(htmlwidgets)
 library(webshot)
 library(htmltools)
 library(formattable)
+library(ggrepel)
 setwd("~/DSPG")
 
 # Hourly PGE data
@@ -87,13 +88,64 @@ BonnevilleData2 <- read_csv("Data/bonneville fish .csv", col_types = cols(Year =
 PeltonData <- read_csv("Data/pelton_NOAA.csv")
 PeltonData <- PeltonData %>% select(date, tAVG)
 AirvsWaterData <- left_join(MadrasData, PeltonData, by = c("Date_time" = "date"))
+AirvsWaterData <- AirvsWaterData %>% mutate(Group = case_when(Year <= 2009 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+AirvsWaterData$Group <- factor(AirvsWaterData$Group, levels = c("PreSWW", "PostSWW"))
 summary(lm(Temperature ~ tAVG, data = AirvsWaterData)) # Obviously correlated 
+summary(lm(Temperature ~ tAVG*Group, data = AirvsWaterData))
+airwatermodel <- lm(Temperature ~ tAVG*Group, data = AirvsWaterData)
 
-ggplot(data = AirvsWaterData, aes(x = tAVG, y = Temperature)) + geom_point() + facet_wrap( ~ Year)
+ggplot(airwatermodel, aes(.fitted, .resid)) + geom_point() + theme_linedraw() +
+  geom_hline(yintercept = 0, lty = 2, color="red")
 
 
-ggplot()
+formula = y ~ x
+ggplot(data = AirvsWaterData, aes(x = tAVG, y = Temperature, color = as.factor(Group))) + 
+  geom_point() + labs(color = "Period", x = "Air Temperature °Celsius", y = "Water Temperature °Celsius") +
+  facet_wrap( ~ Group, labeller = as_labeller(c(`PreSWW` = "Pre-SWW",
+                                              `PostSWW` = "Post-SWW"))) + 
+  geom_smooth(method = "lm", formula = formula) +
+  stat_poly_eq(aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~~")), formula = formula, parse = T, color = "black") +
+  scale_color_manual(labels = c("1958-2009","2010-2020"), values = c("royalblue4", "red4")) + 
+  theme_bw() + theme(legend.position = "bottom")
 
+diagPlot <- function(model){
+  p1<-ggplot(model, aes(.fitted, .resid))+geom_point()
+  p1<-p1+stat_smooth(method="loess")+geom_hline(yintercept=0, col="red", linetype="dashed")
+  p1<-p1+xlab("Fitted values")+ylab("Residuals")
+  p1<-p1+ggtitle("Residual vs Fitted Plot")+theme_bw()
+  
+  p2<-ggplot(model, aes(qqnorm(.stdresid)[[1]], .stdresid))+geom_point(na.rm = TRUE)
+  p2<-p2+geom_abline(aes(qqline(.stdresid)))+xlab("Theoretical Quantiles")+ylab("Standardized Residuals")
+  p2<-p2+ggtitle("Normal Q-Q")+theme_bw()
+  
+  p3<-ggplot(model, aes(.fitted, sqrt(abs(.stdresid))))+geom_point(na.rm=TRUE)
+  p3<-p3+stat_smooth(method="loess", na.rm = TRUE)+xlab("Fitted Value")
+  p3<-p3+ylab(expression(sqrt("|Standardized residuals|")))
+  p3<-p3+ggtitle("Scale-Location")+theme_bw()
+  
+  p4<-ggplot(model, aes(seq_along(.cooksd), .cooksd))+geom_bar(stat="identity", position="identity")
+  p4<-p4+xlab("Obs. Number")+ylab("Cook's distance")
+  p4<-p4+ggtitle("Cook's distance")+theme_bw()
+  
+  p5<-ggplot(model, aes(.hat, .stdresid))+geom_point(aes(size=.cooksd), na.rm=TRUE)
+  p5<-p5+stat_smooth(method="loess", na.rm=TRUE)
+  p5<-p5+xlab("Leverage")+ylab("Standardized Residuals")
+  p5<-p5+ggtitle("Residual vs Leverage Plot")
+  p5<-p5+scale_size_continuous("Cook's Distance", range=c(1,5))
+  p5<-p5+theme_bw()+theme(legend.position="bottom")
+  
+  p6<-ggplot(model, aes(.hat, .cooksd))+geom_point(na.rm=TRUE)+stat_smooth(method="loess", na.rm=TRUE)
+  p6<-p6+xlab("Leverage hii")+ylab("Cook's Distance")
+  p6<-p6+ggtitle("Cook's dist vs Leverage hii/(1-hii)")
+  p6<-p6+geom_abline(slope=seq(0,3,0.5), color="gray", linetype="dashed")
+  p6<-p6+theme_bw()
+  
+  return(list(rvfPlot=p1, qqPlot=p2, sclLocPlot=p3, cdPlot=p4, rvlevPlot=p5, cvlPlot=p6))
+}
+
+diagPlts <- diagPlot(airwatermodel)
+do.call(grid.arrange, c(diagPlts, main = "Diagnostic Plots", ncol = 3))
+diagPlts$rvfPlot
 
 
 
@@ -327,9 +379,10 @@ seasonInteraction <- MadrasDataYearly %>% left_join(ODFWDataYearly, by = "Year")
   filter(Year > 1976 & Year != 2020)
 seasonInteraction = seasonInteraction %>% mutate(Total = ActualHSS + ActualWSS)
 ggplot(data = seasonInteraction, aes(x = Temperature, y = Total)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = F, formula = y ~ x) +
-  stat_poly_eq(aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~~")), formula = y ~ x, parse = T)
+  labs(y = "Total Steelhead", x = "Yearly Mean Temperature", title = "Fish vs Temperature") + 
+  geom_point(color = "blue") + geom_smooth(method = "lm", se = F, formula = y ~ x) + geom_label_repel(aes(label = Year)) +
+  stat_poly_eq(aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~~")), formula = y ~ x, parse = T) +
+  theme(plot.title = element_text(hjust = 0.5))
 
 # Plot of pHOSObserved vs. log of number of hatchery barged
 formula = y ~ x + I(x^2)
@@ -673,5 +726,29 @@ ggplot(data = BonnevilleDatavsODFW2) + geom_line(aes(as.Date(paste0(Year, "-01-0
   geom_point(aes(as.Date(paste0(Year, "-01-01")), Steelhead / bonnevillecoeff), color = "black") + 
   geom_line(aes(as.Date(paste0(Year, "-01-01")), Steelhead / bonnevillecoeff), color = "black") +
   geom_line(aes(as.Date(paste0(Year, "-01-01")), ActualHSS), color = "red")
+
+
+
+
+# pH plots
+HourlyPGEData$Season <- factor(HourlyPGEData$Season, levels = c("Fall","Winter","Spring","Summer"))
+HourlyPGEData <- HourlyPGEData %>% mutate(SWW = case_when(Year < 2010 ~ "PreSWW", Year >= 2010 ~ "PostSWW")) %>% drop_na()
+ggplot(data = HourlyPGEData, aes(x = as.factor(Year), y = pH, color = as.factor(Year))) + 
+  facet_wrap( ~ Season, ncol = 2, drop = T) + 
+  geom_boxplot()
+anovaPGE <- HourlyPGEData %>% group_by(Year) %>% summarise(pH = mean(pH, na.rm = T), temperature = mean(Temperature, na.rm = T), 
+                                               do = mean(`Dissolved Oxygen mg/l`, na.rm = T)) %>% drop_na() %>%
+  mutate(SWW = case_when(Year < 2010 ~ "PreSWW", Year >= 2010 ~ "PostSWW"))
+
+anova(lm(Year ~ pH + do, data = anovaPGE))
+s <- summary(lm(Year ~ pH + do, data = anovaPGE))$sigma
+anovaPGE2 <- spread(anovaPGE, SWW, pH)
+ghat2 <- 1/2*anovaPGE2["PreSWW"] - (1/2)*anovaPGE2["PostSWW"]
+SE_ghat2 <- s*sqrt((1/2)^2/11 + (1/2)^2/11 + (-1/2)^2/11 + (-1/2)^2/11)
+ghat2 - qt(0.975, 24)*SE_ghat2
+ghat2 + qt(0.975, 24)*SE_ghat2
+
+
+
 
 
