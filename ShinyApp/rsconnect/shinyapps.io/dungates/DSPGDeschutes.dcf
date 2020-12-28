@@ -1,0 +1,12 @@
+name: DSPGDeschutes
+title: DSPGDeschutes
+username:
+account: dungates
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3432983
+bundleId: 4036434
+url: https://dungates.shinyapps.io/DSPGDeschutes/
+when: 1609187648.61484
+asMultiple: FALSE
+asStatic: FALSE
